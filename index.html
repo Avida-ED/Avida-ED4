@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avida-ED 4.0.33</title>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <style>
+      #splash{
+        display: none;
+        position: absolute; 
+        top: 0px; 
+        bottom: 0px; 
+        left: 0px; 
+        right: 0px; 
+        width: 100%; 
+        height: 100%; 
+        z-index: 1000;
+        color: white;
+        background: #13332A
+      }
+    </style>
+    <link href='images/favicon.ico' rel='icon' type='image/x-icon' />
+    <link rel='stylesheet' href='lib/jquery-ui-1.12.1.custom/jquery-ui.css'>
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+    <style>
+      @import 'themes/claro/document.css';
+      @import 'themes/claro/claro.css';	
+      @import 'avidaED.css';
+      @import 'avidaEdEco.css';
+      @import 'menubar.css';
+      @import 'lib/dragula/dragula-v3.7.2.min.css';
+    </style>
+
+  </head>
+
+  <body id='main_display' class='claro'>
+
+    <span id="http://stackoverflow.com/questions/20828799/creating-a-splash-page-in-html5"></span>
+    <div id='splash'>
+      <div align='center'>
+        <br />
+        <h1>Avida-ED 4.0.33 Beta is loading . . .</h1>
+        <img src='images/Avida-ED-logo.png' />&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src='images/avidaGrow_15.gif' />
+      </div>
+    </div>
+
+    <input id='putWS' type='file' class='display_none' onchange='av.fio.userPickZipRead()' />
+    <input id='importFzrItem' type='file' class='display_none' onchange='av.fio.importZipRead()' />
+    <input type='hidden' value='mymail@gmail.com' id='mailto' />
+    
+    <div id='allAvidaContainer' class='all3pop'>
+      <div id='headerMain' class='headerRow'>
+        <div id='leftPnlBtnHolder'>
+          <input id='leftPanelButton' type='button' value='<<&nbsp;' onclick='av.ptd.lftPanelBtnFn();'/>
+        </div>
+        
+        <div id="mainMenu">
+          <div class="toplist">
+            <nav>
+              <ul>
+                <li>
+                  <button class="link-btn navbar-btn btn btn-custom override-nav-btn border-zero" id="mnAvidaEd">Avida-ED </button>
+                  <ul class="submenu dismiss aboutMenu" id='mnAeWidth'>
+                    <li> <button id="mnAeAbout" onclick="av.ui.aboutAvidaED('mnAeAbout')">About</button></li>
+                    <li><button id="mnAePreferences">Preferences</button></li>
+                  </ul>
+                </li>
+                <li>
+                  <button class="link-btn navbar-btn btn btn-custom override-nav-btn border-zero" id="mnFile">File </button>
+                  <ul class="submenu dismiss fileMenu" id="mnFlWidth">
+                    <li><button id="mnFlSaveWorkspace">Save Current Workspace</button></li>
+                    <li><button id="mnFlSaveAs">Save Workspace As</button></li>
+                    <div class="dropdown-divider" href="#"></div>
+                    <li><button id="mnFlOpenDefaultWS">Open Default Workspace</button></li>
+                    <li><button id="mnFlOpenWS">Open Workspace</button></li>
+                    <div class="dropdown-divider" href="#"></div>
+                    <li><button id="mnFlFzItem">Import Freezer Item</button></li>
+                    <li><button id="mnFlExportData">Export Data</button></li>
+                    <li><button id="mnFlExportGraph">Export Graphics</button></li>
+                    <div class="dropdown-divider" href="#"></div>
+                    <li><button id="mnFlStandAloneApp" onclick="window.open('https://avida-ed.msu.edu/download-avida-ed/')">
+                      Stand Alone Application
+                    </button>
+                  </ul>
+                </li>
+                <li>
+                  <button class="link-btn navbar-btn btn btn-custom override-nav-btn border-zero" id="mnFreezer">Freezer </button>
+                  <ul class="submenu dismiss freezerMenu" id='mnFzWidth'>
+                    <li><button id="mnFzConfig">Save Current Configuration to Freezer</button></li>
+                    <li><button id="mnFzPopulation">Save Current Population to Freezer</button></li>
+                    <li><button id="mnFzOrganism">Save Selected Organism to Freezer</button>
+                    <li><button id="mnFzOffspring">Save Offspring Organism to Freezer</button></li>
+                    <li><div class="dropdown-divider" href="#"></div></li>
+                    <li><button id="mnFzAddFzItem">Add Highlighted Freezer Item into Experiment</button></li>
+                    <li><div class="dropdown-divider" href="#"></div></li>
+                    <li><button id="mnFzAddGenomeView">Put Highlighted Organism from Freezer in Organism View</button></li>
+                    <li><button id="mnFzAddPopAnalysis">Put Highlighted Populated Dish from Freezer in Analysis</button></li>
+                    <li><div class="dropdown-divider" href="#"></div></li>
+                    <li><button id="mnFzRename">Rename Selected Freezer Item</button></li>
+                    <li><button id="mnFzExport">Export Selected Freezer Item</button></li>
+                    <li><button id="mnFzDelete">Delete Selected Freezer Item</button></li>
+                  </ul>
+                </li>
+                <li>
+                  <button class="link-btn navbar-btn btn btn-custom override-nav-btn border-zero" id="mnControl">Control</button>
+                  <ul class="submenu dismiss controlMenu" id='mnCnWidth'>
+                    <li><button id="mnCnRun">Run</button></li>
+                    <li><button id="mnCnPause">Pause</button></li>
+                    <li><button id="mnCnOne">Forward (Do one update)</button></li>
+                    <li><button id="mnCnNewpop">Start New Experiment</button></li>
+                    <li><button id="mnCnOrganismTrace">Put Selected Organism from Grid in Organism View</button></li>
+                    <li><button id="mnCnOffspringTrace" >Put Offspring in Organism View</button></li>
+                  </ul>
+                </li>
+                <li>
+                  <button class="link-btn navbar-btn btn btn-custom override-nav-btn border-zero" id="mnHelp">Help</button>
+                  <ul class="submenu dismiss helpMenu" id='mnHpWidth'>
+                     <li><button onclick="av.ui.aboutAvidaED('mnHpAbout')" id="mnHpAbout">About</button></li>
+                    <li><button onclick="window.open('images/Avida-ED_UserManualv3.0.pdf')" style="color: blue" id="mnHpManual">Quick Start Manual</button>
+                    <li><button onclick="window.open('cpu_tour.html')" style="color: blue" id="mnHpHardware">Ancestor and Hardware</button>
+                    <li><button onclick="window.open('https://avida-ed.msu.edu/')" style="color: blue" id="mnHpInfo">Avida-ED Home Page</button>
+                    <li><button onclick="window.open('short_cuts.html')" style="color: blue" id="mnHpShortCuts">Short Cuts</button>
+                    <li><div class="dropdown-divider" href="#"></div></li>
+                    <li><button onclick="av.ui.feedback('feedback')" id="mnHpFeedback">Send Feedback (please)</button></li>
+                  </ul>
+                </li>
+                <li>
+                  <button class="link-btn navbar-btn btn btn-custom override-nav-btn border-zero" id="mnDebug">Debug</button>
+                  <ul class="submenu dismiss debugMenu" id='mnDbWidth'>
+                    <li><button id="mnDbDadsOnly">Show Parents only on ritYaxis on PopChart</button></li>
+                    <li><button id="mnDbThrowError">Throw Error</button></li>
+                    <li><button id="mnDbThrowData">Send Data to console</button></li>
+                    <li><button id="mnDbLineLog">Add Line to Session Log</button></li>
+                  </ul>
+                 </li>
+              </ul>
+            </nav>
+          </div>         
+       </div>  <span id='mainMenu_end' class='display_none'></span>
+
+        <div id='userErrorMsg' class="headerMsg">
+        </div>
+
+       <div id='RtSideToggleButtons'>
+          <input id='SetupButton' type='button' class='toggleLftButton activeBtn' value='Setup' onclick='av.ptd.rightInfoPanelToggleButton(this)'/>
+          <input id='StatsButton' type='button' class='toggleRitButton restBtn' value='Stats' onclick='av.ptd.rightInfoPanelToggleButton(this)'/>
+        </div>
+
+        <div id='ritePnlBtnHolder'>
+          <input id='ritePanelButton' type='button' value='&nbsp;>>' onclick='av.ptd.ritePanelBtnFn();'/>
+        </div>
+      </div><span id='headerMain_end' class='display_none'></span>
+      
+      <div id="navColId" class="navColClass">
+        <div id='mainButtons' class="mainPageButtons">
+          <div id='popPageButtonHolder' class='PageButtonHolder'>
+            <div class='pageImgDiv'><img src='images/Avida-ED-population-icon.png' class='pageButtonImg' /></div>
+            <div class='pageButtonDiv'><input type='button' id='populationButton' class='pageButton' value='Population'/></div>
+          </div>
+          <div id='orgPageButtonHolder' class='PageButtonHolder'>
+            <div class='pageImgDiv'><img src='images/Avida-ED-organism-icon.png' class='pageButtonImg' id='organIcon' /></div>
+            <div class='pageButtonDiv'><input type='button' id='organismButton' class='pageButton' value='Organism'/></div>
+          </div>
+          <div  id='anaPageButtonHolder' class='PageButtonHolder'>
+            <div class='pageImgDiv'><img src='images/Avida-ED-analysis-icon.png' class='pageButtonImg' /></div>
+            <div class='pageButtonDiv'><input type='button' id='analysisButton' class='pageButton' value='Analysis'/></div>&nbsp;&nbsp;
+          </div>
+        </div>
+        <div id="freezerSection">
+          <div id='FreezerTitle'>Freezer</div>
+          <details class='frzAccordion' open>
+            <summary id='fzConfigureSec' class="freezerSumCls">Configured Dishes</summary>
+            <div id='fzConfig' class='freezerContainer'>
+            </div>
+          </details>
+          <details class='frzAccordion' open>
+            <summary id='organismsFzSec' class="freezerSumCls">Organisms</summary>
+            <div id='fzOrgan' class='freezerContainer'>
+            </div>
+          </details>
+          <details class='frzAccordion' open>
+            <summary id='fzWorldSec' class="freezerSumCls">Populated Dishes</summary>
+            <div id='fzWorld' class='freezerContainer'>
+            </div>
+          </details>
+          <details class='frzAccordion debugDetails' id='fzTdishDetails' open>
+            <summary id='fzTdishSec' class="freezerSumCls">Test Dishes</summary>
+            <div id='testDishDetailDiv'>
+              <div id='fzTdish' class='freezerContainer'>
+              </div>            
+              </div>
+          </details>
+          <div id='showTextDebugButtonDiv'>
+            <button id='showTextDebugButton' type='button' value='Big Text'>Big Text</button>
+          </div>
+          <div id='developmentToggleDiv'>
+            <input id='developmentToggle' class='devoCammo' type='button' value='Devo View' onclick='av.ui.toggleDevelopmentDisplays()' />
+          </div>
+
+        </div><span id='freezerSection_end' class='display_none'></span>
+
+        <div id="trashDiv" class='trash-grid-container'>
+          <div id='trashCan'>
+            <img id='trashCanImage' src='images/Avida-ED-trash-icon.png' style='width: 32px;' alt='trash can' />
+          </div>
+          <div id='wsNameHolder'>
+            Workspace: `<label id='wsNameMsg'>Default</label>`
+          </div>
+          <div id='msgHolder'>
+            <label id='wsSavedMsg'> - Save workspace if you want to use items saved to the freezer after this session</label> &nbsp;&nbsp;&nbsp;
+            <span style='text-align: right'>
+              <label id='userMsgLabel'> </label>
+            </span>
+          </div>
+        </div>
+
+      </div><span id='navColId_end' class='display_none'></span>
+
+      <div class='dragbar' id="dragbarLeft"></div> <!--yemi: dragbar on the left-->
+
+      <div class="mainBlockHolder">
+        <div id="populationBlock" class="mainBlockClassRow">
+          <div id='mapHolder' class="popBenchCol">
+
+            <div id='popTopRw' class="benchPopTopRow">
+              <div id='activeConfigHolder'>
+                <div >
+                  <img src='images/Avida-ED-dish-icon.png' class='lftmargin' alt='Avida-ED dish icon'>
+                  <div id='activeConfig'></div>
+                </div>
+                <div id='testConfigLableHolder'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test</div>
+                <div id='testConfig'></div>
+              </div>
+              <div id='popTopMsgSpace'></div>
+              <div id='aControl_could_be_here' class='ritThin'>
+                <div id='popRightSideSelectHolder' class='an_object_could_go_here'>
+                </div>
+                <div id='anArrowWasHere'></div>
+              </div>
+            </div>
+
+            <div id='gridHolder' class='benchPopMid'>
+              <div id='gridCnvsHldr'>
+               <canvas id='gridCanvas'></canvas>
+              </div>
+            </div>
+            <div id='legendHolder'>
+              <div id='dadLegendHldr' class='dadLgndHldrCls'>
+                <div id='dadInfo00' class='display_none'>
+                  <div id='dadColor00' class='dadColorCls'></div>
+                  <p id='dadName00' class='dadNameCls'><p/>
+                </div> 
+              </div>
+              <div id='sclCnvsHldr'>
+                <canvas id='scaleCanvas'></canvas>
+              </div>
+            </div>
+
+            <div id='benchPopBot'>
+              <div id='popPgCntrlHolder' class='popPgCntrlHldrCls'>
+                <div class='popPgUnderTopRow'>
+                  <div class='popPgUnderTopRowLft'>
+                    <div id='timeUpdates' class='timeUpdateCls'>Time: <label id='TimeLabel'>(not started)</label></div>
+                  </div>
+                  <div class='popPgUnderTopRowCtr'>
+                    <div id='modeHolder' class='modeHldrCls'>
+                      Mode:
+                      <select  id='colorMode'>
+                        <option value='Fitness' selected>Fitness</option>
+                        <option value='Offspring Cost'>Offspring Cost</option>
+                        <option value='Energy Acq. Rate'>Energy Acq. Rate</option>
+                        <option value='Ancestor Organism'>Ancestor Organism</option>
+                        <option id='rsnot' value='rnot'>Resource: Notose</option>
+                        <option id='rsnan' value='rnan'>Resource: Nanose</option>
+                        <option id='rsand' value='rand'>Resource: Andose</option>
+                        <option id='rsorn' value='rorn'>Resource: Ornose</option>
+                        <option id='rsoro' value='roro'>Resource: Orose</option>
+                        <option id='rsant' value='rant'>Resource: Antose</option>
+                        <option id='rsnor' value='rnor'>Resource: Norose</option>
+                        <option id='rsxor' value='rxor'>Resource: Xorose</option>
+                        <option id='rsequ' value='requ'>Resource: Equose</option>
+                        <option id='rnone' value='none'>None</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class='popPgUnderTopRowRit'>
+                    <div id='zoomSlideID'></div>
+                  </div>
+                </div>
+
+                <div class='popPgUnderBotRow'>
+                  <div class='popPgFreezeExperimentCls'>
+                    <button id='freezeButton' class='benchBtns'>Freeze</button>
+                    <button id='newDishButton' class='benchBtns' onclick='av.ptd.newDishButton()'>New</button>
+                  </div>
+                  <div id='gridButtons' class='gridUnderButCls'>                      
+                    <button id='runStopButton' class='benchBtns'>Run</button>
+                    <button id='oneUpdateButton' class='benchBtns'>Forward</button>
+                    <button id='avidianOutline' class='display_none benchBtns' onclick='av.ui.avidianOutlineOnclick(this);'>Occupied</button>
+                  </div>
+                  <div class='popPgUnderBotRowRit'>
+                    <label id='rescaleLabel'>ReTesting</label><br />
+                  </div>                   
+                </div>
+
+              </div><span id='popPgCntrlHolder_end' class='display_none'></span>
+
+            </div><span id='popBotBench_end' class='display_none'></span>
+          </div><span id='mapHolder_end' class='display_none'></span>
+        </div>  <span id='populationBlock_end' class='display_none'></span>
+
+        <div id='organismBlock' class='mainBlockClassRow'>
+          <div id='oranismRunCol' class="orgBenchCol">
+            <div id="orgTopId" class="orgBenchTopRow">
+              <div class='orgTopLt'>
+                <img id='actOrgImg' src='images/Avida-ED-ancestor-icon.png'>
+                <div id='activeOrgan' class='popDishClass'></div>
+              </div>
+              <div id='a_control_or_info_can_go_here' class="orgTopRt"></div>
+            </div>
+            <div class="orgMid" id='organismCanvasHolder'>
+              <!-- yemi canvas comment; diane moved style info to #organCanvas in avidaedEco.css -->
+              <canvas id='organCanvas'></canvas> 
+            </div>
+            <div class="orgBotClass" id='orgBotId'>
+              <div id='cycleSlider'></div><br />
+              <div class='organismControls'>
+                <div class='lftmargin'>Cycle:
+                  <input id='orgCycle' type='text' value='0' class='orgCycleClass' onchange='av.ind.orgCycleInputChange(this)'/>
+                </div>
+                <div style='text-align:center'>
+                  <button id='orgReset' disabled>Reset</button>
+                  <button id='orgBack' disabled>Back</button>
+                  <button id='orgRun' disabled>Run</button>
+                  <button id='orgForward' disabled>Forward</button>
+                  <button id='orgEnd' disabled>End</button>
+                </div>
+              </div>
+            </div>
+          </div><span id='oranismRunCol_end'></span>
+        </div><span id='organismBlock_end' class='display_none'></span>
+
+        <div id='analysisBlock' class="analysisArea">
+          <div id='anaChrtHolder' class="anaTop" >
+            <div id='anlDndChart'></div>
+          </div>
+
+          <div id='anaControls' class="anaBot">
+            <div class="analegend">
+              <div id='pop0deleteDiv' class='anaDeleteButtonDiv'>
+                <button id='pop0delete' class='anaDeleteButton'>X</button>&nbsp;&nbsp;
+              </div>
+              <div id='pop0colorDiv' class='anaColorLineDiv'>
+                <select  id='pop0color' onchange='av.anl.wrldColorOnChange(this);'>
+                  <option value='Red' selected>Red</option>
+                  <option value='Blue'>Blue</option>
+                  <option value='Green'>Green</option>
+                  <option value='Yellow'>Yellow</option>
+                  <option value='Orange'>Orange</option>
+                  <option value='Purple'>Purple</option>
+                  <option value='Cyan'>Cyan</option>
+                  <option value='Magenta'>Magenta</option>
+                  <option value='Black'>Black</option>
+                </select>
+              </div>
+              <div id='popDish0Div' class='popDishHolder'>
+                <div id='popDish0' class='popDishClass'></div>
+              </div>
+
+              <div id='pop1deleteDiv' class='anaDeleteButtonDiv'>
+                <button id='pop1delete' class='anaDeleteButton'>X</button>&nbsp;&nbsp;
+              </div>
+              <div id='pop1colorDiv' class='anaColorLineDiv'>
+                <select  id='pop1color' class='anaColorLine' onchange='av.anl.wrldColorOnChange(this);'>
+                  <option value='Red'>Red</option>
+                  <option value='Blue' selected>Blue</option>
+                  <option value='Green'>Green</option>
+                  <option value='Yellow'>Yellow</option>
+                  <option value='Orange'>Orange</option>
+                  <option value='Purple'>Purple</option>
+                  <option value='Cyan'>Cyan</option>
+                  <option value='Magenta'>Magenta</option>
+                  <option value='Black'>Black</option>
+                </select>
+              </div>
+              <div id='popDish1Div' class='popDishHolder'>
+                <div id='popDish1' class='popDishClass'></div>
+              </div>
+
+              <div id='pop2deleteDiv' class='anaDeleteButtonDiv'>
+                <button id='pop2delete' class='anaDeleteButton'>X</button>&nbsp;&nbsp;
+              </div>
+              <div id='pop2colorDiv' class='anaColorLineDiv'>
+                <select  id='pop2color' onchange='av.anl.wrldColorOnChange(this);'>
+                  <option value='Red'>Red</option>
+                  <option value='Blue'>Blue</option>
+                  <option value='Green'>Green</option>
+                  <option value='Yellow'>Yellow</option>
+                  <option value='Orange'>Orange</option>
+                  <option value='Purple'>Purple</option>
+                  <option value='Cyan'>Cyan</option>
+                  <option value='Magenta'>Magenta</option>
+                  <option value='Black' selected>Black</option>
+                </select>
+              </div>
+              <div id='popDish2Div' class='popDishHolder'>
+                <div id='popDish2' class='popDishClass'></div>
+              </div>
+            </div><span value="analegend"></span>
+
+            <div class="anaYaxis">
+              <select  id='yLeftSelect' onchange='av.anl.yScaleSelect_onChange(this);'>
+                <option value='none'>None</option>
+                <option value='Average Fitness' selected>Average Fitness</option>
+                <option value='Average Offspring Cost'>Average Offspring Cost</option>
+                <option value='Average Energy Acq. Rate'>Average Energy Acq. Rate</option>
+                <option value='Number of Organisms'>Number of Organisms</option>
+                <option value='Number Viable'>Number Viable</option>
+              </select> Thicker line; left y-axis
+              <br></br>
+              <select  id='yRightSelect' onchange='av.anl.yScaleSelect_onChange(this);'>
+                <option value='none'>None</option>
+                <option value='Average Fitness'>Average Fitness</option>
+                <option value='Average Offspring Cost' selected>Average Offspring Cost</option>
+                <option value='Average Energy Acq. Rate'>Average Energy Acq. Rate</option>
+                <option value='Number of Organisms'>Number of Organisms</option>
+                <option value='Number Viable'>Number Viable</option>
+              </select> Thinner line; right y-axis
+            </div><span value="anaYaxis"></span>
+          </div><span id='anaControls_end' class='display_none'></span>
+        </div> <span id='analysisBlock_end' class='display_none'></span>
+
+        <div id='showTextDebugBlock' class="analysisArea">
+            Show big text chunks
+            <div  id='showBigTextHolder'>
+              Big Text Area to show long text strings:<br />
+              <div>
+              <textarea id='showBigTextarea' rows='50'></textarea><br />
+              </div>
+            </div>
+        </div> <span id='showTextDebugBlock_end' class='display_none'></span>  
+      </div> <span id='mainBlockHolder_end' class='display_none'></span>
+      
+      <div class='dragbar' id="dragbarRight"></div> <!--yemi: dragbar on the right-->
+
+      <div id='rightInfoHolder'> 
+        <div id='popInfoVert'>
+          <div id='popInfoTabHolder' class='tabHolderHide'>
+            <div class="tab">
+              <button class="tablinks active" id="setupTab" onclick="av.ptd.processTab(event, 'setupBlock')">Setup</button>
+              <button class="tablinks" id="statsTab" onclick="av.ptd.processTab(event, 'popStatsBlock')">Stats</button>
+              <button class="tablinks" id="testTab" onclick="av.ptd.processTab(event, 'testSetupBlock')">Test Setup</button>
+            </div>
+          </div>
+          <div id='labInfoHolder' class='labInfoHoldCls'>  
+            
+            <div id='setupBlock' class="labInfoClass labInfoFlex">
+              <form id='setupForm'>
+                <div id='environmentSettingTitle'>Environmental Settings</div>
+                <div  class='odd'>
+                  <div id='suDishSize' class='enviroSubHeading'>Dish Size:</div>
+                    <input id='sizeCols' type='text' class='colrow' onchange='av.ptd.gridChange(this)' value = '30'/>
+                    &nbsp; x &nbsp;
+                    <input id='sizeRows' type='text' class='colrow' onchange='av.ptd.gridChange(this)' value = '30'/>
+                    cells&nbsp; 
+                    <label id='sizeCells'>There are 900 cells by default</label>
+                </div>
+                <div class='even'>
+                  <div id='mutePopNputHldr'>
+                    <span class='enviroSubHeading lftmargin' >Per Site Mutation Rate:</span>
+                    <input id='mutePopInput' type='text' value='2'>&nbsp;%<br />&nbsp;
+                  </div>
+                  <div id='mutePopSldHldr'>
+                    <span id='mutePopSlide'></span>&nbsp;
+                  </div>
+                  <div class='muteBeloSlideVertSpace'></div>
+                  <div id='mutePopError' onclick="av.ui.toggleResourceComplexity('muteErrorNotice')">&nbsp;</div>
+                </div>
+                <div class='odd'><div class='enviroSubHeading'>Ancestral Organism(s):</div>
+                  <div id='ancestorRow'>
+                    <div id='ancestorBox' class='ancestorContainer'></div>
+                    <div id='geometryHideButton' class='geoButtonCammo' onclick='av.ui.toggleComplexityLevel(this)'>
+                      &nbsp;&nbsp; Show / Hide Geometry menus
+                    </div>
+                  </div>
+                </div>
+                <div class='even next2' >
+                  <div class='enviroSubHeading flxItem'>Place Offspring:</div>&nbsp;
+                  <div class='flxItem'><label id='childParentLabel'><input showlabel='true' type='radio' id='childParentRadio'
+                         intermediateChanges='false' name='child' value='nearParent'>
+                    Near their parent</label>
+                  </div>
+                  <div class='flxItem'>&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;</div>
+                  <div class='flxItem'><label id='childRandomLabel'><input showlabel='true' type='radio' id='childRandomRadio'
+                         intermediateChanges='false' name='child' checked value='random'> Anywhere, randomly</label>
+                  </div>
+                </div>
+
+                <div class='odd'>
+                  <span id='sugarHeaderTitle' class='enviroSubHeading'>Resource Options: </span>
+                  <span id='sgrEngergyReportLabel'> (strength of energy reward shown in parentheses)</span>
+                  <div id='sugarAccordion'>
+                    <div id='sugarNote'></div>
+                    
+                   <div id="sugarInsideWrapper">   
+                    <details id="not_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+                    <details id="nan_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+                    <details id="and_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+
+                    <details id='orn_section' class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'>
+                      <summary id='orn_summary' class='sgrSumCls'> 
+                        <div id='orn_sumLftGrid' class='sgrLftSumCls'>
+                          <div id='orn_openClose'>►</div>
+                          <div id='orn_title' class='sgrTitleCls'>Ornose</div>
+                          <div id='orn_geometryDiv' class='geometryCls'>
+                            <select id="orn_geometry" onchange="av.sgr.geometryChange(this);">
+                              <option value="global" selected=''>Global</option>
+                              <option value="grid">Local</option>
+                            </select>
+                          </div>
+                          <div id="orn_regionLayHolder" class='regionLaySumCls sgrSelectHoldCls' onclick='av.sgr.detailToggle'>
+                            <select id="orn_regionLayout" class="sgrSlctCls" onchange="av.sgr.regionLayoutChange(this)">
+                              <option id="orn_globalDish" value="1Global" selected=''>Global Dish</option>
+                              <option id="orn_wholeDish" value="1All">Whole Dish</option>
+                              <option id="orn_LftRit" value="2LftRit">Halves L/R</option>
+                              <option id="orn_topLftRit" class="3TopLftRit" value="3TopLftRit">Top L/R</option>
+                              <option id="orn_quarters" class="4Quarters" value="4Quarters">Quarters</option>
+                            </select>
+                          </div>
+                          <div id="orn_supplyTypeHolder" class='supply_HoldCls sgrSelectHoldCls'>
+                            <select id='orn_supplyTypeSlct' class='supplyTypeSClass' onchange='av.sgr.supplyChange(this);'>
+                              <option id="orn_none" value='none'>None</option>
+                              <option id="orn_unlimited" value='unlimited' selected=''>Unlimited</option>
+                              <option id="orn_limited" value="limited">Limited</option>
+                              <option id="orn_chemo" value="chemo">Chemo</option>
+                              <option id="orn_combo" value="combo">Combo</option>
+                            </select>
+                          </div>
+                          <div id="ornWsupplyTypeHolder" class='supply_HoldCls sgrSelectHoldCls'>
+                            <select id="ornWsupplyTypeSlct" class='supplyTypeSClass' onchange="av.sgr.supplyChange(this);">
+                              <option id="ornWnone" value='none'>None</option>
+                              <option id="ornWunlimited" value='unlimited' selected=''>Unlimited</option>
+                              <option id="ornWLimited" value="limited2">Limited</option>
+                              <option id="ornWchemostat" class="chemo" disabled value='chemostat'>Chemostat</option>
+                              <option id="ornWcombo" value="combo" disabled>Combo</option>
+                             </select>
+                          </div>
+                          <div id='orn_inflowHiDiv' class='inflwSumCls sgrNputTxtCls'>
+                                <label><input id='orn_inflowHiNp' class='sugInflwHiNcls' type='text' onchange="av.sgr.inflowChange(this);">&nbsp;
+                              <span id='orn_inflowHiText' class='sugInflowLCls'> / </span></label>
+                          </div>
+                          <div id="orn_outflowHiDiv" class='outflwSumCls sgrNputTxtCls'>
+                            <label><input id="orn_outflowHiNp" class='sgrOutflwHiNcls' type='text' onchange="av.sgr.outflowChange(this);">&nbsp;
+                            <span id="orn_outflowHiText" class='sugOutflowLCls'></span></label>
+                          </div>
+                          <div id="orn_chmstatHiTxt" class='chmsttSumCls'>
+                          </div>
+                          <div id="orn_periodcheckboxHolder" class="periodGlobalCheck" onchange="av.sgr.eachSugarcheckboxHolderChange(this);">
+                            <label><input id="orn_periodCheck" type='checkbox'> Periodic</label>
+                          </div>
+                          <div id="orn_periodTimeHolder" class="periodTimeGlobClass sgrNputTxtCls">
+                            <label><input id="orn_periodNp" class="sugPeriodNclass" type='text' onchange="av.sgr.periodChange(this);"> Period</label>
+                          </div>
+
+                          <div id="orn_initialHiHolder" class='initialGlobCls sgrNputTxtCls'>
+                            <input id="orn_initialHiNp" class="sugInitialNclass" type='text' value='100' onchange="av.sgr.initialChange(this);">&nbsp;initial / cell
+                          </div>
+                          <div id="orn_summaryFooterText" class='sumFtTxtCls'> period &lt; 1 ==&gt; non-periodic</div>
+                        </div><span id="orn_sumLftGrid_end" class="display_none"></span>
+                        <div id='orn_sumRitBox' class='sgrRitSumCls'>
+                          <div id="orn_taskRewardText" class='taskRewardCls'>( x8)</div>
+                        </div>
+                      </summary>
+
+                      <div id="orn_detailsHolder" class='sgrDetailHoldCls'>
+                          
+                        <div id="orn0subSection" class='sugarDishSubsection'>
+                          <div id='orn0detailText' class='detailTxtCls'></div>
+                          <div id="orn0regionName" class='sgrDetail_grid-item subSectionTitle'>Whole Dish</div>
+                          <div id="orn0supplyTypeHolder" class='supplyTypeHoldcls sgrSelectHoldCls'>
+                            <select id="orn0supplyTypeSlct" class='supplyTypeSClass' onchange='av.sgr.supplyChange(this);'>
+                              <option id='orn0none' value='none'>None</option>
+                              <option id='orn0unlimited' value='unlimited' selected=''>Unlimited</option>
+                              <option id='orn0Limited' class='localLimited' value="limited">Limited</option>
+                              <option id='orn0Chemostat' class='localChemostat' value='chemostat'>Chemostat</option>
+                            </select>&nbsp;&nbsp;&nbsp;
+                          </div>
+                          <div id="orn0supplyModifierHolder" class='supplyModifierDivClass sgrSelectHoldCls'>
+                            <select id="orn0supplyModifierSelect" class='supplyModSelClass' onchange="av.sgr.supplyModifierChange(this);">
+                              <option id="orn0default" value='default' selected=''>Default</option>
+                              <option id="orn0diffuse" value='diffuse'>Diffusion</option>
+                              <option id="orn0gradient" class='gradient' value='gradient'>Gradient</option>
+                              <option id="orn0periodic" class='periodic' value='periodic'>Periodic</option>
+                            </select>&nbsp;&nbsp;&nbsp;
+                          </div>
+                          <div id="orn0periodcheckboxHolder" class="periodGlobalCheck" onchange="av.sgr.eachSugarcheckboxHolderChange(this);">
+                            <label><input id="orn0periodCheck" type='checkbox'> Periodic</label>
+                          </div>
+                          <div id="orn0periodTimeHolder" class="periodTimeDivClass sgrNputTxtCls">
+                            <label><input id="orn0periodNp" class="sugPeriodNclass" type='text' onchange="av.sgr.periodChange(this);"> time</label>
+                          </div>
+                          <div id="orn0hiSideSelectHolder" class="sideNclass sgrSelectHoldCls">
+                            <label><select id="orn0hiSide">
+                              <option value="top">Top</option>
+                              <option value="bottom">Bottom</option>
+                            </select>
+                              <span id="orn0sideText">high side</span></label>
+                          </div>
+                          <div id="orn0sideHiText" class='sgrDetail_grid-item sideTitleHiDcls'>High Side</div>
+                          <div id="orn0sideLoText" class='sgrDetail_grid-item sideTitleLoDcls'>Low Side</div>
+                          <div id="orn0blank" class="sgrDetail_grid-item sgrBlank">&nbsp;&nbsp;&nbsp;&nbsp;</div>  
+
+                          <div id="orn0initialHiHolder" class="initialHiHoldcls sgrNputTxtCls">
+                            <label><input id="orn0initialHiNp" class="sugInitialHiNclass" type='text' value='100' onchange="av.sgr.initialChange(this);">&nbsp;
+                              <span id="orn0initialHiText">High amount</span></label>
+                          </div>
+                          <div id="orn0initialLoDiv" class="initialLoDclass sgrNputTxtCls">
+                            <label><input id="orn0initialLoNp" class="sugInitialLoNclass" type='text' value='100' onchange="av.sgr.initialChange(this);">&nbsp;
+                              <span id="orn0initialLoText">Low initial</span></label>
+                          </div>
+                          <div id="orn0inflowHiDiv" class="inflwHiDcls sgrNputTxtCls">
+                            <label><input id="orn0inflowHiNp" class="sugInflwHiNcls" type='text' onchange="av.sgr.inflowChange(this);">&nbsp;
+                              <span id="orn0inflowHiText" class='sugInflowLabel'>Inflow/cell &nbsp;</span></label>
+                          </div>
+                          <div id="orn0inflowLoDiv" class="inflwLoDcls sgrNputTxtCls">
+                            <label><input id="orn0inflowLoNp" class="sugInflwLoNcls" type='text' onchange="av.sgr.inflowChange(this);">&nbsp;
+                            <span id="orn g0inflowLoText" class='sugOutflowLabel'>Inflow/cell &nbsp;</span></label>
+                          </div>
+                          <div id="orn0outflowHiDiv" class='outflwHiDcls sgrNputTxtCls'>
+                            <label><input id='orn0outflowHiNp' class='sgrOutflwHiNcls' type='text' onchange="av.sgr.outflowChange(this);">&nbsp;
+                            <span id="orn0outflowHiText" class='sugOutflowLabel'>Outflow fract</span></label>
+                          </div>
+                          <div id="orn0outflowLoDiv" class="outflwLoDcls sgrNputTxtCls">
+                            <label><input id="orn0outflowLoNp" class="sgrOutflwLoNcls" type='text' onchange="av.sgr.outflowChange(this);">&nbsp;
+                              <span id="orn0outflowLoText" class='sugOutflowLabel'>Outflow fract</span></label>
+                          </div>
+                          <div id="orn0chmstatHiDiv" class='sgrDetail_grid-item chmsttHiDcls'>&nbsp;&nbsp;
+                            <span id="orn0chmstatHiText" class="sugarText">equilibrium</span>
+                          </div>
+                          <div id="orn0chmstatLoDiv" class="sgrDetail_grid-item chmstatLoDclass">
+                            <span id="orn0chmstatLoValue"></span>
+                            <span id="orn0chmstatLoText" class="sugarText"> = equilibrium</span>
+                          </div>
+                        </div><span id="orn0Section_end" class="display_none"></span>
+
+                          
+                        <div id="orn1subSection" class='sugarDishSubsection'>
+                          <div id="orn1detailText" class='detailTxtCls'></div>
+                          <div id="orn1regionName" class='sgrDetail_grid-item subSectionTitle'>Whole Dish</div>
+                          <div id="orn1supplyTypeHolder" class='supplyTypeHoldcls sgrSelectHoldCls'>
+                            <select id="orn1supplyTypeSlct" class='supplyTypeSClass' onchange='av.sgr.supplyChange(this);'>
+                              <option id="orn1none" value='none'>None</option>
+                              <option id="orn1unlimited" value='unlimited' selected=''>Unlimited</option>
+                              <option id="orn1Limited" class='localLimited' value="limited">Limited</option>
+                              <option id="orn1Chemostat" class='localChemostat' value='chemostat'>Chemostat</option>
+                            </select>&nbsp;&nbsp;&nbsp;
+                          </div>
+                          <div id="orn1supplyModifierHolder" class='supplyModifierDivClass sgrSelectHoldCls'>
+                            <select id="orn1supplyModifierSelect" class='supplyModSelClass' onchange="av.sgr.supplyModifierChange(this);">
+                              <option id="orn1default" value='default' selected=''>Default</option>
+                              <option id="orn1diffuse" value='diffuse'>Diffusion</option>
+                              <option id="orn1gradient" class='gradient' value='gradient'>Gradient</option>
+                              <option id="orn1periodic" class='periodic' value='periodic'>Periodic</option>
+                            </select>&nbsp;&nbsp;&nbsp;
+                          </div>
+                          <div id="orn1periodTimeHolder" class="periodTimeDivClass sgrNputTxtCls">
+                            <label><input id="orn1periodNp" class="sugPeriodNclass" type='text' onchange="av.sgr.periodChange(this);"> time</label>
+                          </div>
+                          <div id="orn1hiSideSelectHolder" class="sideNclass sgrSelectHoldCls">
+                            <label><select id="orn1hiSide">
+                              <option value="top">Top</option>
+                              <option value="bottom">Bottom</option>
+                            </select>
+                              <span id="orn1sideText">high side</span></label>
+                          </div>
+                          <div id="orn1sideHiText" class='sgrDetail_grid-item sideTitleHiDcls'>High Side</div>
+                          <div id="orn1sideLoText" class='sgrDetail_grid-item sideTitleLoDcls'>Low Side</div>
+                          <div id="orn1blank" class="sgrDetail_grid-item sgrBlank">&nbsp;&nbsp;&nbsp;&nbsp;</div>  
+
+                          <div id="orn1initialHiHolder" class="initialHiHoldcls sgrNputTxtCls">
+                            <label><input id="orn1initialHiNp" class="sugInitialHiNclass" type='text' value='100' onchange="av.sgr.initialChange(this);">&nbsp;
+                              <span id="orn1initialHiText">High amount</span></label>
+                          </div>
+                          <div id="orn1initialLoDiv" class="initialLoDclass sgrNputTxtCls">
+                            <label><input id="orn1initialLoNp" class="sugInitialLoNclass" type='text' value='100' onchange="av.sgr.initialChange(this);">&nbsp;
+                              <span id="orn1initialLoText">Low initial</span></label>
+                          </div>
+                          <div id="orn1inflowHiDiv" class="inflwHiDcls sgrNputTxtCls">
+                            <label><input id="orn1inflowHiNp" class="sugInflwHiNcls" type='text' onchange="av.sgr.inflowChange(this);">&nbsp;
+                              <span id="orn1inflowHiText" class='sugInflowLabel'>Inflow</span></label>
+                          </div>
+                          <div id="orn1inflowLoDiv" class="inflwLoDcls sgrNputTxtCls">
+                            <label><input id="orn1inflowLoNp" class="sugInflwLoNcls" type='text' onchange="av.sgr.inflowChange(this);">&nbsp;
+                            <span id="orn1inflowLoText" class='sugOutflowLabel'>Inflow</span></label>
+                          </div>
+                          <div id="orn1outflowHiDiv" class="outflwHiDcls sgrNputTxtCls">
+                            <label><input id="orn1outflowHiNp" class='sgrOutflwHiNcls' type='text' onchange="av.sgr.outflowChange(this);">&nbsp;
+                            <span id="orn1outflowHiText" class='sugOutflowLabel'>Outflow fract</span></label>
+                          </div>
+                          <div id="orn1outflowLoDiv" class="outflwLoDcls sgrNputTxtCls">
+                            <label><input id="orn1outflowLoNp" class="sgrOutflwLoNcls" type='text' onchange="av.sgr.outflowChange(this);">&nbsp;
+                              <span id="orn1outflowLoText" class='sugOutflowLabel'>Outflow fract</span></label>
+                          </div>
+                          <div id="orn1chmstatHiDiv" class='sgrDetail_grid-item chmsttHiDcls'>&nbsp;&nbsp;&nbsp;
+                            <span id="orn1chmstatHiText" class="sugarText">equilibrium</span>
+                          </div>
+                          <div id="orn1chmstatLoDiv" class="sgrDetail_grid-item chmstatLoDclass">
+                            <span id="orn1chmstatLoValue"></span>
+                            <span id="orn1chmstatLoText" class="sugarText"> = equilibrium</span>
+                          </div>
+                        </div><span id="orn1Section_end" class="display_none"></span>
+
+                        <div id="orn2subSection" class='sugarDishSubsection'>
+                          <div id="orn2detailText" class='detailTxtCls'></div>
+                          <div id="orn2regionName" class='sgrDetail_grid-item subSectionTitle'>Whole Dish</div>
+                          <div id="orn2supplyTypeHolder" class='supplyTypeHoldcls sgrSelectHoldCls'>
+                            <select id="orn2supplyTypeSlct" class='supplyTypeSClass' onchange='av.sgr.supplyChange(this);'>
+                              <option id="orn2none" value='none'>None</option>
+                              <option id="orn2unlimited" value='unlimited' selected=''>Unlimited</option>
+                              <option id="orn2Limited" value="limited">Limited</option>
+                              <option id="orn2Chemostat" value='chemostat'>Chemostat</option>
+                            </select>&nbsp;&nbsp;&nbsp;
+                          </div>
+                         <div id="orn2supplyModifierHolder" class='supplyModifierDivClass sgrSelectHoldCls'>
+                            <select id="orn2supplyModifierSelect" class='supplyModSelClass' onchange="av.sgr.supplyModifierChange(this);">
+                              <option id="orn2default" value='default' selected=''>Default</option>
+                              <option id="orn2diffuse" value='diffuse'>Diffusion</option>
+                              <option id="orn2gradient" class='gradient' value='gradient'>Gradient</option>
+                              <option id="orn2periodic" class='periodic' value='periodic'>Periodic</option>
+                            </select>&nbsp;&nbsp;&nbsp;
+                          </div>
+                          <div id="orn2periodTimeHolder" class="periodTimeDivClass sgrNputTxtCls">
+                            <label><input id="orn2periodNp" class="sugPeriodNclass" type='text' onchange="av.sgr.periodChange(this);"> time</label>
+                          </div>
+
+                          <div id="orn2hiSideSelectHolder" class="sideNclass sgrSelectHoldCls">
+                            <label><select id="orn2hiSide">
+                              <option value="top">Top</option>
+                              <option value="bottom">Bottom</option>
+                            </select>
+                              <span id="orn2sideText">side text</span></label>
+                          </div>
+                          <div id="orn2sideHiText" class='sgrDetail_grid-item sideTitleHiDcls'>High Side</div>
+                          <div id="orn2sideLoText" class='sgrDetail_grid-item sideTitleLoDcls'>Low Side</div>
+                          <div id="orn2blank" class="sgrDetail_grid-item sgrBlank">&nbsp;&nbsp;&nbsp;&nbsp;</div>  
+
+                          <div id="orn2initialHiHolder" class="initialHiHoldcls sgrNputTxtCls">
+                            <label><input id="orn2initialHiNp" class="sugInitialHiNclass" type='text' value='100' onchange="av.sgr.initialChange(this);">&nbsp;
+                              <span id="orn2initialHiText">High side amount</span></label>
+                          </div>
+                          <div id="orn2initialLoDiv" class="initialLoDclass sgrNputTxtCls">
+                            <label><input id="orn2initialLoNp" class="sugInitialLoNclass" type='text' value='100' onchange="av.sgr.initialChange(this);">&nbsp;
+                              <span id="orn2initialLoText">Low side amount</span></label>
+                          </div>
+                          <div id="orn2inflowHiDiv" class="inflwHiDcls sgrNputTxtCls">
+                            <label><input id="orn2inflowHiNp" class="sugInflwHiNcls" type='text' onchange="av.sgr.inflowChange(this);">&nbsp;
+                              <span id="orn2inflowHiText" class='sugInflowLabel'>Inflow</span></label>
+                          </div>
+                          <div id="orn2inflowLoDiv" class="inflwLoDcls sgrNputTxtCls">
+                            <label><input id="orn2inflowLoNp" class="sugInflwLoNcls" type='text' onchange="av.sgr.inflowChange(this);">&nbsp;
+                            <span id="orn2inflowLoText" class='sugOutflowLabel'>Inflow</span></label>
+                          </div>
+                          <div id="orn2outflowHiDiv" class="outflwHiDcls sgrNputTxtCls">
+                            <label><input id="orn2outflowHiNp" class='sgrOutflwHiNcls' type='text' onchange="av.sgr.outflowChange(this);">&nbsp;
+                            <span id="orn2outflowHiText" class='sugOutflowLabel'>Outflow fract</span></label>
+                          </div>
+                          <div id="orn2outflowLoDiv" class="outflwLoDcls sgrNputTxtCls">
+                            <label><input id="orn2outflowLoNp" class="sgrOutflwLoNcls" type='text' onchange="av.sgr.outflowChange(this);">&nbsp;
+                              <span id="orn2outflowLoText" class='sugOutflowLabel'>Outflow fract</span></label>
+                          </div>
+                          <div id="orn2chmstatHiDiv" class='sgrDetail_grid-item chmsttHiDcls'>&nbsp;&nbsp;&nbsp;
+                            <span id="orn2chmstatHiText" class="sugarText"> = equilibrium</span>
+                          </div>
+                          <div id="orn2chmstatLoDiv" class="sgrDetail_grid-item chmstatLoDclass">
+                            <span id="orn2chmstatLoValue"></span>
+                            <span id="orn2chmstatLoText" class="sugarText"> = equilibrium</span>
+                          </div>
+                        </div><span id="orn2Section_end" class="display_none"></span>
+
+                      </div><span id="orn_detailsHolder_end" class="display_none"></span>
+                    </details>
+
+                    <details id="oro_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+                    <details id="ant_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+                    <details id="nor_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+                    <details id="xor_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+                    <details id="equ_section" class='sgrAccordSectionCls' onclick='av.sgr.detailsToggle(this);'></details>
+                    </div><span id="sugarInsideWrapper_end" class="display_none"></span>
+                  </div><span id='sugarAccordion_end' class='display_none'></span>
+
+                  <div id='sugarFooter' class='changeAllSugarsTogetherNoGlobalContainer'>
+                    <div id='sugarSetTitle' class='rHeadItem'>Set all Resources:&nbsp;</div>
+
+                    <div id='allSugarsupplyTypeHolder' class='rHeadItem'>
+                      <select id='allsugarsupplyTypeSlct' class="supplyTypeSClass" onchange='av.sgr.allsugarsupplyTypeSlctChange(this);'>
+                        <option id='allsgrNone' value='none'>None</option>
+                        <option id='allsgrunlimited' value='unlimited'>Unlimited</option>
+                        <option id='allsgrLimited' value='limited' class='groupLimited'>Limited</option>
+                        <option id='allsgrChemostat' value='chemostat' class='groupChemostat'>Chemostat</option>
+                        <option id='allsgrneutral' value='neutral' selected>----</option>
+                      </select> 
+                    </div>
+                    <div id='allSugarRegionLayoutDiv' class='rHeadItem'>
+                      <select id="allSugarRegionLayout" onchange='av.sgr.allSugarRegionLayoutChange(this);'>
+                          <option id='allGlobalDish' class='1Global' value='1Global' selected=''>Global Dish</option>
+                          <option id='allWholeDish'  class='1All' value="1All" selected=''>Whole Dish</option>
+                          <option id='allHalfLftRit' class='2HalfLftRit' value="2LftRit">Halves (L/R)</option>
+                          <option id='allTopLftRit' class='3TopLftRit' value='3TopLftRit'>Top L/R</option>
+                          <option id='allQuarters' class='4Quarters' value='4Quarters'>Quarters</option>
+                          <option value='neutral' selected>----</option>                            
+                        </select>
+                    </div>
+                    <div id='allSugarModifierDiv' class='rHeadItem'>
+                      <select id="allSugarModifier" onchange='av.sgr.allSugarModifierChange(this);'>
+                        <option id="alldefault" value='default' selected=''>Default</option>
+                        <option id="alldiffuse" value='diffuse'>Diffusion</option>
+                        <option id="allgradient" class='gradient' value='gradient'>Gradient</option>
+                        <option id="allperiodic" class='periodic' value='periodic'>Periodic</option>
+                        <option value='neutral' selected>----</option>                            
+                      </select> 
+                    </div>
+                    <div id='allSugarDetailsDiv' class='rHeadItem'>
+                      <select id='allSugarDetails' onchange='av.sgr.allSugarDetailsOpenClose(this);'>
+                        <option value='allOpen'>Show</option>
+                        <option value='allClose'>Hide</option>
+                        <option value='neutral' selected>----</option>                            
+                      </select> 
+                    </div>
+                    <div id='geometrySgr'>Geometry &nbsp;</div>
+                    <div id='supplyTypeSlctSgr'>Supply Type &nbsp;</div>
+                    <div id='regionLayoutSgr'>Region Layout &nbsp;</div>
+                    <div id='patternSgr'>Modifier &nbsp;</div>
+                    <div id='showHideSgr'>Details: </div>
+                  </div><span id='sugarFooter_end' class='display_none'></span>
+
+                </div> <span tag='end of odd'></span>
+
+                <div class='even next2'>
+                  <div class='flxItem enviroSubHeading'>Repeatability Mode:</div>
+                  <div class='flxItem'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                  <div class='flxItem>
+                    <label id='experimentLabel'><input type='radio' id='experimentRadio'
+                         intermediateChanges='false' name='repeat'
+                         value='experimental'> Experimental</label>
+                  </div> 
+                  <div class='flxItem'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                  <div class='flxItem'>
+                    <label id='demoLabel'><input type='radio' id='demoRadio' checked
+                         intermediateChanges='false' name='repeat' value='demo'> Demo</label>
+                  </div>
+                </div>
+
+              </form>
+            </div><span id='setupBlock_end' class='display_none'></span>
+
+            <div id='popStatsBlock' class="labInfoClass labInfoFlex"> 
+              <div id='popStatHolder'>
+                <div id='popStatistics'>
+                  <div id='selOrgType'>
+                    <div class='popStatsTitle'>
+                      <span id='sotTitle'>Selected Organism Type</span>&nbsp;&nbsp;<div id='sotColorBox'></div>
+                    </div>
+                    <table id='sotTopTbID' class='sotTopTbCls'>
+                      <tbody>
+                        <tr>
+                          <td><div class='sotL'>Name:&nbsp;</div></td>
+                          <td><div class='sotR'><label id='nameLabel'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotL'>Fitness:&nbsp;</div></td>
+                          <td><div class='sotR'><label id='fitLabel'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotL'>Energy Acq. Rate:&nbsp;</div></td>
+                          <td><div class='sotR'><label id='energyAcqRateLabel'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotL'>Offspring Cost:&nbsp;</div></td>
+                          <td><div class='sotR'><label id='offspringCostLabel'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotL'>Age (updates):&nbsp;</div></td>
+                          <td><div class='sotR'><label id='ageLabel'></label>&nbsp;&nbsp;&nbsp;</div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotL'>Ancestor:&nbsp;</div></td>
+                          <td><div class='sotR'><label id='ancestorLabel'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class='sotL'>Viable:&nbsp;</div></td>
+                          <td><div class='sotR'><label id='viableLabel'></label></div></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                    <table id='sotBotTbCls' class='sotBotTbCls' style="background: white;">
+                      <tbody>
+                        <tr>
+                          <th><div id='sotFun' class='colTitle'>Function&nbsp;&nbsp;</div></th>
+                          <th><div id='sotTimes' class='colTitle'>Performed</div></th>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='notLabel'>NOT</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='notTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='nanLabel'>NAN</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='nanTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='andLabel'>AND</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='andTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='ornLabel'>ORN</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='ornTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='oroLabel'>ORO</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='oroTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='antLabel' onclick="av.ui.toggleDebugMenu()">ANT</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='antTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='norLabel'>NOR</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='norTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='xorLabel' onclick="av.ui.toggleResourceData('xorLabel')">XOR</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='xorTime'></label></div></td>
+                        </tr>
+                        <tr>
+                          <td><div class='sotFn'><label id='equLabel'>EQU</label></div></td>
+                          <td><div class='sotNumDoFn'><label id='equTime'></label></div></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <label id='dnaLabel'></label>
+                  </div><span id='selOrgType_end' class='display_none'></span>
+                 <div class='dragbar' id="dragbarPopStats"></div> <!-- in right side of population page -->
+
+                  <div id='popStats4grid'>
+                    <div class='popStatsTitle'>
+                      <label id='popStat'>Population Statistics</label>
+                    </div>
+                    <div class='psTopTbIDHold'>
+                      <table id='psTopTbID' class='psTopTbCls'>
+                        <tbody>
+                        <colgroup><col class='popsTopTblcol1'><col class='popsTopTblcol2'></colgroup>
+                          <tr>
+                            <td><div class='sotL'>Size (# of organisms):&nbsp;</div></td>
+                            <td><div class='sotR'><label id='popSizeLabel'>&nbsp;&nbsp;&nbsp;</label>&nbsp;</div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='sotL'>Avg. Fitness:&nbsp;</div></td>
+                            <td><div class='sotR'><label id='aFitLabel'></label>&nbsp;</div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='sotL'>Avg. Energy Acq. Rate:&nbsp;</div></td>
+                            <td><div class='sotR'><label id='aEnergyAcqRateLabel'></label>&nbsp;</div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='sotL'>Avg. Offspring Cost:&nbsp;</div></td>
+                            <td><div class='sotR'><label id='aOffspringCostLabel'></label>&nbsp;</div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='sotL'>Avg. Age (updates):&nbsp;</div></td>
+                            <td><div class='sotR'><label id='aAgeLabel'></label>&nbsp;</div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='sotL'># Ancestor(s) at start:&nbsp;</div></td>
+                            <td><div class='sotR'><label id='parentNumLabel'></label>&nbsp;</div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='sotL'># of viable organisms:&nbsp;</div></td>
+                            <td><div class='sotR'><label id='viableNumLabel'></label>&nbsp;</div></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div id='psBotTbIdHold' style="background: white;">
+                      <table id='psBotTbId' class='psBotTbCls'>
+                        <colgroup><col class='popsBotTblcol1'><col class='popsBotTblcol2'><col class='popsBotTblcol3'></colgroup>
+                        <tbody>
+                          <tr>
+                            <th><div id='popStatsFunction' class='colTitle'>Function&nbsp;&nbsp;</div></th>
+                            <th colspan='2'><div id='psNumOrg' class='colTitle'># of Organisms</div></th>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='notButton' class='bitButtonOff'>NOT</button></div></td>
+                            <td><div class='popFnNum'><label id='notPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit0' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='nanButton' class='bitButtonOff'>NAN</button></div></td>
+                            <td><div class='popFnNum'><label id='nanPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit1' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='andButton' class='bitButtonOff'>AND</button></div></td>
+                            <td><div class='popFnNum'><label id='andPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit2' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='ornButton' class='bitButtonOff'>ORN</button></div></td>
+                            <td><div class='popFnNum'><label id='ornPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit3' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='oroButton' class='bitButtonOff'>ORO</button></div></td>
+                            <td><div class='popFnNum'><label id='oroPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit4' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='antButton' class='bitButtonOff'>ANT</button></div></td>
+                            <td><div class='popFnNum'><label id='antPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit5' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='norButton' class='bitButtonOff'>NOR</button></div></td>
+                            <td><div class='popFnNum'><label id='norPop'></label></div></td>
+                            <td><div style='text-align: center'><label id='numLog' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='xorButton' class='bitButtonOff'>XOR</button></div></td>
+                            <td><div class='popFnNum'><label id='xorPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit6' /></div></td>
+                          </tr>
+                          <tr>
+                            <td><div class='popButCls'><button id='equButton' class='bitButtonOff'>EQU</button></div></td>
+                            <td><div class='popFnNum'><label id='equPop'></label></div></td>
+                            <td><div class='noWrapTitle'><label id='logTit7' /></div></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div> <span id='psBotTbIdHold_end' class='display_none'></span>
+                  </div> <span id='popStats4grid_end'></span>
+                </div> <span id='popStatistics_id' class='display_none'></span>
+              </div><span id='popStatHolder_end' class='display_none'></span>
+
+              <div id='resrceDataHolder'>
+                <div id='resourceDataGrid' class='sugarGlobal-gridContainer'>
+                  <div id='sgrTop' class='sugarTsk'>Resource</div><div id="mxTop" class='mxTask'>Highest</div><div id="cellTop" class='cellTask'>Type</div><div id='totTop' class='totTask'>Amount</div>
+                  <div id='sgrNot' class='sugarTsk'>NOT</div><div id="mxNot" class='mxTask'>not</div><div id="cellNot" class='cellTask'>NOt</div><div id="totNot" class='totTask'>Not</div>
+                  <div id='sgrNan' class='sugarTsk'>NAN</div><div id="mxNan" class='mxTask'>nan</div><div id="cellNan" class='cellTask'>NAn</div><div id="totNan" class='totTask'>naN</div>
+                  <div id='sgrAnd' class='sugarTsk'>AND</div><div id="mxAnd" class='mxTask'>and</div><div id="cellAnd" class='cellTask'>ANd</div><div id="totAnd" class='totTask'>anD</div>
+                  <div id='sgrOrn' class='sugarTsk'>ORN</div><div id="mxOrn" class='mxTask'>orn</div><div id="cellOrn" class='cellTask'>ORn</div><div id="totOrn" class='totTask'>orN</div>
+                  <div id='sgrOro' class='sugarTsk'>ORO</div><div id="mxOro" class='mxTask'>oro</div><div id="cellOro" class='cellTask'>ORo</div><div id="totOro" class='totTask'>orO</div>
+                  <div id='sgrAnt' class='sugarTsk'>ANT</div><div id="mxAnt" class='mxTask'>ant</div><div id="cellAnt" class='cellTask'>ANt</div><div id="totAnt" class='totTask'>anT</div>
+                  <div id='sgrNor' class='sugarTsk'>NOR</div><div id="mxNor" class='mxTask'>nor</div><div id="cellNor" class='cellTask'>NOr</div><div id="totNor" class='totTask'>noR</div>
+                  <div id='sgrXor' class='sugarTsk'>XOR</div><div id="mxXor" class='mxTask'>xor</div><div id="cellXor" class='cellTask'>XOr</div><div id="totXor" class='totTask'>xoR</div>
+                  <div id='sgrEqu' class='sugarTsk'>EQU</div><div id="mxEqu" class='mxTask'>equ</div><div id="cellEqu" class='cellTask'>EQu</div><div id="totEqu" class='totTask'>eqU</div>
+                </div>
+              </div>
+
+              <div id='popChrtHolder'>
+                <div id='popChart'></div>
+                <div id='popChartDiv'></div>
+              </div>
+              
+             <div id='popChrtCntrlHldr'>
+                <div id='popChrtlftYaxHldr'>
+                  <label id='popChrtlftYaxLbl'>&nbsp;Lft Y-axis
+                    <select  id='popChrtLftYaxis' onchange='av.pch.popChrtYaxisChangeFn(this)'>
+                      <option value='Average Fitness' selected>Ave. Fitness</option>
+                      <option value='Average Offspring Cost'>Ave. Offspring Cost</option>
+                      <option value='Average Energy Acq. Rate'>Ave. Energy Acq. Rate</option>
+                      <option value='Number of Organisms'># of Organisms</option>
+                      <option value='Number Viable'># Viable</option>
+                      <option value='Number by Ancestor'># By Ancestor</option>
+                      <option value='None'>None</option>
+                    </select>
+                    </label>
+                </div><span id='popChrtlftYaxHldr_end' class='display_none'></span>
+                <div id='popChrtRitYaxHldr'>
+                  <label id='popChrtRitYaxLbl'>Rt Y-axis
+                    <select  id='popChrtRitYaxis' onchange='av.pch.popChrtYaxisChangeFn(this)'>
+                      <option id='popChrtRitYNone' value='None'>None</option>
+                      <option id='popChrtRitYResources' value='Resources'>Resources</option>
+                      <option id='popChrtRitYmomsOnly' value='Moms Only'>Moms Only</option>
+                    </select>
+                  </label>
+                </div>
+               </div>
+
+              <div id='pauseOptions'>
+                <p id='pausePrefix'>&nbsp;Pause Run at</p>
+                <select id='itemDone1st' onchange='av.ptd.sgr1stSlctFn("onchange")'>
+                  <option value='task' selected>any task</option>
+                  <option value='not'>NOT</option>
+                  <option value='nan'>NAN</option>
+                  <option value='and'>AND</option>
+                  <option value='orn'>ORN</option>
+                  <option value='oro'>ORO</option>
+                  <option value='ant'>ANT</option>
+                  <option value='nor'>NOR</option>
+                  <option value='xor'>XOR</option>
+                  <option value='equ'>EQU</option>
+                  <option value='picked' disabled>selected</option>
+                </select>
+                <p id='pauseMidText'></p>
+                <span id='pauseCriteriaHolder'>
+                  <select id='pauseCriteria' onchange='av.ptd.pauseSlctFn(this)'>
+                    <option value='update' selected>Update</option>
+                    <option value='firstDone'>appears</option>
+                  </select>
+                </span>
+                <input id='autoPauseNum' type='text' value='1000'>
+                <div id='pauseChkTxt'> when checked </div>
+                <input id="autoPauseCheck" type="checkbox" class="blk_wite_checkbox"> </label>
+              </div>
+              <div id='scrollBarSpace'>&nbsp;</div>
+               
+            </div>  <span id='popStatsBlock_end' class='display_none'></span>
+            
+            <div id="testSetupBlock" class="labInfoClass labInfoFlex">
+              <form id="testSetupForm">
+                Test Setup section - this section will be debug only
+                <div  class='odd'>
+                  Dish Size:
+                  <input id='sizeColTest' type='text' class='colrow' onchange='av.ptd.gridChangTest(this.value)' value = '5';/>
+                  &nbsp; x &nbsp;
+                  <input id='sizeRowTest' type='text' class='colrow' onchange='av.ptd.gridChangTest(this.value)' value = '5'/>
+                  cells&nbsp;<br />
+                  <label id='sizeCellTest'>There are 900 cells by default</label>
+                  changing dish size is not implemented 2022_727
+                </div>
+                <div class='even'>
+                  <span class='lftmargin'>Per Site Mutation Rate:</span>
+                  <input id='muteInpuTest' style='width: 4.5em; height:1.6em' onchange='av.ptd.muteInpuTestChng(this.value, "muteErroTest")'> %<br />
+                  <label id='muteErroTest'></label>
+                </div>
+                <div class='odd'>Ancestral Organism(s): Must be put in this box, not on grid. 
+                  <div class='ancestorContainer' id='ancestorBoTest'></div>
+                </div>
+                <div class='even'>
+                  Test dish will keep pace offspring as in avida.cfg
+                </div>
+                <div class='odd'>Resources & Reaction(s):
+                  For more information go to
+                  <a href="https://github.com/devosoft/avida/wiki/Environment-file" target="_blank">
+                    avida enviornment file
+                  </a><br><br>
+                  Please edit the environment configuration file below:<br>
+                  <textarea id='environConfigEdit' cols='100' rows='15'></textarea><br />
+                </div>
+                <div class='even'>
+                  <span class='enviroSubHeading'>Repeatability Mode:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+                
+              </form>
+            </div><span id='testSetupBlock_end' class='display_none'></span>
+
+          </div><span id='labInfoHolder_end' class='display_none'></span>
+        </div><span id='popInfoVert_end' class='display_none'></span>
+
+        <div id='orgInfoHolder'>
+          <div id='orgDetailID' class='orgDetailClass'>
+            <div id='orgTaskDataDiv'>
+              <table id='orgTaskDataTable'>
+                <tbody>
+                  <tr style='style='font-size: 1.1rem; line-height: 1.1rem;'>
+                    <td>Function</td>
+                    <td>Times<br>Performed</td>
+                  </tr>
+                  <tr>
+                    <td><label id='notOrg'>0 NOT</label></td>
+                    <td><label id='notPerf'>0</label></td>
+                  </tr>
+                  <tr>
+                    <td><label id='nanOrg'>1 NAN</label></td>
+                    <td><label id='nanPerf'>0</label></td>
+                  </tr>
+                  <tr>
+                    <td><label id='andOrg'>2 AND</label></td>
+                    <td><label id='andPerf'>0</label></td>
+                  </tr>
+                  <tr>
+                    <td><label id='ornOrg'>3 ORN</label></td>
+                    <td><label id='ornPerf'>0</label></td>
+                  </tr>
+                  <tr>
+                    <td><label id='oroOrg'>4 ORO</label></td>
+                    <td><label id='oroPerf'>0</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label id='antOrg'>5 ANT</label></td>
+                    <td><label id='antPerf'>0</label></td>
+                  </tr>
+                  <tr>
+                    <td><label id='norOrg'>6 NOR</label></td>
+                    <td><label id='norPerf'>0</label></td>
+                  </tr>
+                  <tr>
+                    <td><label id='xorOrg'>7 XOR</label></td>
+                    <td><label id='xorPerf'>0</label></td>
+                  </tr>
+                  <tr>
+                    <td><label id='equOrg'>8 EQU</label></td>
+                    <td><label id='equPerf'>0</label></td>
+                  </tr>
+                </tbody>
+              </table><span id='orgTaskDataTable_end' class='display_none'></span>
+            </div><span id='orgTaskDataDiv_end' class='display_none'></span>
+            <div id='lowerOrgInfo'>
+              <div id='bitCanvasHolders'>
+                <p>Input Buffer</p>
+                <canvas id='cpuBufferCnvs' class='orgStatCanvas3row'></canvas>
+                <p>Registers: AX, BX, CX</p>
+                <canvas id='cpuRegisterCnvs' class='orgStatCanvas3row'></canvas>
+                <p>Stack A (first two frames)</p>
+                <canvas id='cpuStackAcnvs' class='orgStatCanvas2row'></canvas>
+                <p>Stack B (first two frames)</p>
+                <canvas id='cpuStackBcnvs' class='orgStatCanvas2row'></canvas>
+                <p>Last Output</p>
+                <canvas id='cpuOutputCnvs' class='orgStatCanvas1row'></canvas>
+                <div id='InstructionDetail'>Instruction Details
+                  <details>
+                    <summary>Just Executed:</summary>
+                    <textarea id='ExecuteJust' class='instructionText' readonly></textarea>
+                  </details>
+                  <details>
+                    <summary>About to Execute:</summary>
+                    <textarea id='ExecuteAbout' class='instructionText' readonly></textarea>
+                  </details>
+                </div><span id='InstructionDetail_end' class='display_none'></span>
+              </div><span id='bitCanvasHolders_end' class='display_none'></span>
+            </div><span id='lowerOrgInfo_end' class='display_none'></span>
+          </div><span id='orgDetailID_end' class='display_none'></span>
+          <div id='orgSettings' class='orgSettingClass'>
+            <div class='repeatMode'>
+            <h3 class='dfhd' style='style='font-size: 1.30rem; line-height: 1.30rem;'>Repeatability Mode:</h3>
+              <input  type='radio' id='OrganExperimentRadio'
+                     intermediateChanges='false' name='child' checked value='orgExp'></button>
+              <label id='OrganExperimentLabel'>Experimental (Natural Variation)</label>
+              <br/>
+              <input showlabel='true' type='radio'id='OrganDemoRadio'
+                     intermediateChanges='false' name='child' value='orgDemo'></button>
+              <label id='OrganDemoLabel'>Demo (forces exact replay)</label>
+            </div>
+            <div class='muteOrgAllHldr'>
+              <div id='muteOrgNputHldr'>
+                <div class='lftmargin'>Per Site Mutation Rate:</div>
+                <input id='muteOrgInput' type='text'> %
+                <div class="muteInputVertSpace"></div>
+              </div>
+              <div id='muteOrgSldHldr'>
+                <div id='muteOrgSlide'></div>
+              </div>
+              <div class='muteBeloSlideVertSpace'></div>
+              <div><label id='muteOrgError'> &nbsp;</label>&nbsp;</div>
+            </div>
+          </div><span id='orgSettings_end' class='display_none'></span>
+        </div><span id='orgInfoHolder_end' class='display_none'></span>        
+      </div><span id='rightInfoHolder_end' class='display_none'></span>
+       
+    </div><span id='allAvidaContainer_end'></span>
+
+    <span class='notSeen' id='o__________________________________________________End_AllAvidaContainer_Main_Section___'></span>
+    
+    <span class='notSeen' id='o__________________________________________________Begin_making_Dialog_or_Model_Boxes___'></span>
+    
+    <span class='notSeen' id='o__________________________________________________________Save_sWSfModalID_Model_box___'></span>
+    <div id='sWSfModalID' class='modal'>
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>The freezer has changed since last saved in a workspace</h2>
+        </div> 
+        <div class="modal-body">
+          Would you like to save before loading another workspace?
+        </div>
+        <div class="modal-footer">
+          <button id='sWSfSave'>Save current workspace</button>
+          <button id='sWSfOpen'>Open workspace</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o______________________________________________________Save_sWSfModalID_Model_box_end___'></span>
+
+    <span class='notSeen' id='o_____________________________________________Export_mnFlExportGraphModalID_Model_box___'></span>
+    <div id='mnFlExportGraphModalID' class='modal'>
+      <!-- Modal content -->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h2>Export Graphics has not been implemented - for now:(</h2>
+        </div> 
+        <div class="modal-body">
+          <!-- <p>Configured Dish saves the experiment settings only.</p>
+          <p>Populated Dish saves organisms and experiment history.</p> -->
+          <h3>For Mac users</h3>
+          <p>Press the combination [command][shift][4] and use your cursor to select the part of the screen desired.
+            A png file will be saved to the desktop with a name of the form: <br />
+            Screen Shot 2020-10-11 at 3.34.36 PM.png
+          </p>
+          <h3>For PC users</h3>
+          <p>
+            Use Snipping Tool: It is in the Accessories Folder or you can Type "Snip" in the 'search programs and files'
+            field once your hit the 'start button'. Hold and drag the cursor around the area you want to capture. SnippingTool
+            will then allow you to save as a png, gif, jpg or single file html.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button id='mnFlExportGraphModClose'>Close Modal</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o_________________________________________Export_mnFlExportGraphModalID_Model_box_end___'></span>
+
+    <span class='notSeen' id='o________________________________________________________Export_Stand_Alone_Model_box___'></span>
+    <div id='mnFlStandAloneAppModalID' class='modal'>
+      <!-- Modal content -->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h3>Stand alone version of Avida-ED 4.0.17 Beta</h3>
+        </div> 
+        <div class="modal-body">
+          <h2>For working where there is no internet access: No working Avida-ED 4 versions for off-line use at this time.</h2>
+          <ul>
+            <li class="slim"><a href="pkgs/Avida-ED-Web-PC_2016_0918.exe" target='_blank'>Avida-ED Windows installer for self-hosted version 2016_0918</a></li>
+            <li><a href="pkgs/Avida-ED_Server_Avida-ED.app.zip" target='_blank'>Avida-ED Beta for Mac OS 10.6 and above</a></li>
+            <ul>
+              <li>Unzip the file once it is downloaded</li>
+              <li>Move the file ‘Avida-ED Web.app’ to the Applications Folder</li>
+              <li>. . . Your Mac will complain that the file is from an unknown source, you will have to approve opening it</li>
+            </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button id='mnFlStandAloneAppModCancel'>Close Modal</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o____________________________________________________end_Export_Stand_Alone_Model_box___'></span>
+
+    <span class='notSeen' id='o______________________________________________________________Save2Freezer_Model_box___'></span>
+    <div id='fzModalID' class='modal'>
+      <!-- Modal content -->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h2>'What would you like to save to the freezer?'</h2>
+        </div>
+        <div class="modal-body">
+          <p>Configured Dish saves the experiment settings only.</p>
+          <p>Populated Dish saves organisms and experiment history.</p>
+        </div>
+        <div class="modal-footer">
+          <button id='fzModCancel'>Cancel</button>
+          <button id='fzModSaveConfig'>Configured Dish</button>
+          <span id='fzModFzOrganismSpan'>
+            <button id='fzModSaveOrganism'>Selected Organism</button>
+          </span>
+          <button id='fzModSaveWorld'>Populated Dish</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o__________________________________________________________end_Save2Freezer_Model_box___'></span>
+
+
+    <span class='notSeen' id='o__________________________________________________________________New_Dish_Modal_Box___'></span>
+    <div id='newDishModalID' class='modal'>
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <p>Would you like to save or discard the current petri dish before starting a new experiment?</p>
+        </div>
+        <div class="modal-body">
+          <p>Configured Dish: saves the experiment settings only.</p>
+          <p>Populated Dish: saves organisms and experiment history, but limited resources will replenish.</p>
+        </div>
+        <div class="modal-footer">
+          <button id='newDishCancel'>Cancel</button>
+          <button id='newDishDiscard'>Discard</button>
+          <button id='newDishSaveConfig'>Save Configured Dish</button>
+          <button id='newDishSaveWorld'>Save Populated Dish</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o______________________________________________________________end_New_Dish_Modal_Box___'></span>
+
+    <span class='notSeen' id='o_____________________________________________________________Need_Ancestor_Modal_Box___'></span>
+    <div class="modal" id='needAncestorModalID'>
+
+      <!-- Modal content -->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h2>Unable to start experiment; there is no start organism in the petri dish.</h2>
+        </div>
+        <div class="modal-body">
+          <p>Please drag an organism from the freezer into the settings panel or the petri dish.</p>
+        </div>
+        <div class="modal-footer">
+          <button id='needAncestorCancel'>Ok</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o_________________________________________________________end_Need_Ancestor_Modal_Box___'></span>
+    
+    <span class='notSeen' id='o_____________________________________________________________________email_Modal_Box___'></span>
+    <div class="modal" id='email_ModalID'>
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h2>Please send us your questions or comments</h2>
+        </div>
+        <div class="modal-body">
+          <p>Our developers can be reached at: Avida-ED-development@googlegroups.com</p>
+          <a href="mailto:Avida-ED-development@googlegroups.com?subject=Avida-ED Problem(s)/Question(s)">email: questions/comments</a>
+        </div>
+        <div class="modal-footer">
+          <button id='email_Cancel' onclick='document.getElementById('email_ModalID').style.display = 'none';'>Ok</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o_________________________________________________________________end_email_Modal_Box___'></span>
+
+    <span class='notSeen' id='o_______________________________________________________________Preferences_Modal_Box___'></span>
+    <div class="modal" id='preferences_ModalID'>
+      <!-- Modal content -->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h2>Preferences</h2>
+        </div>
+        <div class="modal-body">
+          <p>Please select Ecology (resource) complexity level</p>
+          <select id='resrcComplexity' onchange='av.sgr.complexityChange(this)'>
+            <option id='sgrBasic' value='sgrBasic' selected >Basic</option>
+            <option id='sgrAdvanced' value='sgrAdvanced'>Advanced</option>
+          </select>&nbsp;&nbsp;&nbsp;
+          <br><br>
+          <p>Please select your language preference</p>
+          <select id='language' onchange='av.ui.language(this)'>
+            <option id='lngEnglish' value='English' selected >English</option>
+            <option id='lngSpanish' value='Spanish'>Español</option>
+            <option id='lngGerman' value='German' disabled>Deutsch</option>
+            <option id='lngFrench' value='French' disabled>Français</option>
+            <option id='lngPortuguese' value='Portuguese' disabled>Português</option>
+          </select>&nbsp;&nbsp;&nbsp;
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <button id='PreferencesCancel' onclick='av.ui.closePreferences()'>Ok</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o___________________________________________________________end_Preferences_Modal_Box___'></span>
+
+
+
+    
+<!-- Delete_after_postLogModalID_works_______Send_Log_Data_by_posting_to_database -->
+<!-- Saving_session_log_when_no_e_mail_client present 
+    <div class='notSeen' data-dojo-type='dijit/Dialog' data-dojo-id='postLogDialog'
+         title='Avida-ED Problem Report - Help us make Avida-ED better'>
+      <div class='dijitDialogPaneContentArea'>
+        <div>
+          <div class='lftWide'>
+            <p id='postLogPara'>
+              Please send the data below to Help us make Avida-ED better by clicking on the [Send] button.&nbsp;
+            </p>
+            <br />
+            <label id='postEmailLabel'>Please include your e-mail so we can discuss your problem or suggestion further.</label><br />
+            <input type='text' id='postEmailInputDigit' style='width: 40em' />
+          </div>
+          <div class='ritThin'>
+            <button data-dojo-type='dijit/form/Button' type='button' id='postPost'>Send</button>
+            <br />
+            <label id='postStatus'></label>&nbsp;
+            <br />
+            <button data-dojo-type='dijit/form/Button' type='button' data-dojo-props='onClick:function(){postLogDialog.hide();}'
+                    id='postLogDialogCancel'>Cancel
+            </button>
+          </div>
+        </div>
+        <br /><br /><br /><br />
+        <label id='postProblemError' style='color: red'></label><br />
+        <br />
+        <label id='postNoteLabel'>Please describe the problem or suggestion in the comment field below.</label><br />
+        <textarea id='postComment' cols='90' rows='5'></textarea><br />
+        Version: <label id='postVersionLabel'></label>
+        Screen size: <label id='postScreenSize'></label><br />
+        User Info: <label id='postUserInfoLabel'></label><br />
+        <label id='postError' stype='color: red'></label><br />
+        Session Log:<br />
+        <textarea id='postLogTextarea' cols='90' rows='20' ></textarea><br /><br />
+        Debug Details:<br />
+        <textarea id='postdTailTextarea' cols='90' rows='20' ></textarea>
+
+      </div>
+      <div class='dijitDialogPaneActionBar'></div>
+    </div>
+    
+<!----------------------------------------------------------------------------------------------- Post_Log_Modal_Box -->
+    <div id='postLogmodalBigID' class='modalBig'>
+      <!-- modalBig content -->
+      <div class="modalBig-content">
+        <div class="modalBig-header">
+          <h1 id='postLogTitle'>Avida-ED Problem Report - Help us make Avida-ED better</h1>
+        </div>
+        <div class="modalBig-body">
+          <div>
+            <div class='lftWide'>
+              <p id='postLogPara'>
+                Please send the data below to Help us make Avida-ED better by clicking on the [Send] button.&nbsp;
+              </p>
+              <br />
+              <label id='postEmailLabel'>Please include your e-mail so we can discuss your problem or suggestion further.</label><br />
+              <input type='text' id='postEmailInput' style='width: 40em' />
+            </div>
+            <div class='ritThin'>
+              <button id='postPost'>Send</button>
+              <br />
+              <label id='postStatus'></label>&nbsp;
+              <br />
+              <button id='postLogModalCancel'>Cancel</button>
+            </div>
+          </div>
+          <br /><br /><br /><br />
+          <label id='postProblemError' style='color: red'></label><br />
+          <br />
+          <label id='postNoteLabel'>Please describe the problem or suggestion in the comment field below.</label><br />
+          <textarea id='postComment' cols='90' rows='5'></textarea><br />
+          Version: <label id='postVersionLabel'></label>
+          Screen size: <label id='postScreenSize'></label><br />
+          User Info: <label id='postUserInfoLabel'></label><br />
+          <label id='postError' stype='color: red'></label><br />
+          Session Log:<br />
+          <textarea id='postLogTextarea' cols='90' rows='20' ></textarea><br /><br />
+          Debug Details:<br />
+        <textarea id='postdTailTextarea' cols='90' rows='20' ></textarea>
+        </div>
+        <div class="modalBig-footer">
+          <button id='oldDishCancel'>Cancel</button>
+          <button id='oldDishDiscard'>Discard</button>
+          <button id='oldDishSaveConfig'>Save Configured Dish</button>
+          <button id='oldDishSaveWorld'>Save Populated Dish</button>
+        </div>
+      </div>
+    </div>
+<!------------------------------------------------------------------------------------------- End_Post_Log_Modal_Box -->
+
+<!------------------------------------------------------------------------ Send_Log_Data_via_e-mail_client_modal_Box -->
+    <div id='sendLogModalID' class='modalBig'>
+
+      <div class='modalBig-content'>
+        
+        <div id="sendLogHead" class='modalBig-header'>
+          <span class='sendLogCloseHldr'>
+            <button id='sendLogCloseButton' onclick='av.ui.closeSendModalFn();'>Close</button>
+          </span>
+          <h2 id="sendLogHdTitle">Avida-ED Feedback Email<br>Help us make Avida-ED better</h2>
+          <span class='sendLogCloseHldr'>
+            <button id='sendLogEmail' onclick='av.ui.sendLogEmailFn()'>Send email</button>
+          </span>
+        </div>
+        
+        <div id='sendLog-body' class='modalBig-body'>
+          <div id="sendLogInstructions">
+            <p id='sendLogPara1' class='sendLogP'>
+              Please send your comment, suggestion or problem to Avida-ED-development@googlegroups.com
+            </p>
+            <br />
+            <p id='sendLogPara2' class='sendLogP'>
+              If there was an error or odd behavior in this session, include the session log (below) in your email
+            </p>
+            <br />
+          </div>
+          <div id='sendLogCommentAreaHldr'>
+            <textarea id='CommentAreaScrollBox' cols='80' rows='10'>Describe what what you were doing and what happened here:</textarea>
+          </div>
+          <div id='sendLogTxtAreaHldr'>
+            <textarea id='sendLogScrollBox' cols='80' rows='10'></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<!--------------------------------------- About_AvidaED4_Modal_Box --------------->
+    <div id='aboutAvidaED_ModalID' class='modalBig'>
+
+      <div id='aboutAvidaED_content' class='modalBig-content'>
+        <div id='aboutAvidaED_header' class='modalBig-header'>
+          <span class='aboutAvidaEDcloseHldr'>
+            <button id='aboutAvidaEDcloseButton' onclick='av.ui.aboutAvidaED_Close();'>Close</button>
+          </span>
+          <h2 id='aboutAvidaEDtitle'>Avida-ED 4.0.33 Beta</h2>
+          <span class='aboutAvidaEDcloseHldr'>
+          </span>
+        </div>
+        <div id='AvidaEDaboutModalContainer' class='modalBig-body'>
+          <div id='AvidaEDaboutScrll'>
+            <div id='aboutAvidaED_grid_container'>
+              <span id='aboutAvidaEDlogoHolder'>
+               <img class='centerImg' src='images/Avida-ED-logo.png' alt='logo for Avida-ED' /><br>
+                <p class='centerPbig'>An educational artificial life platform developed at Michigan State University for learning evolution and the nature of science using digital organisms.</p>
+              </span>
+              <span id='aboutAvidaEDupperTextHolder'>
+                <p class='centerPbig'><strong>Avida-ED Home Page</strong></p>
+                <p class='centerP'>https://Avida-ED.msu.edu</p>
+
+                <p class='centerP'><strong>Avida-ED Mirror Site</strong></p>
+                <p class='centerP'>http://avida-ed-mirror1.beacon-center.org/</p>
+
+                <br>
+                <p class='centerP'>Send mail to: avida-ed-development@googlegroups.com</p>
+                <p class='centerP'>for bug reports or for questions about program function</p>
+                <br>
+                <br>&nbsp;
+                <p><strong>This material is based upon work supported by the following foundations:</strong></p>
+                <br>
+                <div id='funding'>
+                  <p class='negIndent'>Avida-ED 4 - National Science Foundation under Grant No. 1432563 (2019-2022)</p>
+                  <br>
+                  <p class='negIndent'>Avida-ED 3 - Howard Hughes Medical Institute under Grant No. 52008102 & <br>
+                                          NSF under Grant No. DBI-1446483 & 1432563 (2014-2021)</p>
+                  <br>
+                  <p class='negIndent'>Avida-ED 2 - National Science Foundation under Grant No. OIA-0939454 (2010-2014)</p>
+                  <br>
+                  <p class='negIndent'>Avida-ED 1 - National Science Foundation under Grant No. DUE-0341484 (2004-2009)</p>
+                </div>
+              </span>
+            </div>
+            <br>
+            <div id='AvidaedaboutDtailBxHldr'>
+              <div id='AvidaedaboutdetailBox'>
+<h1 class='aboutCls'><u>Avida-ED</u></h1> 
+<p>Copyright 2006-present Michigan State University</p>
+<br>
+<p>THIS SOFTWARE IS PROVIDED BY MICHIGAN STATE UNIVERSITY AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MICHIGAN STATE UNIVERSITY OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+<h1 class='aboutCls'><u>Avida-ED Web Interface</u></h1> 
+<p>Copyright 2015-present Michigan State University</p>
+<p>https://github.com/dBlackwood/Avida-ED-Eco</p>
+<p>Avida-ED Web Interface  is licensed under the GNU General Public License v3.0</p>
+<br>
+<p>Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.</p>
+<br>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<ol>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Michigan State University, nor the names of contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY MICHIGAN STATE UNIVERSITY AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MICHIGAN STATE UNIVERSITY OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+<h1 class='aboutCls'>Avida-ED (avida/apps/viewer-macos)</h1>
+<p>Copyright 2010-present Michigan State University. All rights reserved.</p>
+<p>https://avida.devosoft.org/   <br>
+  https://github.com/devosoft</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<ol>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of Michigan State University, nor the names of contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY MICHIGAN STATE UNIVERSITY AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MICHIGAN STATE UNIVERSITY OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+<h1 class='aboutCls'>AVIDA (AVIDA-CORE AND VIEWER LIBRARIES)</h1>
+
+<p>Copyright 1999-present Michigan State University. All rights reserved.</p>
+<p>Copyright 1993-2003 California Institute of Technology.</p>
+
+<p class='marginBelow'>Avida is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version of the License or (at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
+
+<h1 class='aboutCls'>GNU GENERAL PUBLIC LICENSE</h1>
+<p>Version 3, 29 June 2007</p>
+
+<p>Copyright (C) 2007 Free Software Foundation, Inc. http://fsf.org/ </p>
+<p>Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.</p>
+
+<h2 style='text-align: center'>Preamble</h2>
+
+<p class='marginBelow'>The GNU General Public License is a free, copyleft license for software and other kinds of works.</p>
+
+<p class='marginBelow'>The licenses for most software and other practical works are designed to take away your freedom to share and change the works.  By contrast, the GNU General Public License is intended to guarantee your freedom to share and change all versions of a program--to make sure it remains free software for all its users.  We, the Free Software Foundation, use the GNU General Public License for most of our software; it applies also to any other work released this way by its authors.  You can apply it to your programs, too.</p>
+
+<p class='marginBelow'>When we speak of free software, we are referring to freedom, not price.  Our General Public Licenses are designed to make sure that you have the freedom to distribute copies of free software (and charge for them if you wish), that you receive source code or can get it if you want it, that you can change the software or use pieces of it in new free programs, and that you know you can do these things.</p>
+
+<p class='marginBelow'>To protect your rights, we need to prevent others from denying you these rights or asking you to surrender the rights.  Therefore, you have certain responsibilities if you distribute copies of the software, or if you modify it: responsibilities to respect the freedom of others.</p>
+
+<p class='marginBelow'>For example, if you distribute copies of such a program, whether gratis or for a fee, you must pass on to the recipients the same freedoms that you received.  You must make sure that they, too, receive or can get the source code.  And you must show them these terms so they know their rights.</p>
+
+<p>Developers that use the GNU GPL protect your rights with two steps:</p>
+<ol>
+  <li>assert copyright on the software, and</li>
+  <li>offer you this License giving you legal permission to copy, distribute and/or modify it.</li>
+</ol>
+<p class='marginBelow'>For the developers' and authors' protection, the GPL clearly explains that there is no warranty for this free software.  For both users' and authors' sake, the GPL requires that modified versions be marked as changed, so that their problems will not be attributed erroneously to authors of previous versions.</p>
+
+<p class='marginBelow'>Some devices are designed to deny users access to install or run modified versions of the software inside them, although the manufacturer can do so.  This is fundamentally incompatible with the aim of protecting users' freedom to change the software.  The systematic pattern of such abuse occurs in the area of products for individuals to use, which is precisely where it is most unacceptable.  Therefore, we have designed this version of the GPL to prohibit the practice for those products.  If such problems arise substantially in other domains, we stand ready to extend this provision to those domains in future versions of the GPL, as needed to protect the freedom of users.</p>
+
+<p class='marginBelow'>Finally, every program is threatened constantly by software patents. States should not allow patents to restrict development and use of software on general-purpose computers, but in those that do, we wish to avoid the special danger that patents applied to a free program could make it effectively proprietary.  To prevent this, the GPL assures that patents cannot be used to render the program non-free.</p>
+
+<p>The precise terms and conditions for copying, distribution and modification follow.</p>
+
+<h2 style='text-align: center'>TERMS AND CONDITIONS</h2>
+<ol start='0'>
+  <li>Definitions.
+
+  <p class='marginBelow'>“This License” refers to version 3 of the GNU General Public License.</p>
+
+  <p class='marginBelow'>“Copyright” also means copyright-like laws that apply to other kinds of works, such as semiconductor masks.</p>
+
+  <p class='marginBelow'>“The Program” refers to any copyrightable work licensed under this License. Each licensee is addressed as “you”. “Licensees” and “recipients” may be individuals or organizations.</p>
+
+  <p class='marginBelow'>To “modify” a work means to copy from or adapt all or part of the work in a fashion requiring copyright permission, other than the making of an exact copy. The resulting work is called a “modified version” of the earlier work or a work “based on” the earlier work.</p>
+
+  <p class='marginBelow'>A “covered work” means either the unmodified Program or a work based on the Program.</p>
+
+  <p class='marginBelow'>To “propagate” a work means to do anything with it that, without permission, would make you directly or secondarily liable for infringement under applicable copyright law, except executing it on a computer or modifying a private copy. Propagation includes copying, distribution (with or without modification), making available to the public, and in some countries other activities as well.</p>
+
+  <p class='marginBelow'>To “convey” a work means any kind of propagation that enables other parties to make or receive copies. Mere interaction with a user through a computer network, with no transfer of a copy, is not conveying.</p>
+
+  <p class='marginBelow'>An interactive user interface displays “Appropriate Legal Notices” to the extent that it includes a convenient and prominently visible feature that (1) displays an appropriate copyright notice, and (2) tells the user that there is no warranty for the work (except to the extent that warranties are provided), that licensees may convey the work under this License, and how to view a copy of this License. If the interface presents a list of user commands or options, such as a menu, a prominent item in the list meets this criterion.</p>
+  </li>
+  <li>Source Code.
+
+    <p class='marginBelow'>The “source code” for a work means the preferred form of the work for making modifications to it. “Object code” means any non-source form of a work.</p>
+
+    <p class='marginBelow'>A “Standard Interface” means an interface that either is an official standard defined by a recognized standards body, or, in the case of interfaces specified for a particular programming language, one that is widely used among developers working in that language.</p>
+
+    <p class='marginBelow'>The “System Libraries” of an executable work include anything, other than the work as a whole, that (a) is included in the normal form of packaging a Major Component, but which is not part of that Major Component, and (b) serves only to enable use of the work with that Major Component, or to implement a Standard Interface for which an implementation is available to the public in source code form. A “Major Component”, in this context, means a major essential component (kernel, window system, and so on) of the specific operating system (if any) on which the executable work runs, or a compiler used to produce the work, or an object code interpreter used to run it.</p>
+
+    <p class='marginBelow'>The “Corresponding Source” for a work in object code form means all the source code needed to generate, install, and (for an executable work) run the object code and to modify the work, including scripts to control those activities. However, it does not include the work's System Libraries, or general-purpose tools or generally available free programs which are used unmodified in performing those activities but which are not part of the work. For example, Corresponding Source includes interface definition files associated with source files for the work, and the source code for shared libraries and dynamically linked subprograms that the work is specifically designed to require, such as by intimate data communication or control flow between those subprograms and other parts of the work.</p>
+
+    <p class='marginBelow'>The Corresponding Source need not include anything that users can regenerate automatically from other parts of the Corresponding Source.</p>
+
+    <p class='marginBelow'>The Corresponding Source for a work in source code form is that same work.</p>
+  </li>
+  <li>Basic Permissions.
+
+    <p class='marginBelow'>All rights granted under this License are granted for the term of copyright on the Program, and are irrevocable provided the stated conditions are met. This License explicitly affirms your unlimited permission to run the unmodified Program. The output from running a covered work is covered by this License only if the output, given its content, constitutes a covered work. This License acknowledges your rights of fair use or other equivalent, as provided by copyright law.</p>
+
+    <p class='marginBelow'>You may make, run and propagate covered works that you do not convey, without conditions so long as your license otherwise remains in force. You may convey covered works to others for the sole purpose of having them make modifications exclusively for you, or provide you with facilities for running those works, provided that you comply with the terms of this License in conveying all material for which you do not control copyright. Those thus making or running the covered works for you must do so exclusively on your behalf, under your direction and control, on terms that prohibit them from making any copies of your copyrighted material outside their relationship with you.</p>
+
+    <p class='marginBelow'>Conveying under any other circumstances is permitted solely under the conditions stated below. Sublicensing is not allowed; section 10 makes it unnecessary.</p>
+  </li>
+  <li>Protecting Users' Legal Rights From Anti-Circumvention Law.
+
+    <p class='marginBelow'>No covered work shall be deemed part of an effective technological measure under any applicable law fulfilling obligations under article 11 of the WIPO copyright treaty adopted on 20 December 1996, or similar laws prohibiting or restricting circumvention of such measures.</p>
+
+    <p class='marginBelow'>When you convey a covered work, you waive any legal power to forbid circumvention of technological measures to the extent such circumvention is effected by exercising rights under this License with respect to the covered work, and you disclaim any intention to limit operation or modification of the work as a means of enforcing, against the work's users, your or third parties' legal rights to forbid circumvention of technological measures.</p>
+
+  <li>Conveying Verbatim Copies.
+
+    <p class='marginBelow'>You may convey verbatim copies of the Program's source code as you receive it, in any medium, provided that you conspicuously and appropriately publish on each copy an appropriate copyright notice; keep intact all notices stating that this License and any non-permissive terms added in accord with section 7 apply to the code; keep intact all notices of the absence of any warranty; and give all recipients a copy of this License along with the Program.</p>
+
+    <p class='marginBelow'>You may charge any price or no price for each copy that you convey, and you may offer support or warranty protection for a fee.</p>
+  </li>
+  <li>Conveying Modified Source Versions.
+    <p>You may convey a work based on the Program, or the modifications to produce it from the Program, in the form of source code under the terms of section 4, provided that you also meet all of these conditions:</p>
+    <ol type='a'>
+      <li>The work must carry prominent notices stating that you modified it, and giving a relevant date.</li>
+      <li>The work must carry prominent notices stating that it is released under this License and any conditions added under section 7. This requirement modifies the requirement in section 4 to “keep intact all notices”.</li>
+      <li>You must license the entire work, as a whole, under this License to anyone who comes into possession of a copy. This License will therefore apply, along with any applicable section 7 additional terms, to the whole of the work, and all its parts, regardless of how they are packaged. This License gives no permission to license the work in any other way, but it does not invalidate such permission if you have separately received it.</li>
+      <li>If the work has interactive user interfaces, each must display Appropriate Legal Notices; however, if the Program has interactive interfaces that do not display Appropriate Legal Notices, your work need not make them do so.</li>
+    </ol>
+    <p class='negIndent'>A compilation of a covered work with other separate and independent works, which are not by their nature extensions of the covered work, and which are not combined with it such as to form a larger program, in or on a volume of a storage or distribution medium, is called an “aggregate” if the compilation and its resulting copyright are not used to limit the access or legal rights of the compilation's users beyond what the individual works permit. Inclusion of a covered work in an aggregate does not cause this License to apply to the other parts of the aggregate.</p>
+  </li>
+  <li>Conveying Non-Source Forms.
+    <p>You may convey a covered work in object code form under the terms of sections 4 and 5, provided that you also convey the machine-readable Corresponding Source under the terms of this License, in one of these ways:</p>
+    <ol type='a'>
+      <li>Convey the object code in, or embodied in, a physical product (including a physical distribution medium), accompanied by the Corresponding Source fixed on a durable physical medium customarily used for software interchange.</li>
+      <li>Convey the object code in, or embodied in, a physical product (including a physical distribution medium), accompanied by a written offer, valid for at least three years and valid for as long as you offer spare parts or customer support for that product model, to give anyone who possesses the object code either (1) a copy of the Corresponding Source for all the software in the product that is covered by this License, on a durable physical medium customarily used for software interchange, for a price no more than your reasonable cost of physically performing this conveying of source, or (2) access to copy the Corresponding Source from a network server at no charge.</li>
+      <li>Convey individual copies of the object code with a copy of the written offer to provide the Corresponding Source. This alternative is allowed only occasionally and noncommercially, and only if you received the object code with such an offer, in accord with subsection 6b.</li>
+      <li>Convey the object code by offering access from a designated place (gratis or for a charge), and offer equivalent access to the Corresponding Source in the same way through the same place at no further charge. You need not require recipients to copy the Corresponding Source along with the object code. If the place to copy the object code is a network server, the Corresponding Source may be on a different server (operated by you or a third party) that supports equivalent copying facilities, provided you maintain clear directions next to the object code saying where to find the Corresponding Source. Regardless of what server hosts the Corresponding Source, you remain obligated to ensure that it is available for as long as needed to satisfy these requirements.</li>
+      <li>Convey the object code using peer-to-peer transmission, provided you inform other peers where the object code and Corresponding Source of the work are being offered to the general public at no charge under subsection 6d.</li>
+    </ol>
+    <p class='marginBelow'>A separable portion of the object code, whose source code is excluded from the Corresponding Source as a System Library, need not be included in conveying the object code work.</p>
+
+    <p class='marginBelow'>A “User Product” is either (1) a “consumer product”, which means any tangible personal property which is normally used for personal, family, or household purposes, or (2) anything designed or sold for incorporation into a dwelling. In determining whether a product is a consumer product, doubtful cases shall be resolved in favor of coverage. For a particular product received by a particular user, “normally used” refers to a typical or common use of that class of product, regardless of the status of the particular user or of the way in which the particular user actually uses, or expects or is expected to use, the product. A product is a consumer product regardless of whether the product has substantial commercial, industrial or non-consumer uses, unless such uses represent the only significant mode of use of the product.</p>
+
+    <p class='marginBelow'>“Installation Information” for a User Product means any methods, procedures, authorization keys, or other information required to install and execute modified versions of a covered work in that User Product from a modified version of its Corresponding Source. The information must suffice to ensure that the continued functioning of the modified object code is in no case prevented or interfered with solely because modification has been made.</p>
+
+    <p class='marginBelow'>If you convey an object code work under this section in, or with, or specifically for use in, a User Product, and the conveying occurs as part of a transaction in which the right of possession and use of the User Product is transferred to the recipient in perpetuity or for a fixed term (regardless of how the transaction is characterized), the Corresponding Source conveyed under this section must be accompanied by the Installation Information. But this requirement does not apply if neither you nor any third party retains the ability to install modified object code on the User Product (for example, the work has been installed in ROM).</p>
+
+    <p class='marginBelow'>The requirement to provide Installation Information does not include a requirement to continue to provide support service, warranty, or updates for a work that has been modified or installed by the recipient, or for the User Product in which it has been modified or installed. Access to a network may be denied when the modification itself materially and adversely affects the operation of the network or violates the rules and protocols for communication across the network.</p>
+
+    <p class='marginBelow'>Corresponding Source conveyed, and Installation Information provided, in accord with this section must be in a format that is publicly documented (and with an implementation available to the public in source code form), and must require no special password or key for unpacking, reading or copying.</p>
+  </li>
+  <li>Additional Terms.
+
+    <p class='marginBelow'>“Additional permissions” are terms that supplement the terms of this License by making exceptions from one or more of its conditions. Additional permissions that are applicable to the entire Program shall be treated as though they were included in this License, to the extent that they are valid under applicable law. If additional permissions apply only to part of the Program, that part may be used separately under those permissions, but the entire Program remains governed by this License without regard to the additional permissions.</p>
+
+    <p class='marginBelow'>When you convey a copy of a covered work, you may at your option remove any additional permissions from that copy, or from any part of it. (Additional permissions may be written to require their own removal in certain cases when you modify the work.) You may place additional permissions on material, added by you to a covered work, for which you have or can give appropriate copyright permission.</p>
+
+    <p>Notwithstanding any other provision of this License, for material you add to a covered work, you may (if authorized by the copyright holders of that material) supplement the terms of this License with terms:</p>
+    <ol type='a'>
+      <li>Disclaiming warranty or limiting liability differently from the terms of sections 15 and 16 of this License; or</li>
+      <li>Requiring preservation of specified reasonable legal notices or author attributions in that material or in the Appropriate Legal Notices displayed by works containing it; or</li>
+      <li>Prohibiting misrepresentation of the origin of that material, or requiring that modified versions of such material be marked in reasonable ways as different from the original version; or</li>
+      <li>Limiting the use for publicity purposes of names of licensors or authors of the material; or</li>
+      <li>Declining to grant rights under trademark law for use of some trade names, trademarks, or service marks; or</li>
+      <li>Requiring indemnification of licensors and authors of that material by anyone who conveys the material (or modified versions of it) with contractual assumptions of liability to the recipient, for any liability that these contractual assumptions directly impose on those licensors and authors.</li>
+    </ol>  
+    <p class='marginBelow'>All other non-permissive additional terms are considered “further restrictions” within the meaning of section 10. If the Program as you received it, or any part of it, contains a notice stating that it is governed by this License along with a term that is a further restriction, you may remove that term. If a license document contains a further restriction but permits relicensing or conveying under this License, you may add to a covered work material governed by the terms of that license document, provided that the further restriction does not survive such relicensing or conveying.</p>
+
+    <p class='marginBelow'>If you add terms to a covered work in accord with this section, you must place, in the relevant source files, a statement of the additional terms that apply to those files, or a notice indicating where to find the applicable terms.</p>
+
+    <p>Additional terms, permissive or non-permissive, may be stated in the form of a separately written license, or stated as exceptions; the above requirements apply either way.</p>
+  </li>
+  <li>Termination.
+
+    <p class='marginBelow'>You may not propagate or modify a covered work except as expressly provided under this License. Any attempt otherwise to propagate or modify it is void, and will automatically terminate your rights under this License (including any patent licenses granted under the third paragraph of section 11).</p>
+
+    <p class='marginBelow'>However, if you cease all violation of this License, then your license from a particular copyright holder is reinstated (a) provisionally, unless and until the copyright holder explicitly and finally terminates your license, and (b) permanently, if the copyright holder fails to notify you of the violation by some reasonable means prior to 60 days after the cessation.</p>
+
+    <p class='marginBelow'>Moreover, your license from a particular copyright holder is reinstated permanently if the copyright holder notifies you of the violation by some reasonable means, this is the first time you have received notice of violation of this License (for any work) from that copyright holder, and you cure the violation prior to 30 days after your receipt of the notice.</p>
+
+    <p class='marginBelow'>Termination of your rights under this section does not terminate the licenses of parties who have received copies or rights from you under this License. If your rights have been terminated and not permanently reinstated, you do not qualify to receive new licenses for the same material under section 10.</p>
+  </li>
+  <li>Acceptance Not Required for Having Copies.</li>
+
+    <p class='marginBelow'>You are not required to accept this License in order to receive or run a copy of the Program. Ancillary propagation of a covered work occurring solely as a consequence of using peer-to-peer transmission to receive a copy likewise does not require acceptance. However, nothing other than this License grants you permission to propagate or modify any covered work. These actions infringe copyright if you do not accept this License. Therefore, by modifying or propagating a covered work, you indicate your acceptance of this License to do so.</p>
+  </li>
+  <li>Automatic Licensing of Downstream Recipients.
+
+    <p class='marginBelow'>Each time you convey a covered work, the recipient automatically receives a license from the original licensors, to run, modify and propagate that work, subject to this License. You are not responsible for enforcing compliance by third parties with this License.</p>
+
+    <p class='marginBelow'>An “entity transaction” is a transaction transferring control of an organization, or substantially all assets of one, or subdividing an organization, or merging organizations. If propagation of a covered work results from an entity transaction, each party to that transaction who receives a copy of the work also receives whatever licenses to the work the party's predecessor in interest had or could give under the previous paragraph, plus a right to possession of the Corresponding Source of the work from the predecessor in interest, if the predecessor has it or can get it with reasonable efforts.</p>
+
+    <p class='marginBelow'>You may not impose any further restrictions on the exercise of the rights granted or affirmed under this License. For example, you may not impose a license fee, royalty, or other charge for exercise of rights granted under this License, and you may not initiate litigation (including a cross-claim or counterclaim in a lawsuit) alleging that any patent claim is infringed by making, using, selling, offering for sale, or importing the Program or any portion of it.</p>
+  </li>
+  <li>Patents.
+
+    <p class='marginBelow'>A “contributor” is a copyright holder who authorizes use under this License of the Program or a work on which the Program is based. The work thus licensed is called the contributor's “contributor version”.</p>
+
+    <p class='marginBelow'>A contributor's “essential patent claims” are all patent claims owned or controlled by the contributor, whether already acquired or hereafter acquired, that would be infringed by some manner, permitted by this License, of making, using, or selling its contributor version, but do not include claims that would be infringed only as a consequence of further modification of the contributor version. For purposes of this definition, “control” includes the right to grant patent sublicenses in a manner consistent with the requirements of this License.</p>
+
+    <p class='marginBelow'>Each contributor grants you a non-exclusive, worldwide, royalty-free patent license under the contributor's essential patent claims, to make, use, sell, offer for sale, import and otherwise run, modify and propagate the contents of its contributor version.</p>
+
+    <p class='marginBelow'>In the following three paragraphs, a “patent license” is any express agreement or commitment, however denominated, not to enforce a patent (such as an express permission to practice a patent or covenant not to sue for patent infringement). To “grant” such a patent license to a party means to make such an agreement or commitment not to enforce a patent against the party.</p>
+
+    <p class='marginBelow'>If you convey a covered work, knowingly relying on a patent license, and the Corresponding Source of the work is not available for anyone to copy, free of charge and under the terms of this License, through a publicly available network server or other readily accessible means, then you must either (1) cause the Corresponding Source to be so available, or (2) arrange to deprive yourself of the benefit of the patent license for this particular work, or (3) arrange, in a manner consistent with the requirements of this License, to extend the patent license to downstream recipients. “Knowingly relying” means you have actual knowledge that, but for the patent license, your conveying the covered work in a country, or your recipient's use of the covered work in a country, would infringe one or more identifiable patents in that country that you have reason to believe are valid.</p>
+
+    <p class='marginBelow'>If, pursuant to or in connection with a single transaction or arrangement, you convey, or propagate by procuring conveyance of, a covered work, and grant a patent license to some of the parties receiving the covered work authorizing them to use, propagate, modify or convey a specific copy of the covered work, then the patent license you grant is automatically extended to all recipients of the covered work and works based on it.</p>
+
+    <p class='marginBelow'>A patent license is “discriminatory” if it does not include within the scope of its coverage, prohibits the exercise of, or is conditioned on the non-exercise of one or more of the rights that are specifically granted under this License. You may not convey a covered work if you are a party to an arrangement with a third party that is in the business of distributing software, under which you make payment to the third party based on the extent of your activity of conveying the work, and under which the third party grants, to any of the parties who would receive the covered work from you, a discriminatory patent license (a) in connection with copies of the covered work conveyed by you (or copies made from those copies), or (b) primarily for and in connection with specific products or compilations that contain the covered work, unless you entered into that arrangement, or that patent license was granted, prior to 28 March 2007.</p>
+
+    <p class='marginBelow'>Nothing in this License shall be construed as excluding or limiting any implied license or other defenses to infringement that may otherwise be available to you under applicable patent law.</p>
+  </li>
+  <li>No Surrender of Others' Freedom.
+
+    <p class='marginBelow'>If conditions are imposed on you (whether by court order, agreement or otherwise) that contradict the conditions of this License, they do not excuse you from the conditions of this License. If you cannot convey a covered work so as to satisfy simultaneously your obligations under this License and any other pertinent obligations, then as a consequence you may not convey it at all. For example, if you agree to terms that obligate you to collect a royalty for further conveying from those to whom you convey the Program, the only way you could satisfy both those terms and this License would be to refrain entirely from conveying the Program.</p>
+  </li>
+  <li>Use with the GNU Affero General Public License.
+
+    <p class='marginBelow'>Notwithstanding any other provision of this License, you have permission to link or combine any covered work with a work licensed under version 3 of the GNU Affero General Public License into a single combined work, and to convey the resulting work. The terms of this License will continue to apply to the part which is the covered work, but the special requirements of the GNU Affero General Public License, section 13, concerning interaction through a network will apply to the combination as such.</p>
+  </li>
+  <li>Revised Versions of this License.
+
+    <p class='marginBelow'>The Free Software Foundation may publish revised and/or new versions of the GNU General Public License from time to time. Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns.</p>
+
+    <p class='marginBelow'>Each version is given a distinguishing version number. If the Program specifies that a certain numbered version of the GNU General Public License “or any later version” applies to it, you have the option of following the terms and conditions either of that numbered version or of any later version published by the Free Software Foundation. If the Program does not specify a version number of the GNU General Public License, you may choose any version ever published by the Free Software Foundation.</p>
+
+    <p class='marginBelow'>If the Program specifies that a proxy can decide which future versions of the GNU General Public License can be used, that proxy's public statement of acceptance of a version permanently authorizes you to choose that version for the Program.</p>
+
+    <p class='marginBelow'>Later license versions may give you additional or different permissions. However, no additional obligations are imposed on any author or copyright holder as a result of your choosing to follow a later version.</p>
+  </li>
+  <li>Disclaimer of Warranty.
+
+    <p class='marginBelow'>THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.</p>
+  </li>
+  <li>Limitation of Liability.
+
+    <p class='marginBelow'>IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+  </li>
+  <li>Interpretation of Sections 15 and 16.
+
+    <p class='marginBelow'>If the disclaimer of warranty and limitation of liability provided above cannot be given local legal effect according to their terms, reviewing courts shall apply local law that most closely approximates an absolute waiver of all civil liability in connection with the Program, unless a warranty or assumption of liability accompanies a copy of the Program in return for a fee.</p>
+  </li>
+</ol>
+<p class='marginBelow'>END OF TERMS AND CONDITIONS</p>
+
+<h1 class='aboutCls'>GNU LESSER GENERAL PUBLIC LICENSE</h1>
+<p>Version 3, 29 June 2007</p>
+
+<p>Copyright (C) 2007 Free Software Foundation, Inc. http://fsf.org/ </p>
+<p class='marginBelow'>Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.</p>
+
+<p>This version of the GNU Lesser General Public License incorporates the terms and conditions of version 3 of the GNU General Public License, supplemented by the additional permissions listed below.</p>
+<ol start='0'>
+  <li>Additional Definitions.
+    <p class='marginBelow'>As used herein, “this License” refers to version 3 of the GNU Lesser General Public License, and the “GNU GPL” refers to version 3 of the GNU General Public License.</p>
+
+    <p class='marginBelow'>“The Library” refers to a covered work governed by this License, other than an Application or a Combined Work as defined below.</p>
+
+    <p class='marginBelow'>An “Application” is any work that makes use of an interface provided by the Library, but which is not otherwise based on the Library. Defining a subclass of a class defined by the Library is deemed a mode of using an interface provided by the Library.</p>
+
+    <p class='marginBelow'>A “Combined Work” is a work produced by combining or linking an Application with the Library. The particular version of the Library with which the Combined Work was made is also called the “Linked Version”.</p>
+
+    <p class='marginBelow'>The “Minimal Corresponding Source” for a Combined Work means the Corresponding Source for the Combined Work, excluding any source code for portions of the Combined Work that, considered in isolation, are based on the Application, and not on the Linked Version.</p>
+
+    <p class='marginBelow'>The “Corresponding Application Code” for a Combined Work means the object code and/or source code for the Application, including any data and utility programs needed for reproducing the Combined Work from the Application, but excluding the System Libraries of the Combined Work.</p>
+  </li>
+  <li>Exception to Section 3 of the GNU GPL.
+    <p class='marginBelow'>You may convey a covered work under sections 3 and 4 of this License without being bound by section 3 of the GNU GPL.</p>
+  </li>
+  <li>Conveying Modified Versions.
+    <p>If you modify a copy of the Library, and, in your modifications, a facility refers to a function or data to be supplied by an Application that uses the facility (other than as an argument passed when the facility is invoked), then you may convey a copy of the modified version:</p>
+    <ol type='a'>
+      <li>under this License, provided that you make a good faith effort to ensure that, in the event an Application does not supply the function or data, the facility still operates, and performs whatever part of its purpose remains meaningful, or</li>
+      <li>under the GNU GPL, with none of the additional permissions of this License applicable to that copy.</li>
+    </ol>
+  </li>
+  <li>Object Code Incorporating Material from Library Header Files.
+    <p>The object code form of an Application may incorporate material from a header file that is part of the Library. You may convey such object code under terms of your choice, provided that, if the incorporated material is not limited to numerical parameters, data structure layouts and accessors, or small macros, inline functions and templates (ten or fewer lines in length), you do both of the following:</p>
+    <ol type='a'>
+      <li><li>Give prominent notice with each copy of the object code that the Library is used in it and that the Library and its use are covered by this License.</li>
+      <li>Accompany the object code with a copy of the GNU GPL and this license document.</li>
+    </ol>
+  </li>
+  <li>Combined Works.
+    <p>You may convey a Combined Work under terms of your choice that, taken together, effectively do not restrict modification of the portions of the Library contained in the Combined Work and reverse engineering for debugging such modifications, if you also do each of the following:</p>
+    <ol type='a'>
+      <li>Give prominent notice with each copy of the Combined Work that the Library is used in it and that the Library and its use are covered by this License.</p>
+      <li>Accompany the Combined Work with a copy of the GNU GPL and this license document.</p>
+      <li>For a Combined Work that displays copyright notices during execution, include the copyright notice for the Library among these notices, as well as a reference directing the user to the copies of the GNU GPL and this license document.</p>
+      <li>Do one of the following:
+        <ol>
+          <li>Convey the Minimal Corresponding Source under the terms of this License, and the Corresponding Application Code in a form suitable for, and under terms that permit, the user to recombine or relink the Application with a modified version of the Linked Version to produce a modified Combined Work, in the manner specified by section 6 of the GNU GPL for conveying Corresponding Source.</li>
+          <li>Use a suitable shared library mechanism for linking with the Library. A suitable mechanism is one that (a) uses at run time a copy of the Library already present on the user's computer system, and (b) will operate properly with a modified version of the Library that is interface-compatible with the Linked Version.</li>
+        </ol>
+      </li>
+      <li>Provide Installation Information, but only if you would otherwise be required to provide such information under section 6 of the GNU GPL, and only to the extent that such information is necessary to install and execute a modified version of the Combined Work produced by recombining or relinking the Application with a modified version of the Linked Version. (If you use option 4d0, the Installation Information must accompany the Minimal Corresponding Source and Corresponding Application Code. If you use option 4d1, you must provide the Installation Information in the manner specified by section 6 of the GNU GPL for conveying Corresponding Source.)</li>
+    </ol>
+    </li>
+  <li>Combined Libraries.
+    <p>You may place library facilities that are a work based on the Library side by side in a single library together with other library facilities that are not Applications and are not covered by this License, and convey such a combined library under terms of your choice, if you do both of the following:</p>
+    <ol type='a'>
+      <li>Accompany the combined library with a copy of the same work based on the Library, uncombined with any other library facilities, conveyed under the terms of this License.</li>
+      <li>Give prominent notice with the combined library that part of it is a work based on the Library, and explaining where to find the accompanying uncombined form of the same work.</li>
+    </ol>
+  </li>
+  <li>Revised Versions of the GNU Lesser General Public License.
+    <p class='marginBelow'>The Free Software Foundation may publish revised and/or new versions of the GNU Lesser General Public License from time to time. Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns.</p>
+
+    <p class='marginBelow'>Each version is given a distinguishing version number. If the Library as you received it specifies that a certain numbered version of the GNU Lesser General Public License “or any later version” applies to it, you have the option of following the terms and conditions either of that published version or of any later version published by the Free Software Foundation. If the Library as you received it does not specify a version number of the GNU Lesser General Public License, you may choose any version of the GNU Lesser General Public License ever published by the Free Software Foundation.</p>
+
+    <p class='marginBelow'>If the Library as you received it specifies that a proxy can decide whether future versions of the GNU Lesser General Public License shall apply, that proxy's public statement of acceptance of any version is permanent authorization for you to choose that version for the Library.</p>
+  </li>
+</ol>
+
+<h1 class='aboutCls'>APTO C++ LIBRARY</h1>
+
+<p class='marginBelow'>Copyright 2011-2016 David Michael Bryson. All rights reserved.</p>
+<p class='marginBelow'>http://programerror.com/software/apto</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<ol>
+  <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+  <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+  <li>Neither the name of David Michael Bryson, nor the names of contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS SOFTWARE IS PROVIDED BY DAVID MICHAEL BRYSON AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL DAVID MICHAEL BRYSON OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+
+<h1 class='aboutCls'>COREPLOT FRAMEWORKS</h1>
+
+<p class='marginBelow'>Copyright (c) 2010, Drew McCormack, Brad Larson, Eric Skroch, Barry Wark, Dirkjan Krijnders, Rick Maddy, Vijay Kalusani, Caleb Cannon, Jeff Buck, Thomas Elstner, Jeroen Leenarts, Craig Hockenberry, Hartwig Wiesmann.</p>
+<p class='marginBelow'>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+<ol>
+  <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+  <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+  <li>Neither the name of the Core Plot Project nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+    </div><span id='AvidaedaboutdetailBox_end' class='notSeen'></span>
+    </div><span id='AvidaedaboutDtailBxHldr_end' class='notSeen'></span>
+    <br><br>
+    </div><span id='AvidaEDaboutScrll_end'  class='notSeen'></span>
+    </div><span id='AvidaEDaboutModalContainer_end' class='notSeen'></span>
+    </div><span id='modalBig-content_end' class='notSeen'></span>
+    </div><span id='aboutAvidaED_ModalID_end' class='notSeen'></span>
+
+    
+    
+<!-------------------------------------------------------- Restart_Avida_with_in_same_browser_Session__Does_NOT_work -->
+    <div class="modal" id='restartAvidaDialog'>
+
+      <!-- Modal content -->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h2>There has been a fatal error in Avida</h2>
+        </div>
+        <div class="modal-body">
+          <p>Would you like to save or discard the current petri dish configuration before restarting Avida?</p>
+        </div>
+        <div class="modal-footer">
+          <button id='restartAvidaFrzConfig'>Freeze configuration</button>
+          <button id='restartAvidaNow'>Restart Avida (maintains current workspace)</button>
+        </div>
+      </div>
+    </div>
+
+
+<!-------------------------------------------------------------- Suggesting-restart-if-not-loaded-after-a-time-delay -->
+    <div id='appReloadModelID' class='modal'>
+      <div class='modal-body'>
+        <p>Please try re-loading<br />
+          Use your browser's reload function
+        </p>
+      </div>
+      <div class='modal-footer'>
+        <button id='appReloadCancel' type='button' onClick='function(){document.getElementById('appReloadModelID').style.display="none";}'>
+          close this dialog
+        </button>
+      </div>
+    </div>
+<!--------------------------------------------------------------------------------------------- end_app_Reload_Model -->
+
+    <span class='notSeen' id='o_____________________________________Save_time_recorder_data_to_a_csv_file_Modal_Box___'></span>
+    <div id='saveCSVdataModalID' class='modal'>
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <p>Write a data Recorder file</p>
+        </div>
+        <div class="modal-body">
+        The file name will be 'unknown' in safari
+          <p>paragraph 2</p>
+        </div>
+        <div class="modal-footer">
+          <button id='saveCSVdataModalCancel'>Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button id='saveCSVdataModalSave'>Save</button>
+        </div>
+      </div>
+    </div>
+    <span class='notSeen' id='o_________________________________end_Save_time_recorder_data_to_a_csv_file_Modal_Box___'></span>
+
+    <span class='notSeen' id='o______________________________________put_some_scripts_here_to_load_main_page_faster___'></span>    
+    <!-- yemi: import jQuery: -->
+    <!-- diane noted that separate jquery scource for dragulaDnd.js because, -->
+    <!-- diane did not explain the require statement in avidaED.js -->    
+    
+    <script src="lib/jquery-v3.4.1.min.js"></script>
+    <script type="text/javascript" src="lib/dragula/dragula-v3.7.2.min.js"></script> 
+    <script type='text/javascript' src='lib/dojo-release-1.16.4/dojo/dojo.js'
+          data-dojo-config="'parseOnLoad':false,'async':true,
+          'packages':[
+              {'name':'gridx','location':'../gridx'},
+              {'name':'clipart','location':'../clipart'},
+              {'name':'maqettaSamples','location':'../../samples'},
+              {'name':'maqetta','location':'../../maqetta'},
+              {'name':'jquery','location':'../../','main':'jquery-v3.4.1.min'},
+              {'name':'dragula','location':'../../dragula','main':'dragula-v3.7.2.min.js'},
+              {'name':'jquery-ui','location':'../../jquery-ui-1.12.1.custom','main':'jquery-ui.min'}
+          ],
+          'themeMap':[
+              ['Android','',['../../themes/android/android.css']],
+              ['BlackBerry','',['../../themes/blackberry/blackberry.css']],
+              ['iPad','',['../../themes/ipad/ipad.css']],
+              ['iPhone','',['../../themes/iphone/iphone.css']],
+              ['.*','',['../../themes/iphone/iphone.css']]
+          ],
+          'mblThemeFiles':[],
+          'mblLoadCompatModifier':''">
+    </script>
+    <script type='text/javascript' src='colormap.js'></script>
+    <script type='text/javascript' src='monoColor.js'></script>
+    <script type='text/javascript' src='globals.js'></script>
+    <script type='text/javascript' src='placeParent.js'></script>
+    <script type='text/javascript' src='utilities.js'></script>
+    <script type="text/javascript" src="dragulaDnd.js"></script>
+    <script type='text/javascript' src='avidaED.js'></script>
+  </body>
+</html>

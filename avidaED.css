@@ -1,0 +1,377 @@
+/*
+ * This file is provided for application-specific style rules.
+ *
+ * By default, Maqetta includes this CSS file within HTML pages
+ * authored in Maqetta.
+ *
+ * This file is typically used to override style rules found in
+ * theme CSS files. For example, suppose the theme CSS file has:
+ *
+ * .claro .dijitButton .dijitButtonNode {
+ *		padding:2px 4px 4px 4px;
+ * }
+ *
+ * But for your application suppose you want to tighten the padding
+ * for buttons. Then, you might include the following style rule
+ * in this file (assuming that you accept Maqetta's default where
+ * id 'myapp' is present on the BODY element, and assuming
+ * that you are using the 'claro' theme):
+ *
+ * #myapp.claro .dijitButton .dijitButtonNode {
+ *		padding:1px 3px 3px 3px;
+ * }
+ *
+ * Because of CSS precedence rules (see [1]), the above style rule
+ * (which begins with #myapp.claro) will 'win the cascade' versus
+ * the style rule from the theme CSS file due to the use of the
+ * ID select (#myapp), which has higher specificity than the class
+ * selectors used throughout the Claro theme.
+ *
+ * [1] http://www.w3.org/TR/CSS21/cascade.html#cascade
+ *
+ * Use rem rather than em so that nested elements use an equilivant size for 1rem
+ * the default for 1rem = 16px; 
+ * Xrem/1rem = 50px/16px
+ * Xrem = 1rem (50px/16px) = 3.125
+ * rem values are relative to the root font-size
+ * em values are relative to the font-size of the nearest parent element, 
+ *
+ */
+
+/* Notes about flex */
+    /* flex: [flex-grow] [flex-shrink] [flex-basis]; */
+    /* flex: [max] [min] [ideal size]; */
+    /* flex: 0 1 auto; /* Default flex value 0=grow=don't grow; take minimum size for the conents  */    
+    /* flex: 0 0 auto; /* stay the same size blasted element */    
+    /* flex: 1 1 auto; /* all elements will be the same size if all have this flex defintion and no content is too big */
+    /* flex: 1 1 auto; /* elements fill the container.
+    /* flex-shrink: 1 allows so shrinking */ 
+
+
+/****************************************************************************************************** css variables */
+/* Variables: global csss
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  /* several versions of rem-size so I could define two sizes in one css definition with the same ratio */
+  --rem-size0: calc((var(--pixel)/16) * 1rem);
+  --rem-size1: calc((var(--pix1)/16) * 1rem);
+  --rem-size2: calc((var(--pix2)/16) * 1rem);
+  /* To use on an HTML element, where pixel is defined in css/HTML element */
+  /* font-size: var(--rem-size0); */
+  --bitboxWd: 6px;
+  --bitboxHt: 6px;
+  --bitHolderWd: calc((var(--bitboxWd)*32)+2px);
+  --bitHolderHt: calc((var(--bitboxHt)*(var(--numlines)))+2px;)
+  /*  --numlines: 1; */
+  /*  height: var(--bitHolderHt); */ /* where numlines is defined */
+}
+ 
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding:0;
+  background: #F5F5F5; /* main Avida-ED background-color = aed_background */
+  font-family: Tahoma, Trebuchet MS, sans-serif;
+}
+
+/* diane's version  */
+button {
+   border: 1px solid #aaa;
+   display:inline;
+   cursor:pointer;
+   border-radius: 5px;
+   /* may change later- responsive button design */
+   /* min-width: 4.5vw; */
+ }
+ 
+
+/* Yemi made */
+button:hover {
+  background-color: #c3e0f7;
+  opacity: 50%;
+}
+
+/* Yemi made */
+input[type='button']:hover {
+  opacity: 50%;
+}
+
+.item:hover {
+  background-color: #afd9fa;
+  opacity: 50%;
+}
+
+/* Yemi made */
+canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* yemi: this is the make sure canvas fills the entire container while also maintaining aspect ratio */
+}
+
+div {
+  margin: 0;
+  padding: 0;
+}
+
+/* Yemi made */
+label {
+  margin-bottom: 0rem; /* yemi: overwrites margin on the bottom set by Bootstrap */
+}
+
+p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-family: Tahoma, Trebuchet MS, sans-serif;
+}
+
+li {
+  margin: 0px 0px 0px 0px;
+  font-family: Tahoma, Trebuchet MS, sans-serif;
+}
+
+ul {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-family: Tahoma, Trebuchet MS, sans-serif;
+}
+ 
+textarea {
+  outline: none;
+}
+
+/* Trying get headers back to default values
+/* this did not work I wanted to change for all headers inside the main div. */
+h1, h2, h3, h4, h5, h6 {
+   font-weight: bold;
+   margin: 0;
+   padding: 0;
+   font-family: Tahoma, Trebuchet MS, sans-serif;
+   cursor: no-drop;
+}
+#allAvidaContainer {
+   margin: 0;
+   padding: 0;
+}
+
+/* trying classe to get headers back to to what they should be 
+    hdf# classes were over written by .claro in document.css
+*/
+ .dfhd {
+   display: block;
+   font-weight: bold;
+   margin: 0rem;
+   padding: 0rem;
+   font-family: Tahoma, Trebuchet MS, sans-serif;
+   margin-block-start: 0rem;
+   margin-block-end: 0rem;
+   margin-inline-start: 0rem;
+   margin-inline-end: 0rem;
+   /* border: 1px solid black; */
+ } 
+ .hdf1 { font-size: 2.00rem; }
+ .hdf2 { font-size: 1.85rem;}
+ .hdf3 { font-size: 1.60rem; }
+ .hdf4 { font-size: 1.45rem; }
+ .hdf5 { font-size: 1.30rem; }
+ .hdf6 { font-size: 1.15rem; }
+
+ #splash{
+  display: block;
+  position: absolute; 
+  top: 0px; 
+  bottom: 0px; 
+  left: 0px; 
+  right: 0px; 
+  width: 100%; 
+  height: 100%; 
+  z-index: 1000; 
+  background: black;
+}
+
+#populationBlock {
+  display: flex;
+}
+#organismBlock{
+  display: flex;
+}
+#analysisBlock{
+  display: none;
+}
+
+.noSize{display: none}
+
+.notSeen{ margin: 0; display: none; }
+
+#anlDndChart {
+   width: 100%;
+   height: 100%;
+ }
+ 
+ div.odd {
+   background: #EEEEEE;
+   padding: 0.5em 0.5em 1em 0.5em;   /* top, right, bottom, left;  right and left were 0.3 before*/
+   clear: left;
+ }
+ 
+ .even {
+   background: #CCCCCC;
+   padding: 0.5em 0.3em 1em 0.5em;
+   clear: left;
+ }
+ 
+ .lftWide {
+   float: left;
+   width: 90%;
+ }
+ 
+ .ritThin {
+   float: right;
+   width: 10%;
+ }
+ 
+ .fltLeft {
+   float: left;
+ }
+ 
+ .lftmargin {
+   float: left;
+   clear: left;
+ }
+ .ritmargin {
+   float: right;
+   clear: right;
+ }
+ 
+ div.popStatsTitle {
+   overflow: visible;
+   background:#ffffff;
+   min-width: 170px;
+   text-align:left;
+   height:18px;
+   font-weight: bold;
+   width: 100%;
+ }
+ 
+ div.popStatsTableSot {
+   min-width: 169px;
+   background: #DDD;
+   width: 100%;   /* djb: no change seen */
+ }
+  
+ .bitButtonOff {
+   background: #fff;
+   color: #000;
+   border: 1px solid #aaa;
+   padding: 0px 0px 2px 0px;
+   height: 15px;
+   width: 45px;
+   display: block;
+   text-align: center;
+   font-family: Tahoma, Trebuchet MS, sans-serif;
+   text-decoration: none;
+ }
+ 
+ .bitButtonOn {
+   background: #fff;
+   color: #00f;
+   color: #00bb00;
+   border: 1px solid #00dd00;
+   padding: 0px 0px 2px 0px;
+   height: 15px;
+   width: 45px;
+   display: block;
+   text-align: center;
+   font-family: Tahoma, Trebuchet MS, sans-serif;
+   text-decoration: none;
+ }
+ 
+ .resourceButton {
+   width: 100px;
+ }
+ 
+ /* Tiba needs to delete all dojo and dijit references.  */
+ .dojoDndItem {
+   padding: 3px;
+ }
+ 
+ .dojoDndItemOver {
+   background: #EDEDED;
+   cursor: pointer;
+ }
+ 
+ .dojoDndItemSelected {
+   background: #5BBDEA;
+   color: #444444;
+ }
+ 
+ .dojoDndItemAnchor {
+   background: #5BBDEA;
+   color: black;
+ }
+ 
+ .dojoDndItemOver .dojoDndItemSelected {
+   background: #EDEDED;
+ }
+ 
+ .dojoDndItemOver .dojoDndItemAnchor {
+   background: #EDEDED;
+ }
+ 
+ .dojoDndItemBefore {
+   border-top: 2px solid #336699;
+ }
+ 
+ .dojoDndItemAfter {
+   border-bottom: 2px solid #336699;
+ }
+ 
+ .dojoDndAvatar {
+   border: 2px solid #CCCCCC;
+ }
+ 
+ .dojoDndAvatarHeader {
+   background: #AAAAAA;
+ }
+ 
+ .dojoDndAvatarItem {
+   background: #FFFFFF;
+   border-bottom: 1px solid #666666;
+ }
+ 
+ .dojoDndAvatarItem .itemText {
+   font-size: 120%;
+ }
+ 
+=======
+>>>>>>> origin/pre_wendell
+ .container {
+   min-height: 10px;
+   width: 100%;
+ }
+ 
+ /* dojo css */
+ 
+ .dijitBorderContainer {
+   padding: 1px;
+ }
+ 
+ .claro
+ .dijitBorderContainer-dijitContentPane {
+   background: #ffffff;
+   padding: 1px 1px 6px 1px;
+   margin: 1px
+ }
+  
+ /*
+ web pages about style sheets that are changed with javascript
+ https://www.w3.org/wiki/Dynamic_style_-_manipulating_CSS_with_JavaScript
+ http://www.shawnolson.net/a/503/altering_css_class_attributes_with_javascript.html  //confusing
+ */
+ 
+ 
+               

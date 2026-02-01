@@ -1,0 +1,2583 @@
+/*on data tab of population page */
+/*
+  {
+    box-sizing: border-box;  /* include padding and border in the elements width/size 
+  }
+
+*/
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*  I don't remmeber why this is here. Taking it out might be a problem DJB 2021_731'  
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  }
+*/
+  body {
+    margin: 0px;
+    background: #F5F5F5;
+    padding: 0px;
+    
+  }
+  .display_none { display: none; }
+  .display_inline-block{ display: inline-block }
+  .visibility_hidden {visibility: hidden; }
+  
+  .thin{
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  .tabHolderShow {
+    display: block;
+    width: 100%;
+  }
+  .tabHolderHide {
+    display: none;
+  }
+  
+.tab {
+  overflow: hidden;
+  /*border: 1px solid #ccc; */
+  border: none;
+  background: inherit;
+  /* float: right; */
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background: white;
+  float: left;
+  border: 1px solid black;
+  border-style: solid solid none;
+  border-radius: 9px 9px 0px 0px;
+  outline: none;
+  /* cursor: pointer; */
+  padding: 2px 9px;   
+  transition: 0.3s;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background: #ccc;
+}
+
+/* yemi: dragbar */
+.dragbar {
+  background-color:gray;
+  width :3px;
+  height : 100%;
+  cursor: col-resize;
+}
+
+.headerRow { grid-area: headerRow; }
+.mainBlockHolder { grid-area: mainBlockHolder; }
+.rightInfoHolder { grid-area: rightInfoHolder; }
+.navColClass {grid-area: navColID; }
+#dragbarLeft {grid-area: dragbarLeft; }    /* Yemi: float: right; */
+#dragbarRight {/* grid-area: dragbarRight; */  float: right; }  /* Yemi: float: right; automerge keeps removing this one Diane grid-area: dragbarRight; that was an intentional remove*/
+
+.all2rit{
+  display: grid;
+  grid-template-rows: 2rem auto;
+  grid-template-columns: 3px auto 400px;
+  grid-template-areas: 'headerRow headerRow headerRow' /* yemi: changed the number of cols to accomodate the dragbar */
+                        'dragbarLeft mainBlockHolder rightInfoHolder';
+  height: 100vh;
+  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
+  max-height: 100vh;
+  max-width: 100vw;
+  margin: 0px;
+  background:  #F5F5F5;   /* lightsalmon;  */
+}
+
+.all2lft{
+  display: grid;
+  grid-template-rows: 2rem 1fr; /* yemi: changed from 2.5em auto to 2.5 1fr */
+  grid-template-columns: 250px 3px auto;
+  grid-template-areas: 'headerRow headerRow headerRow' /* yemi: changed the number of cols to accomodate the dragbar */
+                        'navColClass dragbarLeft mainBlockHolder';
+  height: 99vh;
+  width: 100vw;
+  min-height: 98vh;
+  min-width: 100vw;
+  max-height: 99vh;
+  max-width: 100vw;
+  margin: 0px;
+  background:  #F5F5F5;   /* lightsalmon;  */
+}
+
+.all3pop{ 
+  display: grid;
+  grid-template-rows: 2rem 1fr;   /* 2.5em */
+  grid-template-columns: 240px 3px auto 3px 400px;    /* 440px */
+  grid-template-areas: 'headerRow headerRow headerRow headerRow headerRow' /* yemi: changed the number of cols to accomodate the dragbar */
+                        'navColClass dragbarLeft mainBlockHolder dragbarRight rightInfoHolder';
+  height: 99vh;
+  width: 100vw;
+  min-height: 98vh;
+  min-width: 100vw;
+  max-height: 99vh;
+  max-width: 100vw;
+  margin: 0px;
+  background:  #F5F5F5;   /* lightsalmon;  */
+}
+
+.all3org{
+  display: grid;
+  grid-template-rows: 2rem 1fr; /* yemi: changed from 2.5em auto to 2.5 1fr */
+  grid-template-columns: 240px 3px auto 3px 220px;    /* 250px */
+  grid-template-areas: 'headerRow headerRow headerRow headerRow headerRow' /* yemi: changed the number of cols to accomodate the dragbar */
+                        'navColClass dragbarLeft mainBlockHolder dragbarRight rightInfoHolder';
+  height: 99vh;
+  width: 100vw;
+  min-height: 98vh;
+  min-width: 100vw;
+  max-height: 99vh;
+  max-width: 99vw;
+  margin: 0px;
+  background:  #F5F5F5;   /* lightsalmon;  */
+}
+
+
+/* just as an example of formating the div contained by the div with class = headerRow
+.headerRow > div {
+  background: inherit;
+}
+*/
+
+/* --------------------------------------------------------------------------------------------- header row formating */
+
+/* was in version 4.0.20 changing how I do headerRow from flex to grid, 
+ even as it is only one row. I think I can specify it better */
+
+#leftPnlBtnHolder { grid-area: leftPnlBtnHolder; }
+#mainMenu { grid-area: mainMenu; }
+.headerMsg { grid-area: headerMsg; }
+#RtSideToggleButtons { grid-area: RtSideToggleButtons; }
+#ritePnlBtnHolder { grid-area: ritePnlBtnHolder; }
+
+.headerRowSwitch_old_do_NOT_use {
+  grid-area:headerRow;
+  display: grid;
+  grid-template-rows: 1.1rem; 
+  grid-template-columns: 3.2rem           auto            40rem    5rem                3.2rem;
+  grid-template-areas: 'leftPnlBtnHolder headerMsg mainMenu RtSideToggleButtons ritePnlBtnHolder';
+  /* align-content: center; /*  baseline? */
+  align-items: baseline;  /* was center */
+  border: 1px solid #AAA;               /* #AAA; */
+}
+
+.headerRow {
+  grid-area:headerRow;
+  display: grid;
+  grid-template-rows: 1.1rem; 
+  grid-template-columns: 2.2rem          24rem    auto             5rem                3.2rem;
+  grid-template-areas: 'leftPnlBtnHolder mainMenu headerMsg RtSideToggleButtons ritePnlBtnHolder';
+  align-items: baseline;
+  /*   align-content: center; */
+  border: 1px solid #AAA;               /* #AAA; */
+  gap: 0px 0.625rem; /* row_gap col_gap   0.625rem = 10px */
+  background: inherit;
+}
+
+/* headerRow flex contains leftPnlBtnHolder mainMenu headerMsg RtSideToggleButtons ritePnlBtnHolder */
+
+#leftPnlBtnHolder{
+  padding: 0px 0px 0px 0.25rem;  /* top right bottom left */  
+}
+  #leftPanelButton{
+    border-radius: 5px 5px 5px 5px;                  /* top-left, top-right, bottom-right, bottom-left */
+    height: 1.25rem;   /* default 1.25rem = 20px */
+    padding: 0px 4px 0px 2px;  /* top right bottom left */  
+    text-align: center;
+    vertical-align: baseline;
+  }
+
+#ritePnlBtnHolder{ 
+  padding: 0px 0.375rem 0px 0px;  /* top right bottom left */  
+}
+
+#ritePanelButton{
+    border-radius: 5px 5px 5px 5px;                  /* top-left, top-right, bottom-right, bottom-left */
+    height: 1.25rem;
+    padding: 0px 4px 0px 2px;  /* top right bottom left */
+    text-align: center;
+    vertical-align: baseline;
+}
+
+/* headerRow flex contains leftPnlBtnHolder mainMenu headerMsg RtSideToggleButtons ritePnlBtnHolder */
+
+#mainMenu{
+  --pix1: 30; 
+  height: var(--rem-size1);  /* 1.875rem = 30px */
+  overflow: visible;       /* was scroll */
+  /* border: 1px solid red; */
+  /* background: pink; */
+}
+
+  #mnAvidaEd {white-space: nowrap;}
+  
+  #mnDebug {
+    visibility: hidden;
+    display: none;
+  }
+  
+  /* headerRow flex contains leftPnlBtnHolder mainMenu headerMsg RtSideToggleButtons ritePnlBtnHolder */
+   /* overflow: hidden;
+    text-overflow: ellipsis;  */
+
+#userErrorMsg {     /* class is headerMsg */
+    height: 1.25rem;
+    overflow: hidden;       /* was scroll */   
+    background: inherit;
+    vertical-align: baseline;
+  }
+  #wsSavedMsg{
+    color: blue;
+  }
+  
+/* headerRow contains leftPnlBtnHolder mainMenu headerMsg RtSideToggleButtons ritePnlBtnHolder */
+  
+  #RtSideToggleButtons{
+    background: inherit;     /* #eee; better color ? */
+    margin: 0px;     /* was 0px */
+    padding-bottom: 4px;
+  }
+
+  .toggleLftButton {
+    border-radius: 5px 0px 0px 5px;                  /* top-left, top-right, bottom-right, bottom-left */
+    height: 16px;   /* was 1.25rem; */
+    padding: 0px 2px 3px 2px;    /* top right bottom left */  
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .toggleRitButton {
+    border-radius: 0px 5px 5px 0px;   /* top-left, top-right, bottom-right, bottom-left */
+    height: 16px;            /* was 1.25rem; */
+    padding: 0px 2px 0px 2px;    /* top right bottom left */  
+    text-align: center;
+    vertical-align: middle;
+    margin-left: -4px;
+  }
+  
+  .activeBtn {
+    background: #ccc;
+  }
+  .restBtn {
+    background: #EFEFEF;
+  }
+  
+/* headerRow contains leftPnlBtnHolder mainMenu headerMsg RtSideToggleButtons ritePnlBtnHolder */
+
+/*----------------------------------------------------------------------------------------------- end of header row --*/
+
+.navColClass {                  /* left side bar with freezer */
+  grid-area:navColClass;
+  place-self: stretch;
+  /* width: 238px; */       /*was 152   340px*/
+  display: flex;
+  flex-direction: column;
+  background: #F5F5F5; /* lavender; */
+  border: 1px solid #AAA;
+  height: 100%;   
+  width: 100%;     
+  min-width: 160px; /* yemi: attempted to limit how much the user could shrink the left nav bar, but failed so far*/
+  max-width: 350px;
+}
+
+/*contains pages (population, Organsims, Analysis) */
+.mainBlockHolder{
+    grid-area:mainBlockHolder;
+    align-self: stretch;
+    background: #F5F5F5;     /* lightskyblue; */
+    height: 100%;
+    width: 100%;
+    max-height: 100vh;
+    border: 1px solid #AAA;
+    overflow: auto;
+    min-width: 150px; /* used to be 200px */
+  }
+
+  .footerRow {
+    border: 1px solid #AAA;
+  }
+
+  #rightInfoHolder {
+    grid-area: rightInfoHolder;
+    width: 100%;
+    border: 1px solid #AAA;      /*sot stat = 190;  popstat =234  for  424 */
+    background: #F5F5F5;
+    height: 100%;
+    overflow: hidden;    /* scroll;  */
+    max-width: 650px;
+  }  /* Contain the blocks popInfoVert and orgInfoHolder  */
+
+  #orgInfoHolder {
+    grid-area: orgInfoHolder;
+    border: 1px solid #AAA;
+    background-color: #F5F5F5;  /* mistyrose; */
+    height: 100%;
+    width: 100%;
+    min-width: 200px;
+    width: 220px;
+    font-family: Tahoma, Trebuchet MS, sans-serif;
+  }
+  
+<<<<<<< HEAD
+
+/* structures in the headerRow */  
+#leftPanelButton{
+    border-radius: 5px;                  /* top-left, top-right, bottom-right, bottom-left */
+    /* height: 16px; */
+    padding: 0px 4px 0px 5px;  /* top right bottom left */
+    alt: 'button to open/close left panel'; 
+    text-align: center;
+    vertical-align: middle;
+}
+/* not in use - used to get image to fit in a space better
+.scaleImg{
+  height: 80px;
+  object-fit: contain;
+}  
+*/
+.leftPnlBtnHlderShow{
+  height: 18px;
+  padding: 0px 6px 0px 4px;    /* top right bottom left */  
+  margin: auto;
+  background: inherit;     /* #eee; better color ? */
+  flex: 0 1 50px;
+}
+.pnlBtnHldrHide{
+  flex: 0 1 50px;
+  padding: 0px 6px 0px 4px;    /* top right bottom left */  
+  visibility: hidden;    
+}
+
+#ritePanelButton{
+    border-radius: 5px;                  /* top-left, top-right, bottom-right, bottom-left */
+    /* height: 16px; */
+    padding: 0px 5px 0px 4px;  /* top right bottom left */
+    alt: 'button to open/close right panel'; 
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ritePnlBtnHlderShow{
+  height: 18px;
+  padding: 0px 6px 0px 4px;    /* top right bottom left */  
+  margin: auto;
+  background: inherit;     /* #eee; better color ? */
+  flex: 0 1 50px;
+}
+
+  #mainMenu{
+    flex: 0 1 1000px;
+    --pix1: 30; 
+    height: var(--rem-size1)
+    border: 1px solid #888;
+    overflow: visible;       /* was scroll */
+    /* does not work=resize: horizontal; */
+    max-width: fit-content;
+  }
+
+  .claro .dijitMenuBar {
+    border: none;
+    background-color: inherit;
+  }
+  /* looks bad
+  #mnAvidaEd {border: 1px solid #999;}
+  #mnFile {border: 1px solid #999;}
+  #mnFreezer {border: 1px solid #999;}
+  #mnControl {border: 1px solid #999;}
+  #mnHelp {border: 1px solid #999;}
+  */
+  mnDebug {visibility: hidden;}
+  
+  #headerMsg{
+    overflow: visible;
+    flex: 3 3 auto; /* yemi: removal of this code results in weird header button spacing */
+    /* flex: [flex-grow] [flex-shrink] [flex-basis]; */
+    /* flex: [max] [min] [ideal size]; */
+    /* flex: 0 1 auto; /* Default flex value 0=grow=don't grow; take minimum size for the conents  */    
+    /* flex: 0 0 auto; /* stay the same size blasted element */    
+    /* flex: 1 1 auto; /* all elements will be the same size if all have this flex defintion and no content is too big */
+    /* flex: 1 1 auto; /* elements fill the container.
+    /* flex-shrink: 1 allows so shrinking */ 
+  }
+  #msgHolder {
+    padding: 4px 4px 4px 8px;    /* top right bottom left */   
+    height: 100%;
+  }
+  #wsSavedMsg{
+    color: blue;
+  }
+
+  #versionNumHolder{
+    display: none;  /* we are not displaying the version at this time */
+    flex: 0 0 auto;
+    padding-top: 5px;
+    width: 130px;
+    height: 25px;
+  }
+  
+  #avidaVersion{
+    display: none;
+    --pixel: 120; /* Equals to 120px */ 
+    width: : var(--rem-size0);
+    text-align: right;
+    --pix1: 3; /* Equals to 3px */ 
+    --pix2: 5; /* Equals to 5px */ 
+    padding: var(--rem-size1) var(--rem-size2) 0px 0px;  /* top right bottom left  */     
+    height: inherit;
+    vertical-align: middle;
+  }
+
+/*----------------------------------------------------------------------------------------- left side panel items  -- */
+  .mainPageButtons{
+    border: 1px solid #AAA;
+    width: 100%;
+    flex: 0 1 112px;
+  }
+  .PageButtonHolder {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .pageImgDiv{
+    flex: 0 1 60px;
+    padding: 1px 15px;
+  }
+  .pageButtonImg{
+    width: 32px;
+    height: 32px;
+  }
+  .pageButtonDiv{
+    flex: 0 1 auto;
+    padding: 1px 1px;     /* top right bottom left  */   /*top left/right bottom */ /*top/bottom  left/right */
+  }
+  .pageButton {
+    font-size: 13px;
+    padding:4px 8px;
+    border-radius: 5px;
+    min-width: 90px;
+  }
+  
+/* ----------------------------------------------------------------------------------- freezer section in left column */
+  
+#freezerSection{
+  border: 1px solid #BABABA;
+  flex: 1;                /* fills remaining space; flex:1 1 auto; is the same as flex:1; both prevent resize */
+  overflow:hidden;
+}
+#FreezerTitle {
+  font-size: 190%;
+  text-align:  center;
+  font-style: normal;
+  width: 100%;
+}
+.frzAccordion {
+  width: 100%;
+  overflow: auto;
+}
+.freezerSumCls{
+  font-size: 130%;
+  background: #EEE;      /* was #EEE; */
+  width: 100%;
+}
+.freezerContainer {
+  padding-left: 10px;
+  overflow: auto;
+}
+.freezerContainer:hover {
+  overflow-y: auto;
+}
+.freezerContainer>* {
+  max-width: 98%;
+}
+.DishIcon { height: 1rem; }  /* Yemi added for icons in freezer */
+.AvidianIcon { height: 1rem; }  /* Yemi added for icons in freezer */
+
+#fzTdishSec { visibility: hidden; }
+#testDishDetailDiv {display: none; }
+
+
+/* --------------------------------------------------------------------------------- debug buttons in freezer section */
+
+
+/* debug buttons moved to below freezer at bottom of that div and above the trashcan */
+
+#showTextDebugButtonDiv { 
+  grid-area: showTextDebugButtonDiv;
+  align-self: stretch;
+  justify-self: stretch;
+  display: flex;
+  visibility: hidden;
+  align-items: center;
+  justify-content: flex-end;
+}
+#developmentToggleDiv { 
+  grid-area: developmentToggleDiv;
+  align-self: stretch;
+  justify-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#showTextDebugButton{
+  min-width: 60px;
+  visibility: hidden;
+}
+#developmentToggle{
+  min-width: 60px;
+}
+.devoShow {
+  background: inherit;
+  color: black;
+  max-width:95%;
+}
+.devoCammo {        /* #notation with 4 or 8 chars should have opacity as the last section should work, but NetBeans does not like it*/  
+  border: none;                             /* #F5F5F500 should work, but net beans does not like it so some browsers might not like it */
+  background: inherit;
+  /* background-color: rgba(245,245,245,0); */   /*  rgba(245,245,245,0)  is #F5F5F5 with opacity set to 0.0;   */  
+  color: rgba(245,245,245,0);               /* 0.0 (fully transparent) to 1.0 (fully opaque); */
+}
+
+#showTextDebugBlock {
+  width: 100%;
+  height: 100%;
+  background: #F5F5F5;  /*lightgray;  */  
+}
+
+#showBigTextHolder {
+  background: #CCCCCC;
+  width: 100%;
+  height:95%;
+}
+
+#showBigTextarea{
+  resize: both;
+   -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    ;
+    /* cols:'150' rows:'50' */
+}
+
+/* ----------------------------------------------------------------------------------------- trash area below freezer */
+#trashCan { 
+  grid-area: trashCan;
+  align-self: stretch;
+  justify-self: stretch;
+  border-right: 1px solid #ccc;
+}
+
+#wsNameHolder { grid-area: wsNameHolder; }
+#userMsgLabel { grid-area: msgHolder; }
+
+/* modified to use with messages rather than debug buttons */
+.trash-grid-container{
+  display: grid;
+  grid-template-areas: 'trashCan wsNameHolder'
+                       'trashCan msgHolder';
+/*  align-items: center;   /* up down */
+  grid-template-columns: auto auto;
+  gap: 1px 3px;
+  width: 100%;
+  flex: 0 1 40px;
+  border: 1px solid #AAA;
+}
+
+/* -------------------------------------------------------------------------------- main work bench center section -- */
+.mainBlockClassRow {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  background: #F5F5F5; /* #F5F5F5;lightblue; */
+  /* max-height: 1060px; */
+}
+
+.orgBenchCol{
+  background: #F5F5F5; /* lightgoldenrodyellow;*/
+  flex: 1;                 /* fills remaining space; {flex:1 1 auto;} is the same as {}flex:1;} both prevent resize */
+  /* border: 1px solid #AAA; */ /* yemi: removed borders because I thought it was distracting */ 
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%; /* yemi */
+  /* max-height: 100%; */ /* yemi */
+  overflow:auto;
+  grid-template-rows: 2.5em auto ;
+}
+
+.popBenchCol{
+  background: #F5F5F5; /* lightgoldenrodyellow; */
+  flex: 1;                 /* fills remaining space; {flex:1 1 auto;} is the same as (flex:1;) both prevent resize */ 
+  /* flex: 0 1 auto;       should scale with window size, but does not do what I want???? */
+  /* border: 1px solid #AAA; */ /* yemi: removed border */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  overflow:hidden;
+}
+
+.benchPopTopRow {
+  flex:0 1 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  background: #F5F5F5; /* lightblue;  */
+  border: 1px solid #AAA;
+}
+
+#activeConfigHolder{
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#popTopDishIcon{
+  flex: 0 1 58px;
+}
+#activeConfig {
+  /* flex: 0 1 120px; */ /* yemi: this is not allowing for flexible resizing of the box, ironically */
+  padding: 5px 5px 0px 5px;      /* top right bottom left  */   /*top left/right bottom */ /*top/bottom  left/right */
+  width: fit-content;
+  min-height: 30px;
+  min-width: 6em;
+  border: 1px solid #CCCCCC;
+  display: inline-block;
+  overflow: visible;
+}
+
+#testConfigLableHolder {
+  padding-top: 5px;
+  width: fit-content;
+  min-height: 30px;
+  min-width: 6em;
+  border: 1px solid #CCCCCC;
+  display: none;
+  /* display: inline-block;  this gets changed in initializeDomReadyItems*/   
+  overflow: visible;
+}
+#testConfig {
+  padding: 5px 5px 0px 5px;      /* top right bottom left  */   /*top left/right bottom */ /*top/bottom  left/right */
+  width: fit-content;
+  min-height: 30px;
+  min-width: 6em;
+  border: 1px solid #CCCCCC;
+  /* display: inline-block;  */
+  overflow: visible;
+  display: none;
+}
+#popTopMsgSpace {
+  flex: 1 1 auto;          /* fills remaining space; {flex:1 1 auto;} is the same as {flex:1;} both prevent resize */
+  text-align: left;
+  padding-left: 4px;
+  margin: auto;
+}
+
+#gridHolder {
+  border: 1px solid #AAA;
+  flex: auto;  /* yemi: changed from 1 to auto */   
+  background: #F5F5F5; /* blue; */
+  overflow:auto;
+  /* min-width: 20px; */
+  margin: 0px;
+  padding: 3px;
+  background: darkgrey;
+}
+#gridCnvsHldr{
+  width:100%; /* yemi: makes sure the container fills the entire width of the space available */
+  height:100%; /* yemi: makes sure the container fills the entire height of the space available */
+  margin: auto;
+  padding: auto;
+}
+#ledgendHolder {
+  flex: 0 1 30px;  
+}
+#sclCnvsHldr { 
+  min-height: 30px;
+  grid-area: scaleCanvas; 
+  width: 100%
+}
+#scaleCanvas {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #DDDDDD;
+}
+.dadColorCls{
+  display: inline-block;
+  width: 15px;
+  height: 11px;
+  margin-top: 6px;
+}
+.dadNameCls {
+  display: inline-block;
+  min-width: 15px;
+  height: 15px;
+  padding-bottom: 2px;
+}
+.dadInfoCls {
+  flex: 1;
+  display: inline-block;
+  height: 18px;
+  padding: 0px 4px;
+}
+#dadLegendHldr{
+  display: grid;
+  grid-gap: 4px;
+  min-width: 30px;
+  min-height: 20px;
+  width: 99%;
+  margin-bottom: 5px;
+}
+
+#benchPopBot{
+  display: inline-block;
+  /* border: 1px solid #AAA; */ /* yemi: removed border */
+  min-height: 41px;
+  overflow: auto;
+  padding: 5px; /* yemi: added padding */
+  width: 100%; /* yemi: added width and height */
+  min-height: 30px;
+  background: #F5F5F5;
+  /* background: peachpuff; */
+};
+
+.popPgCntrlHldrCls {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  justify-content: space-between;
+  width: 100%; /* djb: added width and height */
+  height: 100%;
+  min-height: 30px;
+  /* background: lightblue; */
+}
+.popPgUnderTopRow {
+  display: flex;
+  justify-content: space-between;
+  /* background: palegoldenrod; */
+}
+.popPgUnderTopRowLft { 
+  min-width: 20px; padding-bottom: 5px; 
+  /* background: lightcyan; */
+}
+.popPgUnderTopRowCtr { 
+  min-width: 20px; padding-bottom: 7px; 
+  /* background: lightgrey; */
+}
+.popPgUnderTopRowRit { min-width: 20px; 
+  /* background: lightgreen; */
+}
+
+#TimeLabel { min-width: 10px; }  /* 71px "not started"; 51px "0 updates" */
+
+.popPgUnderBotRow {
+  display: flex;
+  justify-content: space-between;
+  /* background: palegreen; */
+}
+.popPgFreezeExperimentCls { min-width: 20px;}
+.gridUnderButCls { min-width: 20px; }
+.popPgUnderBotRowRit { min-width: 20px; }
+
+/* buttons under the grid */
+.benchBtns{
+  min-width: 4.5vw;
+}
+
+#avidianOutline { display: none; }
+
+
+
+
+
+/*
+.popPgUnderTopRowRit { grid-area: zoomSlide; visibility: hidden; }
+.timeUpdateCls { grid-area: timeUpdate; padding-bottom: 5px;}
+.popPgFreezeExperimentCls { grid-area: freezeButton;}
+.modeHldrCls { grid-area: modeHolder; padding-bottom: 5px; } 
+.gridUnderButCls { grid-area: gridButton; } 
+.popPgUnderBotRowRit { grid-area: rescaling; }
+.popBotRiteCls { grid-area: popBotRite;}  /* does not exist in html on 2022_108 2100 */
+/* rescaling is a label, not a button and it appears when the numerical values of the color scale change. 
+  grid-template-columns: 50% 50% 0px; /* yemi: since rescaling button is not implemented yet, we don't save a column for it now */
+/*
+.popPgCntrlHldrCls_old{
+  display: grid;
+  grid-template-areas: 'timeUpdate  modeHolder  rescaling'
+                       'freezeButton gridButton popBotRite';  
+  width: 100%;
+}
+*/
+
+/* ---------------------------------------------------------------------------- end main work bench center section -- */
+
+/* right informaton pannel on the populatoin page is all held by popInfoVert which is in #rightInfoHolder */
+
+#popInfoVert {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+    font-family: Tahoma, Trebuchet MS, sans-serif;
+  } /* contains: popInfoTabHolder & labInfoHolder */
+
+  #popInfoTabHolder {
+      flex: 0 0 24px;
+      align-items: baseline;
+  }
+  
+  .labInfoHoldCls {          /* right side panel with info about the lab benche */
+    flex: 1;                 /* fills remaining space; {flex:1 1 auto;} is the same as {}flex:1;} both prevent resize */ 
+    height: 100%;
+    width: 100%;
+    min-width: 200px; /* yemi:   */
+    /* max-width: 60vh; */ /* yemi: diane does not see why a max is needed: sometimes want popChart big */
+    max-width: 500px;
+    overflow: auto;
+  }
+  
+  #popStatsBlock{
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+  .labInfoClass{
+    background: #F5F5F5; /* lightsteelblue; */
+    height: 100%;
+  }
+  
+  .labInfoNone{
+    display: none;
+  }
+
+  .labInfoFlex{
+    display: flex;
+    flex-direction: column;
+  }
+  /* popStatsBlock (labInfoFlex) contains: */
+  
+  #environConfigEdit{
+    resize: both;
+    overflow: auto;
+  }
+
+  #popStatHolder{
+    flex: 1 1 280px;
+    /* default width of 356px min */ 
+    /* min-height: 280px; */
+  }
+  
+  /* contains SelOrgType & PopStats4Grid horizontal */
+  #popStatistics{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #AAA;
+    background: #FFF;   
+    height: auto;
+    resize: vertical;     /*should get yemi to replaces with a popChartDragbar */
+    overflow: auto;
+  }
+  
+#selOrgType{
+  /* yemi: used to be 1 1 auto; yemi commented this out; fills remaining space; flex:1 1 auto; is the same as flex:1; both prevent resize */
+  flex: 1 1 auto;    /* djb: 100 px becaome 192px; 150px became 167px */
+  border: 1px solid #AAA;
+  overflow: auto;  /* djb added might not be a good idea */
+  /* overflow: scroll; */ /* yemi: prevents awkward leftover space on the right when table gets smaller */
+}  /*contains sotTopTbID and sotBotTbCls  */
+
+#sotTopTbID { width: 100%; }
+#sotBopTable { width: 100%; background: white; }
+#sotColorBox { display: inline-block; width: 10px; height: 10px; border: solid 1px white; }
+  
+#popStats4grid{
+  flex: 1 1 auto; /* yemi: used to be 1 1 240px; yemi: fixed the weird width problem by useing 240px as the width; auto adjusts */     
+  border: 1px solid #AAA;
+  /* overflow: scroll; */ /* yemi: prevents awkward leftover space on the right when table gets smaller */
+} /* contains psTopTbID & psBotTbIdHold(psBotTbId) min-width: 168px;*/
+
+div.psTopTbIDHold { 
+  min-width: 168px;
+  background: #DDD; 
+}
+
+.popsTopTblcol1 {min-width: 10px; width: 127px }  /* Yemi removed min-width; Diane tried a smaller min-width; was 134px; 127 min */
+.popsTopTblcol2 {min-width: 45px; } /* yemi: changed from 45px to 60px */
+
+#psBotTbIdHold { width: 100%; background:white; }
+
+table.sotTopTbCls {
+  white-space: nowrap;
+  border-collapse: collapse;
+  /* margin: auto;   /* centers the table */
+  border: 0;
+  padding: 0;
+  table-layout: auto;
+}
+.sotTopTbCls th, .top td {  padding: 0px;  }
+.topTable tr *:nth-child(1) {
+  text-align: right;
+}
+.sotTopTbCls tr *:nth-child(2) {
+  width: 50%;
+}
+
+.sotTopTbCls tr:nth-child(odd) {background: #D7D7D7}
+.sotTopTbCls tr:nth-child(even) {background: #DDDDDD}
+ 
+ .table.psTopTbCls {
+/*  margin: auto;  /* centers table in div */
+  border: 0;  
+  padding: 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 150px;
+}
+
+ table.psTopTbCls {
+   border-collapse: collapse;
+   border: 0;
+   padding: 0;
+   width: 100%;
+   font-size: 1em;
+ }
+ .psTopTbCls tr:nth-child(odd) {background: #D7D7D7}
+ .psTopTbCls tr:nth-child(even) {background: #DDDDDD}
+ 
+ table.sotBotTbCls {
+   border: 0;
+   padding: 0;
+   border-collapse: collapse;
+   width: 100%; /* yemi */
+   background: white;
+ }
+ 
+ .sotBotTbCls th { line-height: 17px; font-weight: bold; }
+ .sotBotTbCls td { line-height: 15px; }
+ 
+ .sotBotTbCls tr:nth-child(even) {background: #F4F4F4}
+
+.noWrapTitle {
+  text-align:center;
+  font-weight: bold;
+  max-height: 15px;
+  overflow: hidden;
+}
+
+ .sotR {
+   text-align:left;
+   padding-left: 1px;
+   max-height: 15px;    /* from noWrapR */
+   overflow: hidden;
+   width: 100%;
+ }
+ 
+ .sotL {
+   text-align:right;
+   max-height: 15px;
+   /* width: 110px; */ /* yemi */
+   overflow: hidden;
+ }
+ .sotodd {
+   background: #BBB;   /* #D7D7D7;    */
+   align-self: center;
+   max-height: 15px;
+ }
+ .sotEven {
+   background: #DDD;
+   align-self: center;
+   max-height: 15px;
+ }
+ .popButCls{
+   padding: 0px 2px 0px 2px;  
+   max-height: 15px;
+ }
+ .sotFn {
+   text-align:center;
+   max-height: 15px;
+ }
+ .sotNumDoFn {
+   text-align:center;
+   max-height: 15px;
+ }
+
+.popFnNum {
+  text-align:center;
+  max-height: 15px;
+}
+
+table.psBotTbCls {
+/*  margin: auto;  /* centers table in div */
+  border: 0;   padding: 0;
+  border-collapse: collapse;
+  width: 100%;
+  background: white;
+  table-layout: auto;
+}
+.popsBotTblcol1 {width: 55px; }
+.popsBotTblcol2 {width: 13px; }
+.popsBotTblcol3 {width: 110px; }
+
+.psBotTbCls tr:nth-child(even) {background: #F4F4F4}
+.psBotTbCls th { line-height: 17px; font-weight: bold; }
+.psBotTbCls td {  line-height: 15px;  }
+
+#logTit6 { font-style: italic; color: dimgray; }
+#logTit7 { font-style: italic; color: dimgray; }
+
+/* end ---------------------------------------------------------------------------- Population (right) side of tables */
+
+#dnaLabel {display: none}  /* used to see genome for debug only */
+/*--------------------------------------------------------------------------------------------- Resource Data Table --*/
+#resrceDataHolder{
+  display: inline-block;
+  /* flex: 0 0 auto; */
+  border: 1px solid #AAA;
+  min-width: 312px;
+  min-height: 49px; 
+  width: 100%;
+  overflow-y:hidden;
+  overflow-x: auto;
+}
+
+/* background colors set for order used in sugarGlobal-gridContainer */
+.sugarTsk{  /*Resource */
+  background: #DDD; /* #DDD; */
+  border: 1px solid #BBB;   /*lower darker*/
+  text-align: center;
+}
+.mxTask{  /* Highest*/
+  display: none;
+  background: #CCC; /* #EEE; */
+  border: 1px solid #BBB;   /*lower darker*/
+  text-align: center;
+}
+.cellTask{    /* Type */
+  background: #EEE; /*#DDD;*/
+  border: 1px solid #BBB;   /*lower darker*/
+  text-align: center;
+}
+.totTask{   /* Amount */
+  background: #DDD; /* #EEE; */
+  border: 1px solid #BBB;   /*lower darker*/
+  text-align: center;
+}
+
+ #sgrTop{grid-area: sgrTop}  #sgrNot{grid-area: sgrNot}  #sgrNan{grid-area: sgrNan}  #sgrAnd{grid-area: sgrAnd}  #sgrOrn{grid-area: sgrOrn}  #sgrOro{grid-area: sgrOro}  #sgrAnt{grid-area: sgrAnt}  #sgrNor{grid-area: sgrNor}  #sgrXor{grid-area: sgrXor}  #sgrEqu{grid-area: sgrEqu}
+  #mxTop{grid-area:  mxTop}   #mxNot{grid-area:  mxNot}   #mxNan{grid-area:  mxNan}   #mxAnd{grid-area:  mxAnd}   #mxOrn{grid-area:  mxOrn}   #mxOro{grid-area:  mxOro}   #mxAnt{grid-area:  mxAnt}   #mxNor{grid-area:  mxNor}   #mxXor{grid-area:  mxXor}   #mxEqu{grid-area:  mxEqu}
+#cellTop{grid-area:cellTop} #cellNot{grid-area:cellNot} #cellNan{grid-area:cellNan} #cellAnd{grid-area:cellAnd} #cellOrn{grid-area:cellOrn} #cellOro{grid-area:cellOro} #cellAnt{grid-area:cellAnt} #cellNor{grid-area:cellNor} #cellXor{grid-area:cellXor} #cellEqu{grid-area:cellEqu}
+ #totTop{grid-area: totTop}  #totNot{grid-area: totNot}  #totNan{grid-area: totNan}  #totAnd{grid-area: totAnd}  #totOrn{grid-area: totOrn}  #totOro{grid-area: totOro}  #totAnt{grid-area: totAnt}  #totNor{grid-area: totNor}  #totXor{grid-area: totXor}  #totEqu{grid-area: totEqu}
+
+/* used in basic mode */
+ .sugarGlobal-gridContainer {   /*on stats tab of population page   resourceDataGrid held by resrceDataHolder */
+  display: grid;
+  grid-template-areas: ' sgrTop  sgrNot  sgrNan  sgrAnd  sgrOrn  sgrOro  sgrAnt  sgrNor  sgrXor  sgrEqu'
+                       'cellTop cellNot cellNan cellAnd cellOrn cellOro cellAnt cellNor cellXor cellEqu'
+                       ' totTop  totNot  totNan  totAnd  totOrn  totOro  totAnt  totNor  totXor  totEqu';
+  grid-template-columns: 3fr      2fr    2fr    2fr    2fr    2fr    2fr    2fr    2fr    2fr; 
+  width: 100%;
+  overflow: auto;
+  justify-content: stretch;
+}
+
+.sugarLocal-gridContainer {   /*on stats tab of population page */
+  display: grid;
+  grid-template-areas: ' sgrTop  sgrNot  sgrNan  sgrAnd  sgrOrn  sgrOro  sgrAnt  sgrNor  sgrXor  sgrEqu'
+                       '  mxTop   mxNot   mxNan   mxAnd   mxOrn   mxOro   mxAnt   mxNor   mxXor   mxEqu'
+                       'cellTop cellNot cellNan cellAnd cellOrn cellOro cellAnt cellNor cellXor cellEqu';
+  grid-template-columns: 3fr      2fr    2fr    2fr    2fr    2fr    2fr    2fr    2fr    2fr; 
+  width: 99%;
+  justify-content: stretch;
+}
+
+.sugarBoth-gridContainer {   /*on stats tab of population page */
+  display: grid;
+  grid-template-areas: ' sgrTop  sgrNot  sgrNan  sgrAnd  sgrOrn  sgrOro  sgrAnt  sgrNor  sgrXor  sgrEqu'
+                       '  mxTop   mxNot   mxNan   mxAnd   mxOrn   mxOro   mxAnt   mxNor   mxXor   mxEqu'
+                       'cellTop cellNot cellNan cellAnd cellOrn cellOro cellAnt cellNor cellXor cellEqu'
+                       ' totTop  totNot  totNan  totAnd  totOrn  totOro  totAnt  totNor  totXor  totEqu';
+  /* background: mistyrose; */
+  width: 100%;
+  justify-content: stretch;
+/*  grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+  background: mistyrose;
+  width: 100%;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+/*  background: #FFF;   /* #DDD; */
+}
+/*----------------------------------------------------------------------------------------- end Resource Data Table --*/
+
+/*----------------------------------------------------------------------------------- mini-Chart on Population Page --*/
+
+#popChrtHolder{
+  display: flex;
+  flex: auto;        /* fills remaining space; {flex:1 1 auto;} is the same as {}flex:1;} both prevent resize */
+  border: 1px solid #AAA;
+  height: 100%;
+  width: 100%;
+}
+
+#popChrtCntrlHldr{
+  flex: 0 0 20px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #AAA;   
+  overflow: auto;
+  min-width: 320px;   /* only have room for 312; or just make resource info table wider */
+  min-height: 20px;
+  overflow: auto;
+}
+/*
+#popChrtlftYaxHldr{
+  min-width: 193px;
+}
+#popChrtRitYaxHldr{
+  min-width: 146px;
+}
+*/
+
+/* option to look at data only on organisms that have produced offspring; need to delete logic ad then option */
+#popChrtRitYmomsOnly{ display: none; }  
+
+/*------------------------------------------------------------------------------- end mini-Chart on Population Page --*/
+
+/*-------------------------------------------------------------------------------- pause options on Population Page --*/
+
+#pauseOptions {
+  flex: 0 0 20px;
+  align-items: center;
+  /* border: 1px solid #AAA; */
+  background: #DDD;
+  min-width: 320px;
+}
+#pausePrefix { display: inline-block; }
+#pauseMidText { display: inline-block; }
+#itemDone1st { display: none; }
+#pauseChkTxt { display: inline-block; }
+#autoPauseNum { display: inline-block; width: 60px; }
+#autoPauseCheck {}
+#pauseCriteriaHolder { }  /* tried to use to give a white background to select box rather than a inherit background */
+  
+input:focus {
+/*  background-color: yellow;  */
+}
+
+#scrollBarSpace { background: #DDD; min-width: 320px; }
+/*---------------------------------------------------------------------------- end pause options on Population Page --*/
+
+/*------------------------------------------------------------------------------------------------ mutation Sliders --*/
+
+#mutePopNputHldr {
+  /* background: lightpink; */
+}
+#mutePopInput{
+  width:4em;
+  height:1.5em;
+  margin: 0px 2px;     /* top right bottom left  */   /*top left/right bottom */ /*top/bottom  left/right */
+  display: inline-block; 
+  float: left;
+}
+#mutePopSldHldr{
+  background-color: inherit;
+  width: 100%;
+  height: 1em;  /* was 1.5em */
+  padding: 0em 0.3em 0em 0em;   /* top, right, bottom, left; */
+}
+#mutePopSlide {
+  display: block; 
+  vertical-align: top; 
+  background: #666;  /* #888; */
+  /* padding: 20px auto; 
+    margin: auto; 
+*/
+}
+#mutePopError {  
+  width: 100%; height: 1.1em;
+  /* background-color: lightyellow;  */
+  /* text-align: left; */
+}
+
+.muteInputVertSpace {
+  height:0.7em;  /* not in mutePop ,used in muteOrg */
+}
+.muteBeloSlideVertSpace{
+  height: .5em;
+}
+
+/* holdes both input box and slider (and text) */
+.muteOrgAllHldr{
+  flex: 1;          /* supposed to expand to fill remainting space, but not working */
+  background: #CCCCCC;   /* burlywood to see */
+  min-width: inherit;
+  min-height: 1em;    
+  padding: 1em 0.5em 2em 0.5em;   
+}
+/* top, right, bottom, left;  right and left were 0.3 before*/
+#muteOrgInput{
+  width:4em;
+  height:1.5em;
+}
+#muteOrgSldHldr{
+  background-color: inherit;
+  width: 100%;
+  height: 1em;
+}
+#muteOrgSlide {
+/* width: 150px;*/ /* was 200px; */ /* make it fit the entire width of the right side panel*/
+/* height: 400px;  */  /* use for verticle slide */
+display: block; 
+vertical-align: top; 
+padding: 20px auto;
+margin: auto; 
+background: #888;
+}
+
+/*---------------------------------------------------------------------------------------- Setup on Population Page --*/
+#environmentSettingTitle{
+  font-size: 130%;
+}
+.enviroSubHeading {
+  display: inline;
+  font-size: 120%;
+}
+
+.colrow {
+  width: 4.5em; height:1.5em;  
+}
+
+.ancestorContainer {
+  grid-area: ancestorContainer;
+  display: block;
+  resize:both;
+  overflow:auto;
+  min-height: 30px;
+  width: 200px;
+  border: 1px solid black;
+  background: white;
+}
+
+#geometryHideButton {
+  grid-area: geometryHideButton;
+  display: none;  /* inline-block;  */
+  min-height: 30px;
+  min-width: 30px;
+  color: #EEEEEE; /*background color of 'odd' rows */
+}
+
+#ancestorRow {
+  display: grid;
+  grid-template-areas: 'ancestorContainer geometryHideButton';
+  grid-template-columns: auto auto;
+  grid-column-gap: 1px;
+  width: 100%;
+  justify-content: start;
+}
+
+.next2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.flxItem {flex: none;}
+
+/* radio buttons from  https://codepen.io/Noeh-l/pen/QWVxdNr */
+/* https://freefrontend.com/css-radio-buttons/ */
+
+input[type="radio"] {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 0.9rem;
+	height: 0.9rem;
+	border: 1px solid #555;
+	border-radius: 50%;
+	margin-right: 0px;
+	background-color: transparent;
+	position: relative;
+	top: 2px;
+}
+
+input[type="radio"]:checked::before {
+	content: "";
+	display: block;
+	width: 0.6rem;
+	height: 0.6rem;
+	background-color: #444;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: appear 0.8s;
+}
+
+
+
+/* Evidently cannot click a button with visibility: hidden or display;none */
+.geoButtonShow {
+  background: inherit;
+  color: black;
+}
+.geoButtonCammo {        /* #notation with 4 or 8 chars should have opacity as the last section should work, but NetBeans does not like it*/  
+  border: none;                             /* #F5F5F500 should work, but net beans does not like it so some browsers might not like it */
+  background-color: inherit;    /*  rgba(245,245,245,0)  is #F5F5F5 with opacity set to 0.0;   */  
+  color: #EEEEEE;          /* 0.0 (fully transparent) to 1.0 (fully opaque); background color of odd row is #EEEEEE; */
+  
+}
+
+
+/* from: https://stackoverflow.com/questions/51131818/how-to-vertically-align-detailss-arrow-with-summarys-content */
+/* this section formats the details summary */
+/* I'm not sure it is a good idea */
+/* This works for the Freezer detail-summary, 
+    but the in summary with display: grid the triangle wer on the right. They were Not in the grid-template-areas: */
+
+summary::-webkit-details-marker {
+  display: none
+}
+
+summary > div {
+  display: inline-block;
+  vertical-align: middle;
+}
+details summary > * {
+  display: inline;
+}
+
+/* This was to try to get the inline behavoir above I think. 
+summary {
+  display: block
+}
+summary:before {
+  grid-area: detailArrow;
+  content: "►";
+  margin: 0px;
+}
+
+details[open] summary:before {
+  content: "▼";
+}
+*/
+
+/*
+details summary { 
+  cursor: pointer;
+}
+*/
+
+/*************************************************************************** Sugar Accordion using details and select */
+/* Accodion using details/summary and hidden sections also defined here; one detail/summary for each logic task = surgar type */
+
+#sugarAccordion{
+  width: 100%;
+}
+#sugarNote {
+  text-align: right;
+  width: 100%;
+}
+.sgrAccordSectionCls{
+  width: 100%;
+  border-bottom: 1px solid #888;   /* #000 is black  */
+  display: inline-block;
+}
+
+.groupDebug{  display: inline; }
+.grooupLimited { display: inline; }
+.groupChemostat { display: inline; }
+.localChemostat { display: inline; }
+
+.2HalfLftRit { display: inline-block; }  //inline
+.3TopLftRit { display: none; }  //inline
+.4Quarters { display: none; }  //inline
+
+.TopLftRit{
+  display: inline-block;  
+}
+.Quarters{
+  display: inline-block;  
+}
+
+/*  might not work; need away to replace one debug class with the other without chainging the other classes */
+.debugInlineBlock{
+  display:inline-block;
+}
+.debugNone{
+  display: none;
+}
+
+.sgrDetailHoldCls {
+  /* background: rgba(255, 255, 255, 0.0); */
+  background: rgba(128, 128, 128, 0.2);      
+}
+.dishPartLabel{
+  font-size: 100%;
+  font-weight: bold;
+  color: #444;
+}
+
+#not_section{ border-bottom: 1px solid #888; }
+#nan_section{ border-bottom: 2px solid #222; }  /* #000 = black */
+#and_section{ border-bottom: 1px solid #888; }
+#orn_section{ border-bottom: 2px solid #222; }  /* #000 = black */
+#oro_section{ border-bottom: 1px solid #888; }
+#ant_section{ border-bottom: 2px solid #222; }  /* #000 = black */
+#nor_section{ border-bottom: 1px solid #888; }
+#xor_section{ border-bottom: 2px solid #222; }  /* #000 = black */
+#equ_section{ border-bottom: 1px solid #888; }
+
+/************************* Sugar controls layout in 'summary' of detail/summary for each task-sugar in sugar according */
+
+/*  This works fine, but his not needed. 
+.sgrRitSumCls { 
+  flex: 0 1 auto;
+  display: grid;
+  grid-template-areas: 'tskRewardCls';
+  grid-template-columns: 96px;
+  justify-items: end;
+  background: lightyellow;
+}
+*/
+
+.sumFtTxtCls { 
+  grid-area: sumFtTxtCls; 
+  display: inline-block; 
+}
+
+.sgrSumCls { 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --pix1: 0; /* Equals to 0px */
+  padding: var(--rem-size1) 0px 0px 0px;  /* top right bottom left  */       
+  height: 23px;  width: 100%;
+  
+/*  background: LightCyan;   */
+}
+.sgrLftSumCls { flex: 0 1 auto; }
+.sgrRitSumCls { flex: 0 1 auto; }   /* width: 96px; */
+
+.taskRewardCls { 
+  grid-area: tskRewardCls;
+  text-align: right;
+  height: 100%;
+  width: 96px;
+}
+
+.supplyTypeSClass {
+  --pixel: 77;
+  width: var(--rem-size0);
+}
+.sgrSlctCls{
+  --pix1: 2; /* equals 2px when used with --rem-size1 */
+  padding: 0px 0px 0px var(--rem-size1);  /* top right bottom left  */         
+}
+
+.sgrNputTxtCls {}
+
+/*---------------------------------------------------------- sugar summary grid container classes for tsk_sumLftGrid--*/
+/* geometryCls no longer in use, but need to keep until removed from javascript */
+.geometryCls{ grid-area:geometryCls; display: none; }
+
+.sgrTitleCls { grid-area: sgrTitleCls; display: inline-block; width: 54px; }
+.regionLaySumCls { grid-area: regionLayCls; display: inline-block; }
+.supply_HoldCls { grid-area: supply_HoldCls; display: inline-block; }
+.supplyWHoldCls { grid-area: supplyWdCls; display: inline-block;}
+.inflwSumCls { grid-area: inflwSumCls; display: inline-block; }
+.outflwSumCls { grid-area: outflwSumCls; display: inline-block; }
+.chmsttSumCls { grid-area: chmsttSumCls; display: inline-block; }
+.periodGlobalCheck { grid-area: periodGlobalCheck; display: inline-block; }
+.periodTimGlobCls { grid-area: periodTimGlobCls; display: inline-block; }
+.initialGlobCls { grid-area: initialGlobCls; display: inline-block; }
+
+.grd-sgr-sum-adv-glb-container {
+  display: inline-grid;
+  grid-template-areas: 'detailArrow sgrTitleCls regionLayCls supply_HoldCls';
+  justify-content: start; 
+  width: 100%;
+}
+.grd-sgr-sum-adv-glb-limited-container {
+  display: inline-grid;
+  grid-template-areas: 'detailArrow sgrTitleCls regionLayCls supply_HoldCls initialGlobCls';
+  justify-content: start; 
+  width: 100%;
+}
+.grd-sgr-sum-adv-limited-container {
+  display: grid;
+  grid-template-areas: "detailArrow sgrTitleCls regionLayCls geometryCls  supply_HoldCls initialGlobCls"
+                       "sgrTitleCls tskRewardCls  tskRewardCls tskRewardCls tskRewardCls   initialGlobCls";
+  /* grid-template-areas: "detailArrow sgrTitleCls regionLayCls geometryCls supplyWdCls supply_HoldCls initialGlobCls" */
+  /*                     "detailArrow sgrTitleCls tskRewardCls  tskRewardCls tskRewardCls tskRewardCls   initialGlobCls"; */
+  justify-content: start; 
+  min-height: 23px;  width: 100%;
+}
+.grd-sgr-sum-adv-chemo-container {
+  display: grid;
+  grid-template-areas: "detailArrow sgrTitleCls  regionLayCls geometryCls supplyWdCls supply_HoldCls periodTimGlobCls"
+                       "detailArrow sumFtTxtCls sumFtTxtCls  sumFtTxtCls sumFtTxtCls sumFtTxtCls   sumFtTxtCls";
+  justify-content: start; 
+  min-height: 23px;  width: 100%;
+}
+
+.grd-sgr-sum-adv-space {
+  display: grid;
+  grid-template-areas: "detailArrow sgrTitleCls  regionLayCls geometryCls supply_HoldCls sumFtTxtCls";
+  justify-content: start; 
+  min-height: 23px;  width: 100%;  
+}
+
+.grd-sgr-sum-global-container {
+  display: grid;
+  grid-template-areas: "detailArrow sgrTitleCls regionLayCls supply_HoldCls initialGlobCls";
+  justify-content: start; align-items: center;
+  height: 23px;
+}
+.grd-sgr-sum-global-limited-container {
+  display: grid;
+  grid-template-areas: "detailArrow sgrTitleCls regionLayCls supply_HoldCls initialGlobCls";
+  justify-content: start; align-items: center;
+  height: 23px;  
+}
+.grd-sgr-sum-global-chemo-container {
+  display: grid;
+  grid-template-areas: 'detailArrow sgrTitleCls regionLayCls supply_HoldCls tskRewardCls';
+  justify-content: start; align-items: center;
+  height: 23px;  width: 100%;
+}
+.grd-sgr-sum-global-chemo-container_block {
+  display: block;
+}
+.grd-sgr-sum-global-chemo-container_columns {
+  display: grid;
+  grid-template-areas: "detailArrow sgrTitleCls regionLayCls supply_HoldCls  chmsttSumCls inflwSumCls outflwSumCls";
+  justify-content: start; align-items: center;
+  height: 23px;  width: 100%;
+}
+/*-------  below this not in use -- */
+.grid-sugar-summary-geo-basic-container_ {
+  display: inline-grid;
+  grid-template-areas: 'detailArrow sgrTitleCls geometryCls supplyWdCls supply_HoldCls sumFtTxtCls initialGlobCls';
+  justify-items: start;  justify-content: start; 
+  width: 100%;
+  min-height: 23px;
+}
+/*------------------------------------------------------------------------ end sugar summary grid container classes --*/
+
+/*------------------------------------------------------------------------------------- sugar input class formatting --*/
+.sugPeriodNclass { width: 50px; height:13px; text-align:right; }
+.sugInitialNclass { width: 50px; height:13px; text-align:right; }
+.sugInitialHiNclass { width: 50px; height:13px; text-align:right; }
+.sugInitialLoNclass { width: 50px; height:13px; text-align:right; }
+.sugInflwHiNcls { width: 50px; height:13px; text-align:right; }
+.sugInflwLoNcls { width: 50px; height:13px; text-align:right; }
+.sgrOutflwHiNcls { width: 50px; height:13px; text-align:right; }
+.sgrOutflwLoNcls { width: 50px; height:13px; text-align:right; }
+
+
+/************************* Sugar controls layout in 'details' of detail/summary for each task-sugar in sugar according */
+/* period, gradient and diffuse were check boxes; now they are part of a drop down */
+.periodCheckDiv { grid-area: periodCheckDiv; display: none; }
+.gradientCheckDiv { grid-area: gradientCheckDiv; display: none; }
+.diffuseCheckDiv { grid-area: diffuseCheckDiv; display: none; }
+
+/* used as global resources can be periodic, but not in use now */
+.periodCheckGlobal { grid-area: periodCheckGlobal; display: none; }
+.detailTxtCls { grid-area: detailTxtCls; place-self: center;  }
+
+.initialHiDcls { grid-area: initialHi;}
+.initialLoDcls { grid-area: initialLo;}
+
+.inflwHiDcls { grid-area: inflowHi; place-self: center; }
+.inflwLoDcls { grid-area: inflowLo; place-self: center stretch; }
+
+.outflwHiDcls { grid-area: outflowHi; place-self: center; }
+.outflwLoDcls { grid-area: outflowLo; place-self: center; }
+
+ /* top right bottom left */  
+.chmsttHiDcls { grid-area: chmstatHi; place-self: center; }
+.chmsttLoDcls { grid-area: chmstatLo; place-self: center; }
+
+.sideTitleHiDcls { grid-area: sideTitleHi; place-self: center stretch; }
+.sideTitleLoDcls { grid-area: sideTitleLo; place-self: center stretch; }
+
+.sideNclass { grid-area: sideInput; }
+.supplyTypeHoldcls { grid-area: supplyDetailDiv; }
+
+.subSectionTitle { grid-area: subSectionTitle; width: 70px;}
+.sgrBlank { grid-area: sgrBlank; }
+
+.supplyModifierDivClass {grid-area: supplyModifierDivClass}
+.periodTimeDivClass { grid-area: periodTime; }
+
+.sgr-detail-adv-grd-container {
+  display: grid;
+  grid-template-areas: 'detailTxtCls detailTxtCls detailTxtCls'
+                       'inflowHi outflowHi chmstatHi';
+  justify-content: start; width: 100%;  
+}
+
+.sgr-detail-global-chemo-grid-container_block { display: block; height: 20pxs}
+
+.sgr-detail-global-chemo-grid-container {
+  display: grid;
+  grid-template-areas: 'inflowHi outflowHi chmstatHi';
+  justify-content: start; width: 100%;  
+}
+
+.sgr-detail-global-chemo-grid-container_periodic {
+  display: grid;
+  grid-template-areas: 'periodGlobalCheck periodTime periodTime'
+                       'inflowHi outflowHi chmstatHi';
+  justify-content: start; width: 100%;  
+}
+
+.sgr-detail-global-chemo-grid-container_control_in_summary {
+  display: grid;
+  grid-template-areas: 'detailTxtCls chmstatHi inflowHi outflowHi';
+  grid-template-columns: 150px 65px 65px 65px;
+  justify-items: start;  justify-content: start; 
+  width: 100%; min-height: 23px;
+}
+
+.grid-sugarDetail-globalsugarDetail-chemostat__ {
+  display: grid;
+  grid-template-areas: 'inflowHi outflowHi chmstatHi';
+  justify-items: start;  justify-content: start; 
+  width: 100%; height: 23px;
+}
+
+.grid-sugarDetail-multi-unlimited-container {
+  display: grid;
+  grid-template-areas: 'subSectionTitle supplyDetailDiv';
+  justify-items: start;  justify-content: start; width: 100%;
+}
+
+.grid-sugarDetail-Limited-container {
+  display: grid;
+  grid-template-areas: 'subSectionTitle supplyDetailDiv supplyModifierDivClass periodTime'
+                       'initialHi       initialHi       initialHi            initialHi';
+  justify-items: start;  justify-content: start; width: 100%;
+}
+
+.sugarColsDetail-limited-gradient-container {
+  display: grid;
+  grid-template-areas: 'subSectionTitle supplyDetailDiv supplyDetailDiv supplyModifierDivClass supplyModifierDivClass periodTime'
+                       'initialHi       initialHi       sideInput       sideInput             initialLo             initialLo';
+  justify-items: start;  justify-content: start; width: 100%;
+  align-items: stretch;
+}
+.sugarColsDetail-limited-container {
+  display: grid;
+  grid-template-areas: 'subSectionTitle supplyDetailDiv supplyDetailDiv supplyModifierDivClass supplyModifierDivClass periodTime'
+                       'initialHi       initialHi       initialHi       initialHi             initialHi             initialHi';
+  justify-items: start;  justify-content: start; width: 100%;
+  align-items: stretch;
+}
+
+.sugarColsDetail-chemostat-container {
+  display: grid;
+  grid-template-areas: 'subSectionTitle supplyDetailDiv supplyDetailDiv supplyModifierDivClass supplyModifierDivClass periodTime'
+                       'inflowHi        inflowHi        outflowHi       outflowHi             chmstatHi             chmstatHi';
+  justify-items: start;  justify-content: start; width: 100%;
+  align-items: stretch;
+}
+.sugarColsDetail-chemostat-gradient-container {
+  display: grid;
+  grid-template-areas: 'subSectionTitle supplyDetailDiv supplyDetailDiv supplyModifierDivClass supplyModifierDivClass sideInput'
+                       'inflowHi        inflowHi        outflowHi       outflowHi             chmstatHi             chmstatHi';
+                       'inflowLo        inflowLo        outflowLo       outflowLo             chmstatLo             chmstatLo';
+  justify-items: start;  justify-content: start; width: 100%;
+  align-items: stretch;
+}
+
+.grid-sugarDetailAll-container {
+  display: grid;
+  grid-template-areas: 'subSectionTitle supplyDetailDiv'
+                       'sideInput sideInput'
+                       'periodCheckDiv periodTime'
+                       'gradientCheckDiv diffuseCheckDiv'
+                       'sideTitleHi sideTitleLo'   
+                       'initialHi initialLo'
+                       'inflowHi inflowLo'
+                       'outflowHi outflowLo'
+                       'chmstatHi chmstatLo';
+  justify-items: start;  justify-content: start; width: 100%;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+.grid-sugarDetail-item{
+/*  background: rgba(128, 128, 128, 0.2);    */
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  text-align: left;
+  padding: 1px 1px;
+  min-height: 22px;
+}
+.sgrTitleCls{
+  width: 57px;
+  font-size: 110%;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.subSectionTitle{
+  text-align: left;
+  font-weight: bold;
+  font-size: 100%;
+  //color: black;
+}
+
+.sideTitleHi{
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  color: #666;
+}
+.sideTitleLo{
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  color: #666;   /* a nice dark grey for bold text that should not be as prominiate as black bold text */
+}
+
+/* ----------------------------------------------------------------- Footer controls that change all tasks are here --*/
+/* background: inherit */
+#allSugarGeometry {display: none;}    /* probably need to delete this option */
+
+
+#sugarSetTitle { grid-area:setTitle; justify-self: right; background: inherit; font-size: 110%; }
+#allSugarGeometryDiv { grid-area:geometryDiv ; justify-self: center; display: none; }
+#allSugarsupplyTypeHolder { grid-area:supplyTypeHolder ; justify-self: center; }
+#allSugarRegionLayoutDiv { grid-area:regionLayoutDiv; justify-self: center; }
+#allSugarDetailsDiv { grid-area:detailDiv; justify-self: lefts; }
+#allSugarModifierDiv { grid-area:patternDiv; justify-self: center; }
+
+/* delete in 2021 #allSugarDiffusionDiv  { grid-area:diffusionDiv; justify-self: center; } */
+
+#geometrySgr { grid-area:geometrySgr; justify-self: center; background: inherit; display: none; }
+#supplyTypeSlctSgr { grid-area:supplyTypeSlctSgr; justify-self: center; background: inherit;}
+#regionLayoutSgr { grid-area:regionLayoutSgr; justify-self: center; background: inherit;}
+#patternSgr { grid-area:patternSgr; justify-self: center; background: inherit;}
+#showHideSgr { grid-area:showHideSgr; justify-self: right; background: inherit;}
+
+#allSgr4Blnk { grid-area: allSgr3Blnk; }
+#allSgr4Blnk { grid-area: allSgr4Blnk; }
+#allSgr5Blnk { grid-area: allSgr5Blnk; }
+
+.changeAllSugarsGlobal {
+  display: grid;
+  grid-template-areas: 'setTitle supplyTypeSlctSgr supplyTypeHolder showHideSgr detailDiv'
+                       'setTitle regionLayoutSgr   regionLayoutDiv  patternSgr  patternDiv';
+  justify-items: start;  justify-content: start; width: 100%;
+  background: #DDD;   /* #AAA; is too dark now */    
+}
+
+.changeAllSugarsAdvanced {
+  display: grid;
+  grid-template-areas: 'setTitle    setTitle        showHideSgr   detailDiv'
+                       'geometrySgr regionLayoutSgr supplyTypeSlctSgr patternSgr'
+                       'geometryDiv regionLayoutDiv supplyTypeHolder  patternDiv';
+  justify-items: start;  justify-content: start; width: 100%;
+  background: #DDD;   /* #AAA; is too dark now */    
+}
+
+.changeAllSugarsBasic {
+  display: grid;
+  grid-template-areas: 'setTitle    supplyTypeSlctSgr   supplyTypeHolder';
+  width: 100%;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background: #DDD;   /* #AAA; is too dark now */  
+}
+
+.changeAllSugarsTogetherContainer {
+  display: grid;
+  grid-template-areas: 'setTitle    setTitle        showHideSgr   detailDiv'
+                       'geometrySgr regionLayoutSgr supplyTypeSlctSgr patternSgr'
+                       'geometryDiv regionLayoutDiv supplyTypeHolder patternDiv';
+  /*
+  grid-template-areas: 'setTitle     headerTitle headerTitle   allSgr5Blnk'
+                       'allSgr4Blnk  geometrySgr supplyTypeSlctSgr showHideSgr'
+                       'allSgr4Blnk  geometryDiv supplyTypeSlct  detailDiv';
+
+  grid-template-areas: 'setTitle  geometrySgr supplyTypeSlctSgr showHideSgr'
+                       'setTitle  geometryDiv supplyTypeSlct  detailDiv';
+  */
+  width: 100%;
+  /* grid-template-columns: 20% 25% 30% 25%;
+    grid-template-rows: 33fr 33fr 33fr; */
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background: #DDD;   /* #AAA; is too dark now */
+}
+
+.changeAllSugarsTogetherNoGlobalContainer {
+  display: grid;
+  grid-template-areas: ' setTitle        showHideSgr   detailDiv'
+                       ' regionLayoutSgr supplyTypeSlctSgr diffusionSgr'
+                       ' regionLayoutDiv supplyTypeHolder diffusionDiv';
+  /*
+  grid-template-areas: 'setTitle     headerTitle headerTitle   allSgr5Blnk'
+                       'allSgr4Blnk  geometrySgr supplyTypeSlctSgr showHideSgr'
+                       'allSgr4Blnk  geometryDiv supplyTypeSlct  detailDiv';
+
+  grid-template-areas: 'setTitle  geometrySgr supplyTypeSlctSgr showHideSgr'
+                       'setTitle  geometryDiv supplyTypeSlct  detailDiv';
+  */
+  width: 100%;
+  /* grid-template-columns: 20% 25% 30% 25%;
+    grid-template-rows: 33fr 33fr 33fr; */
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  background: #DDD;   /* #DDD; */
+}
+
+/* not in current use
+                    <div id='allSgr3Blnk'>&nbsp;&nbsp;&nbsp;</div>
+                    <div id='allSgr4Blnk'>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                    <div id='allSgr5Blnk'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+                    <div id='allSugarGeometryDiv' class='rHeadItem'>
+                      <select id="allSugarGeometry" class='geometryClsAll' onchange='av.sgr.allSugarGeometryChange(this);'>
+                        <option value='global'>Global</option>
+                        <option value='grid'>Local</option>
+                        <option value='neutral' selected>----</option>                            
+                      </select>
+                    </div>
+*/
+
+/*********************************************************************** End Sugar Accordion using details and select */
+
+/********************************************************************************* End Custom Select/Options DropDown */
+/* Custon Select/Options to make grey drop down */
+/* ---------------------------------------------------------------------------------------------- website not used -----
+/* -------------------- Select Box Styles: bavotasan.com Method (with special adaptations by ericrasch.com) */
+/* -------------------- Source: http://bavotasan.com/2011/style-select-box-using-only-css/ */
+/* play with select/option here https://codepen.io/dblackwood/pen/KjbGXo 
+/*
+/* I wish I wrote down what I did to make sure the box was wide enough to hold the text for all the options.
+/*
+/* Style a Select Box Using Only CSS. Inspired by: http://bavotasan.com/2011/style-select-box-using-only-css/
+/* fork from https://codepen.io/ericrasch/pen/zjDBx
+
+/* -------------------- Select Box Styles: danielneumann.com Method */
+/* -------------------- Source: http://danielneumann.com/blog/how-to-style-dropdown-with-css-only/ */
+
+/* -------------------- Select Box Styles: stackoverflow.com Method */
+/* -------------------- Source: http://stackoverflow.com/a/5809186 */
+/* ---------------------------------------------------------------------------------------------------------------------
+/* Another useful site https://www.filamentgroup.com/lab/select-css.html
+/* https://codepen.io/fabriceleven/pen/qOmNPG based on div around select
+
+/* if select in a div then content: '\25BC'; can be used in the div class css
+/* 
+/* From  https://www.proy.info/style-select-dropdown-using-css/ */
+/* body select.select_box option */ 
+
+select {
+  height: 18px;
+  border-bottom: 1px solid #aaa;
+  background-color: white;  
+  background: url('images/select_white_on_black_V_150x200.png') right center no-repeat;
+  background-size:  auto 99%;    /* was 20 x 20 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border-radius: 5px;
+  margin: 0px 4px 0px 1px;     /* top right bottom left  */   /*top left/right bottom */ /*top/bottom  left/right */
+  padding: 0px 2em 0px 2px;   /* top right bottom left  */  /* box padding border margin outside now */
+}
+select:hover{
+  /* cursor: pointer; */
+  background: white;
+  box-shadow:none;
+}
+select:hover::after {
+  background:  #F5F5F5;  /*can't tell that this does anything'*/
+}
+/*https://stackoverflow.com/questions/8352867/how-to-disable-chrome-details-label-default-behavior 
+              web site gave me clue to not hide the arrow when selected. Need to not change the background */
+/* 
+select:focus { 
+  /* background: white;  /*changes background off all the options not the one highlighted */ 
+  /* border: solid 1px black;   /*does have effect, but 1px looks the same as without . */ 
+}
+*/
+
+select:option { 
+    padding: 0px 1px;    /*top/bottom  left/right  */
+    background: #eee;
+} 
+/* for IE and Edge */ 
+select::-ms-expand { 
+    display: none; 
+} 
+select:disabled::-ms-expand { 
+    background: #fff; 
+}
+
+/* this creates a grey checkbox */
+.blk_wite_checkbox {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	/* box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05); */
+	padding: 8px !important;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+  margin-top: 4px;
+}
+.blk_wite_checkbox:active, .blk_wite_checkbox:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.blk_wite_checkbox:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+}
+.blk_wite_checkbox:checked:after {
+	content: '\2714';
+	font-size: 100%;
+	position: absolute;    /*really absolute? **/
+	top: 0px;
+	left: 3px;
+	color: black;    /* #99a1a7;  */
+}
+
+/* not in use
+.big-checkbox {
+	padding: 18px;
+}
+
+.big-checkbox:checked:after {
+	font-size: 28px;
+	left: 6px;
+}
+*/
+/*Checkbox this code creates a black circle version instead of the blue check
+
+input[type="checkbox"] {
+  box-shadow:none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+input[type="checkbox"]:checked {
+/*  border: 4px solid black; */
+  /* box-shadow:none;
+} */
+checkbox:focus {
+  box-shadow:none;
+}
+
+/*------------------------------------------------------------------------------- End Custom Select/Options DropDown  */
+
+/********************************************************************************* End Custom Select/Options DropDown */
+
+/***************************************************************************** example tab will be deleted eventually */
+
+.ex1center {
+  display: inline-block;
+  vertical-align: middle;
+  width: 95%;
+  padding: auto;
+  border: #a0a0a0 solid 1px;
+  background: #f5f5f5;
+}
+
+#fontTest{
+  text-align: left;
+}
+ .ex1holder {
+  white-space: nowrap;  /* May want to do this if there is risk the container may be narrower than the element inside */
+  /* text-align: center;  */
+  background: #c0c0c0;
+  border: black solid 1px;
+ }
+ /*
+.ex1holder:before {
+ content: '\200B';
+/*   content: '';
+  margin-left: -0.25em;   *   /
+  display: inline-block;
+  height: 100%; 
+  vertical-align: middle;
+}  
+*/
+/*-------------------------------------------------------------------------------------------------- End example tab  */
+
+
+/*--------------------------------------------------------------------------------------------------- Organism Block  */
+
+/* css for Organism Page  inside .orgBenchCol and #orgInfoHolder or related dom objects */
+
+#actOrgImg {
+  alt: 'Avida-ED ancestor Icon image';
+  /* height: 32px; */   /* to make the same height as this row on the population page */
+}
+
+.orgBenchTopRow{
+    border: 1px solid #AAA;
+    flex:0 1 30px;    /* describes this as element in a bigger flex box */
+    overflow: auto;
+    display: flex;    /* makes this a flexbox to hold smaller elements */
+    flex-direction: row;
+    min-height: 40px;
+  }
+
+  .orgTopLt{     /* in use */
+    flex: 1;                 /* fills remaining space; {flex:1 1 auto;} is the same as {}flex:1;} fx prevent resize */
+    display: flex;
+    flex-direction: row;
+    background: #F5F5F5; /* linen; */
+  }
+  #activeOrgan{
+    background: #F5F5F5; /* lawngreen; */
+    border: 1px solid #AAA;
+    width: 90%;
+  }
+  .orgTopRt{
+    flex: 0 1 200px;
+    background: #F5F5F5; /* paleturquoise; */
+  }
+  .orgMid {
+    border: 1px solid #AAA;
+    height: 85%; /* yemi: determined by trial and error; might need to fix eventually, but for now, fixed the overflow problem*/
+    width: 100%;
+    flex: 1;                 /* fills remaining space; {flex:1 1 auto;} is the same as {}flex:1;} both prevent resize */
+  }
+  #orgViewIntro{
+    margin: auto;
+    padding: auto;
+  }
+  .organCanvasCls{
+    /* border:1px solid #000000; */     /*black*/    
+    top: 50%;
+    left: 50%;
+    max-height: 100%; /* yemi: added max-height attribute to fill the entire orgMid, for now, fixed the overflow problem*/
+  }
+  .orgBot {
+    flex: 0 1 40px;
+    border: 1px solid #AAA;
+  }
+  
+  /* yemi added, but djb does not think it does anything'  */
+  .organismControls {
+    padding: 5px;
+  }
+  
+  /* diane tried, does not work either */
+  .organismControls.button {
+    padding: 0.3rem;
+    background: lightgreen;
+  }
+  
+  #cycleSlider{
+    background: #F5F5F5; /* mediumpurple; */
+  }
+  .orgCycleClass{
+    width: 3em; 
+    height: 1.6em;
+  }
+  .orgDetailClass{
+    font-size: 0.9rem; 
+    line-height: 0.9rem;
+    height: 90%; 
+    width: 100%;
+  }
+  #orgTaskDataDiv{
+    padding: 5px;
+  }
+  #lowerOrgInfo{
+    width: 100%;
+    padding: 5px;
+  }
+  #orgTaskDataDiv {
+    background:#DDD;    
+    padding: 5px;
+  }
+  #orgTaskDataTable { 
+    text-align:center;
+    width: 100%;
+  }
+  #orgTaskDataTable.td:first-child {
+    padding: 0.2rem;
+  }
+  #orgTaskDataTable.td:first-child {
+    padding: 0.2rem;
+  }
+  #InstructionDetail {
+    min-width: 160px;
+    width: 100%; 
+    height: auto;
+  }
+  /* might re-write these as grid containers or flex boxes. */
+  /* or re-write them so they scale with the width of the right side bar */
+  .orgStatCanvas3row{
+    width: 194px; /* 6*32+2 */
+    height: 20px; /* 6*3+2 */
+    border:1px solid #000000;
+  }
+  .orgStatCanvas2row{
+    width: 194px; 
+    height: 14px; 
+    border:1px solid #000000;
+  }
+  .orgStatCanvas1row{
+    
+    width: 194px; 
+    height:  8px; 
+    border:1px solid #000000;
+  }
+  .instructionText{
+    height: 50px; 
+    width: 100%;
+    type: text;
+  }
+  .orgSettingClass{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+    min-width: 200px;
+    min-height: 400px;
+    background-color: #CCCCCC; /* palegreen;  */
+  }
+  .repeatMode{
+    flex: 0 1 150px;
+    background: #EEEEEE;
+    min-width: inherit;
+    min-height: 50px;
+    padding: 1em 0.5em 1em 0.5em;   
+  }
+  
+  .analysisArea{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: #F5F5F5;  /*lightgray;  */
+  }
+  .anaTop{
+    flex: 1;            /* does this fill the rest of the space like {flex:1} or {flex:1 1 auto;} ? */
+    border: 1px solid #AAA;
+  }
+/*----------------------------------------------------------------------------------------------- end Organism Block  */
+
+/*--------------------------------------------------------------------------------------------------- Analysis Block  */
+  #anlDndChart{
+    width: 100%;
+    height: 100%;
+    background: #F5F5F5;  /*lavender;*/
+  }
+  .anaBot {
+    flex: 0 1 75px;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-around; */
+    border: 1px solid #AAA;
+    background: #F5F5F5; /* #F5F5F5; /* peachpuff; */
+  }
+  
+  /* the left side of the analysis controls at the bottom of analysis page */
+  .analegend{
+    flex: 0 1 50%;
+    border: 1px solid #AAA;
+    background: #F5F5F5;  /* #F5F5F5; /* seashell;  */
+    min-width: 250px;
+    display: grid;
+    align-items: center;   /* up down */
+    grid-template-columns: 29px 75px auto;
+    grid-template-rows: 25px 25px 25px;
+    grid-column-gap: 1px;
+    /* grid-row-gap: 5px; */
+    grid-template-areas: 'pop0delete pop0color popDish0'
+                         'pop1delete pop1color popDish1'
+                         'pop2delete pop2color popDish2';
+   font-family: Tahoma, Myriad, Trebuchet MS, Arial Narrow, Arial, Helvetica, clean, sans-serif;
+  }
+    #pop0deleteDiv { grid-area: pop0delete;}
+    #pop1deleteDiv { grid-area: pop1delete;}
+    #pop2deleteDiv { grid-area: pop2delete;}
+    #pop0colorDiv { grid-area: pop0color;}
+    #pop1colorDiv { grid-area: pop1color;}
+    #pop2colorDiv { grid-area: pop2color;}
+    #popDish0Div { grid-area: popDish0;}
+    #popDish1Div { grid-area: popDish1;}
+    #popDish2Div { grid-area: popDish2;}
+    
+    .anaDeleteButtonDiv{
+      /* padding: 1px 4px;  /*top/bottom  left/right  */
+      padding: 1px 0px 1px 5px;       /* top right bottom left */
+/*
+      padding-left: 5px;
+      padding-right: 4px;
+      padding-top: 1px;
+      padding-right: 1px;
+*/
+    }
+    .anaDeleteButton{
+      margin: auto;
+      height: fit-content;       /* was 1.1rem; */
+      width: 1.5em;   /* diane had in, might not have been in push */
+      /* position: absolute;  djb think yemi removed, needed if width in rem, but not in em which is confusing  */    
+      /* background-color: rgb(238, 176, 176);   /* Diane does not like the red */
+      text-align: center;
+      /* font-size: smaller;   /* diane asks why? */
+    };
+
+    .anaDeleteButton:hover {
+      background-color: rgb(247, 151, 151)
+    }
+
+    .anaColorLineDiv{
+      padding: 2px 4px;  /*top/bottom  left/right  */
+      width: 99%; 
+      background: #F5F5F5;   /*lightblue; */
+    }
+    /* holdes color select/option structure */
+    .anaColorLine{
+      height: 17px;
+      min-width: 50px;
+      margin: auto;
+    }
+    .popDishHolder{  
+      padding: auto;
+      background: #F5F5F5;  /*lemonchiffon; */
+    }
+    /* insdie popDishHolder */
+    .popDishClass {
+      min-height: 1.3rem;
+      padding: 5px;
+      margin: 2px;
+      border: 1px solid #CCCCCC;
+      display: block;
+      overflow: visible;
+    }
+
+  .anaYaxis{
+    flex: 0 1 50%;       /* need a way to put drop down description on another line if screen is narrow */
+    /* min-width: 350px; */ /* yemd: messes with layout when screen resized */
+    background: #F5F5F5;  
+    margin: 10px 2px 5px 10px;    /* top right bottom left */
+    overflow: auto;
+  }
+ /*---------------------------------------------------------------------------------------------- end Analysis Block  */
+ 
+/**********************************************************************************************************************/
+/* the class modal is used to create dialog boxes without dojo                                                        */
+/**********************************************************************************************************************/
+/* https://www.w3schools.com/howto/howto_css_modals.asp                                                               */
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal                                                */
+/* 
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    bottom: 0;
+
+    z-index: 1; /* Sit on top */
+    /* padding-top: 100px; */ /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;   /*   Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background: rgb(0,0,0); /* Fallback color */
+    background: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background: #fefefe;
+    justify-content: center;
+    margin: auto;
+    padding: 2px;
+    border: 1px solid black; /* #888; */
+    width: 50%;
+}
+
+.modal-header {
+  display: flex;
+  padding: 2px 1px;      /*top-bottom; left-right */
+  width: 100%;
+  font-size: 120%;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: lightgray;    /* lightgray */
+  color: black;
+}
+
+.modal-body {padding: 8px 8px;}
+
+.modal-footer {
+    padding: 4px 4spx;
+    background: lightgray;
+    color: black;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+/************************************************************************************************* end of model class */                                                                         */
+
+#saveCSVdataModalID {
+  position: fixed; /* Stay in place */
+  padding-top: 200px;
+}
+
+/**********************************************************************************************************************/
+/* the class modalBig is used to create big dialog boxes without dojo                                                     */
+/**********************************************************************************************************************/
+/* https://www.w3schools.com/howto/howto_css_modals.asp                                                               */
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal                                                */
+/* 
+/* The Modal (background) */
+.modalBig {
+    display: none; /* Hidden by default */
+    z-index: 1; /* Sit on top */
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    padding-left: 5%; /* Location of the box */
+    padding-top: 5%; /* Location of the box */
+    width: 100%;   /*   Full width */
+    height: 100%; /* Full height */
+
+    overflow: auto; /* Enable scroll if needed */
+    background: rgb(0,0,0); /* Fallback color */
+    background: rgba(0,0,0,0.4); /* Black w/ opacity */  
+}
+/* The Modal (background) */
+.modalBig__ {
+    bottom: 0;
+}
+
+/* Modal Content */
+.modalBig-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center; 
+  background: #fefefe;
+  padding: auto;   /* was 2 */
+  border: 1px solid black; /* #888; */
+  width: 94%;
+  height: 90%;
+}  /* contains modalBig-header, modalBig-body, modalBig-footer */
+
+
+.modalBig-header {
+  flex: 0 0 40px;   /* was 0 0 40px */
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 2px 1px;      /*top-bottom; left-right */
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 130%;
+  font-weight: bold;
+  background: lightgray;
+  color: black;
+}
+
+.modalBig-body {
+  padding: 1%; 
+  flex: 0 0 fr;
+}
+
+.modalBig-footer {a
+  flex: 0 0 40px;
+  padding: 8px 0px;    /*top-bottom; left-right */
+  width: 100%;
+  background: lightgray;
+  color: black;
+}
+/********************************************************************************************** end of modalBig class */                                                                         */
+
+/* ---------------------------------------------------------------------- markup for email Form that uses modalBig -- */
+
+/* could not get browser to recognize this element style  */
+#sendLogHead { 
+  width: 100%;
+}
+
+#sendLogHdTitle { 
+  flex: auto; 
+  display: inline-block;
+  min-height: 60px;
+  min-width: 100px;
+  padding: 4px 8px;
+  margin: 0px;
+}
+
+.sendLogCloseHldr { 
+  text-justify: center;
+  flex: 0 0 auto;
+  padding: 4px 8px;
+}
+#sendLogCloseButton { min-width: 75px; margin: 5px; }
+#sendLogEmail { min-width: 110px; margin: 5px; }
+
+#sendLog-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  width: 90%;
+  align-items: center; 
+}    /* contains sendLogInstructions & sendLogtTxtAreaHldr  */
+
+#sendLogInstructions{
+  align-items: center;
+  font-size: 130%;
+  padding: 10px;
+  width: 90%;
+}
+#sendLogP { font-size: 120%; }
+#sendLogTxtAreaHldr {
+  
+}
+
+#sendLogScrollBox {
+  border: 1px solid #aaa;
+  padding: 15px;
+  overflow: auto;
+  resize: both;
+  margin: auto;
+  width: 98%;
+  height: 40vh;
+}
+/* ------------------------------------------------------------------ markup for About Avida-ED that uses modalBig -- */
+#AvidaEDaboutModalContainer{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  /*justify-content: center */
+  width: 99%;
+  height: auto;
+}
+#aboutAvidaED_header{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  min-height: 40px; 
+  justify-content: space-between;
+}
+#aboutAvidaEDtitle { 
+  flex: 0 0 600px;  
+  display: inline-block;
+  text-align: center;
+}
+.aboutAvidaEDcloseHldr { 
+  flex: 0 0 70px; 
+  display: inline-block;
+  height: 30px;
+  width: 50px;
+  padding: 4px 8px;
+}
+#AvidaEDaboutScrll{
+  overflow: auto;
+  resize: both;
+  border: 1px solid #aaa;
+  padding: 2px;
+  margin: auto;
+  width: 98%;
+  height: 70vh;
+}
+
+#aboutAvidaEDcloseButton {
+  padding: 1px 2x 1px 2px;
+}
+
+#aboutAvidaEDupperTextHolder { 
+  grid-area: aboutTxtHold; 
+  display: inline-block; 
+  padding: 20px;
+}
+#aboutAvidaEDlogoHolder { 
+  grid-area: aboutLogoHold; 
+  display: inline-block;
+  place-self: center;
+  padding: 10px;
+  margin:auto;
+} 
+#aboutAvidaED_grid_container {
+  display: grid;
+  grid-template-areas: 'aboutLogoHold aboutTxtHold ';
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;}
+
+.AvidaEDaboutP {
+  font-weight: bold;
+}
+#AvidaedaboutDtailBxHldr {
+  padding: 1px auto;
+}
+#AvidaedaboutdetailBox {
+  padding: 15px;
+  margin: auto;
+  width: 95%;
+  height: 100%;
+ }
+#funding {
+  display: block;
+  padding-left: 70px;
+}
+.aboutCls{
+  text-decoration: underline;
+  text-align: center;
+}
+.negIndent{
+  text-indent: -70px;
+}
+.marginBelow{
+  margin-bottom: 10px;
+}
+.centerP{ text-align: center; justify-self: center; }
+.centerPbig{ text-align: center; justify-self: center; font-size: 120%;}
+.centerImg{ 
+  display: block;
+  text-align: center; 
+  justify-self: center;
+  margin: auto;
+  width: 50%;
+}
+
+/****************************************************************************************** end of aboutAvidaED class */                                                                         */
+

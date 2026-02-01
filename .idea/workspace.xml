@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="27852641-b354-42b1-945e-f8ca4d8f3ce7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avidaEdEco.css" beforeDir="false" afterPath="$PROJECT_DIR$/avidaEdEco.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/avidaEdEco.html" beforeDir="false" afterPath="$PROJECT_DIR$/avidaEdEco.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1WzoEHufmnCNrDvrYKMxoNVsNdS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="27852641-b354-42b1-945e-f8ca4d8f3ce7" name="Default Changelist" comment="" />
+      <created>1544807611687</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1544807611687</updated>
+      <workItem from="1544807614253" duration="2886000" />
+      <workItem from="1545364863254" duration="1455000" />
+      <workItem from="1546911189634" duration="404000" />
+      <workItem from="1546914813672" duration="3519000" />
+      <workItem from="1550862497913" duration="457000" />
+      <workItem from="1568054132668" duration="24957000" />
+      <workItem from="1568253714297" duration="7000" />
+      <workItem from="1580161672572" duration="1760000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="518" y="163" width="1200" height="800" key="dock-window-2" timestamp="1580162977904">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="518" y="163" width="1200" height="800" key="dock-window-2/1792.-971.3840.2137/-1920.23.1920.1057/0.23.1792.1097@0.23.1792.1097" timestamp="1580162977904" />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <last-edited>root_only</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

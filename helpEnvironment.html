@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <title>Avida-ED environment help</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      @import 'avidaEdEco.css';
+    </style>
+  </head>
+  <body>
+    <div>
+      <pre>
+# Help and Instructions for using environment.cfg files and the Test Setup Page. 
+#
+# The buttons on the test setup page work, but I do NOT recommend changing the 
+# test dish size on a given example as all the input(x & y), output(x & y) and cellbox
+# values would need to change. 
+#
+# A plain text version of this file is environment.cfg of the "Instructions" test dish. 
+#
+# ========================================================================================
+# Formating
+#
+# The "#" sign is a comment for that line and avida will ignore the rest of the line.
+# The pattern of white space and colons must be followed 
+#   or avida cannot read the file. 
+#
+# the "\" is a line continuation character. 
+# Do not add a hard return in a data line without the \ character at the end, 
+# Do not add spaces unless there is already white space there. 
+#
+# extra blank lines are fine. 
+#
+# ========================================================================================
+# About RESOURCES 
+#
+# more details are about Avida Environment files is at 
+#    https://github.com/devosoft/avida/wiki/Environment-file
+#
+# There must be at least one REACTION for each of the 9 tasks that Avida-ED uses,
+#    even if there is no reward.
+# A logic-9 function can have more than one resource/reaction. 
+#
+# Feel free to edit the values for 
+#   inflow:  this is the total amount of the resource, 
+#            so the inflow per cell = inflow area of the inflow 
+#            as defined by inflowx1, inflowx2, inflowy1, inflowy2
+#   outflow: this the fraction (0.0 and 1.0) of the resource that flows out of each cell
+#            in the area as defined by outflowx1, outflowx2, outflowy1, outflowy2
+#            
+#   xgravity or ygravity: range -1.0 to 1.0; how fast the resource flows in that direction. 
+#                         The movement is only dependent on the amount in the given cell.
+#                         There is only flow in one direction, up, down, left or right or
+#                         a diagonal from the combination of x and y gravity.
+#   xdiffuse or ydiffuse: range 0.0 to 1.0; how fast the resource diffuses where the flow
+#                         depends on the amount in adjacent cells. 
+#   for both gravity or diffusion when limited to horizontal flow, in avida, there is still
+#      some flow to the diagonal cells. For instance, if the flow is down, most some flows
+#      into the cells in each diagonal direction as they are still below the source cell. 
+#
+# Default values
+#   inflow = outflow = 0.0
+#   xgravity = ygravity = 0.0
+#   xdiffuse = ydiffuse = 1
+# 
+# Most formating errors will cause avida to stop. The program will probably need to be reloaded. 
+#
+# In each example file, I tried to only vary two parameters
+#
+# If you change inflowX1, inFlowX2, inflowY1, inflowY2, outflowX1, outflowX2, outflowY1,
+# outflowY2 or the cellbox values be sure the coordinates stay in the dish size.
+#
+# cellbox=0,20,20,20 where the first two numbers are the coordinates of the upper left
+#         corner of the box. The last two numbers are the box size. Row and column numbers
+#         in Avida start with 0. Cell box contains the resource in that boxed area. The 
+#         cell box and the inputx and y, & outputx and y values much match. Without cellbox
+#         the resources could cross subdish areas if diffusion and or gravity is active. 
+#
+# cellbox keeps the resources in their own subdish.
+#
+# ========================================================================================
+# Basic Examples of Difference statements. 
+#----------------------------------------------------------------------------------
+# Old way to specify unlimited resources, or resources that are not rewarded. 
+# I'm using this any time tasks are not rewarded as they still need to be defined.
+#
+# format on the next line
+#REACTION  reaction_name  task[:argument:...]  [process:...]  [requisite:...]
+# the task is in lower case. For Avida-ED we use a value of 0.0 for no reward 
+# and a set value is rewarded based on task difficulty. Those values are at the end.
+# the types is pow for power and means that the "reward" is multiplied by 2 raised to 
+# power of the value and that leads to the x2, x4, x8, x16 and x32.
+# max_count=1 means Avida-ED only rewards an organism for performing a logic function once. 
+# these REACTIONs do not require a resournce.
+#
+# REACTION  NOT  not process:value=0.0:type=pow requisite:max_count=1  #value=1.0
+# REACTION NAND nand process:value=0.0:type=pow requisite:max_count=1  #value=1.0  
+# REACTION  AND  and process:value=0.0:type=pow requisite:max_count=1  #value=2.0
+# REACTION  ORN  orn process:value=0.0:type=pow requisite:max_count=1  #value=2.0
+# REACTION   OR   or process:value=0.0:type=pow requisite:max_count=1  #value=3.0
+# REACTION ANDN andn process:value=0.0:type=pow requisite:max_count=1  #value=3.0
+# REACTION  NOR  nor process:value=0.0:type=pow requisite:max_count=1  #value=4.0
+# REACTION  XOR  xor process:value=0.0:type=pow requisite:max_count=1  #value=4.0
+# REACTION  EQU  equ process:value=0.0:type=pow requisite:max_count=1  #value=5.0
+#
+#----------------------------------------------------------------------------------
+# Example unlimited resources in 40x40 dish the way I have to parse anyway.
+
+RESOURCE not1:geometry=grid:initial=1600
+REACTION  NOT  not process:resource=not1:value=1.0:type=pow:depletable=0 requisite:max_count=1
+
+# this REACTION specifies a resource and making depletable=0 means it does not consume the
+# resource and so acts like the resource is unlimited. In this case, initial is all of the 
+# resource spread out in all the cells and needs to be the number of cells in the dish 
+# 
+# ----------------------------------------------------------------------------------------
+# Example unlimited resources in 40x40 dish using CELL which otherwise I need not parse
+# The number after the .. is the number of cells in the dish - 1, as we start counting at 0. 
+# The avida world can also be represented as a one dimensional array from 0 to worldsize-1.
+#
+CELL nan1:0..1599:initial=1
+REACTION  NAND nand process:resource=nan1:value=1.0:type=pow:depletable=0 requisite:max_count=1 
+#
+# in this case initial is the amount of resource in one cell. 
+# cells are references as a linear array from cell 0 to cell n-1 
+#   where n is the number of cells in the dish   
+#
+#----------------------------------------------------------------------------------
+# Examples with limited Local resources and reactions with the whole dish. 
+#----------------------------------------------------------------------------------
+#
+# from x_diffuse_opposite_outflow
+# input on left most column; outflow in the right most column; xdiffuse only
+# gradient should start looking good at about 500 updates, better at 1000 updates. 
+# saturated to left, gradient to right still looks good at 2000 updates 
+
+RESOURCE and1:geometry=grid:ydiffuse=0.0:outflow=1:inflow=40:xdiffuse=1:\
+inflowX1=15:inflowY1=0:inflowX2=15:inflowY2=39:\
+outflowX1=39:outflowY1=0:outflowX2=39:outflowY2=39
+#@1000 updates left col = 50.68; high = 85.02; 2nd to last col = 1.03; last col = 0.10  
+# Don't trust #s for left and high above at 1000
+#@2000 updates left col=50.68; high=85.02; 3rd=4.97; 2nd last col = 2.61; last col = 0.25  checked ok
+#@3000 updates C0=77.53; high=107.50; C35=14.37; C36=10.83; C37=7.33; C38=3.84; C39=0.37  checked ok
+#@4000 updates C0=100.48; high=126.48; C35=18.14; C36=13.69; C37=9.27; C38=4.87; C39=0.47  checked ok
+#@8000 updates C0=162.33; high=177.43; C35=28.18; C36=21.31; C37=14.44; C38=7.58; C39=0.73  checked ok
+
+REACTION  AND  and process:resource=and1:value=1.0:type=pow:max=1:min=0.5  requisite:max_count=1
+
+# min is the minimum amount of the resource, and1, that can be consumed. If the cell contains
+# less than 0.5 units, nothing is consumed. max is the maximum amount that is consumed. I 
+# think that with our "unlimited" resources they are rewarded as if they consumed 1 unit of
+# resource. You might wish to experiment with different values for min. I have generally
+# used between 0.5 and 0.9 for min and 1 or 1.1 for max. 
+
+# from x_diffuse_all-2-right_outflow
+# input on left; outflow in all cells to the right of inflow column
+
+RESOURCE orn1:geometry=grid:ydiffuse=0.0:outflow=0.0004:inflow=20:xdiffuse=1:\
+inflowX1=15:inflowY1=0:inflowX2=15:inflowY2=39:\
+outflowX1=16:outflowY1=0:outflowX2=39:outflowY2=39
+#@1000 updates left col = 9.86; high = 27.47; 2nd to last col = 2.09; last col = 2.03
+#@2000 updates left col = 23.68; high = 38.68; 3rd = 7.52; 2nd to last col = 7.37; last col = 7.29
+#@3000 updates C0=35.08; high=47.51; C35=13.17; C36=12.81; C37=12.54; C38=12.36; C39=12.27
+#@4000 updates C0=44.39; high=54.80; C35=17.54; C36=17.13; C37=16.83; C38=16.64; C39=16.54
+#@8000 updates C0=67.71; high=73.22; C35=28.83; C36=28.34; C37=27.98; C38=27.74; C39=27.62
+
+REACTION  ORN  orn process:resource=orn1:value=2.0:type=pow:max=1:min=0.5  requisite:max_count=1
+
+#----------------------------------------------------------------------------------
+# Examples with limited Local resources and reactions in quarters of the dish
+#----------------------------------------------------------------------------------
+#
+# with diffusion from 4ths_solid-diffusion
+# inflow all of subdish; out flow everywhere
+# the smaller the outflow, the longer to reach chemostat
+# input it total input; to get input/cell = input / # input cells
+# chemostat = (input/cell) / output
+
+#upper left
+RESOURCE oro1:geometry=grid:xdiffuse=1:ydiffuse=1:inflow=20:outflow=0.0025:\
+inflowX1=0:inflowY1=0:inflowX2=19:inflowY2=19:cellbox=0,0,20,20:\
+outflowX1=0:outflowY1=0:outflowX2=19:outflowY2=19
+#@1000 updates has not yet reached chemostat = 18.36
+#@2000 updates has not yet reached chemostat = 19.87
+#@3000 updates has not yet reached chemostat = 19.99
+#@4000 updates has reached chemostat to two digits
+
+#upper right
+RESOURCE oro2:geometry=grid:xdiffuse=1:ydiffuse=1:inflow=40:outflow=0.005:\
+inflowX1=20:inflowY1=0:inflowX2=39:inflowY2=19:cellbox=20,0,20,20:\
+outflowX1=20:outflowY1=0:outflowX2=39:outflowY2=19
+#@1000 updates has not yet reached chemostat = 19.87
+#@2000 updates has reached chemostat to two digits
+
+#lower left
+RESOURCE oro3:geometry=grid:xdiffuse=1:ydiffuse=1:inflow=80:outflow=0.01:\
+inflowX1=0:inflowY1=20:inflowX2=19:inflowY2=39:cellbox=0,20,20,20:\
+outflowX1=0:outflowY1=20:outflowX2=19:outflowY2=39
+
+#lower right
+RESOURCE oro4:geometry=grid:xdiffuse=1:ydiffuse=1:inflow=160:outflow=0.02:\
+inflowX1=20:inflowY1=20:inflowX2=39:inflowY2=39:cellbox=20,20,20,20:\
+outflowX1=20:outflowY1=20:outflowX2=39:outflowY2=39
+
+REACTION  OR1 or  process:resource=oro1:value=3.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION  OR2 or  process:resource=oro2:value=3.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION  OR3 or  process:resource=oro3:value=3.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION  OR4 or  process:resource=oro4:value=3.0:type=pow:min=0.9:max=1 requisite:max_count=1
+
+#----------------------------------------------------------------------------------
+# from 4ths_solid-NO-diffusion
+# inflow all of subdish; out flow everywhere; NO diffusion
+# the smaller the outflow, the longer to reach chemostat
+# input it total input; to get input/cell = input / # input cells
+# chemostat = (input/cell) / output
+
+RESOURCE ant1:geometry=grid:xdiffuse=0:ydiffuse=0:inflow=240:outflow=0.05:\
+inflowX1=0:inflowY1=0:inflowX2=19:inflowY2=19:cellbox=0,0,20,20:\
+outflowX1=0:outflowY1=0:outflowX2=19:outflowY2=19
+
+RESOURCE ant2:geometry=grid:xdiffuse=0:ydiffuse=0:inflow=480:outflow=0.1:\
+inflowX1=20:inflowY1=0:inflowX2=39:inflowY2=19:cellbox=20,0,20,20:\
+outflowX1=20:outflowY1=0:outflowX2=39:outflowY2=19
+
+RESOURCE ant3:geometry=grid:xdiffuse=0:ydiffuse=0:inflow=960:outflow=0.2:\
+inflowX1=0:inflowY1=20:inflowX2=19:inflowY2=39:cellbox=0,20,20,20:\
+outflowX1=0:outflowY1=20:outflowX2=19:outflowY2=39
+
+RESOURCE ant4:geometry=grid:xdiffuse=0:ydiffuse=0:inflow=1920:outflow=0.4:\
+inflowX1=20:inflowY1=20:inflowX2=39:inflowY2=39:cellbox=20,20,20,20:\
+outflowX1=20:outflowY1=20:outflowX2=39:outflowY2=39
+
+REACTION ANDN1 andn process:resource=ant1:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION ANDN2 andn process:resource=ant2:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION ANDN3 andn process:resource=ant3:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION ANDN4 andn process:resource=ant4:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+
+#----------------------------------------------------------------------------------
+# Examples with limited Local resources and reactions in quarters of the dish
+#----------------------------------------------------------------------------------
+# Horizontal diffusion from 4ths_40x40_diffuse-opposite-outflow
+# inflow at left or right side; out flow at opposite edge.
+# not sure diffusion ever stabilizes to an chemostat. 
+# goal is a gradient that reaches chemostat
+
+#upper half
+RESOURCE nor1:geometry=grid:xdiffuse=0:outflow=1:inflow=10:xdiffuse=0.99:\
+inflowX1=19:inflowY1=0:inflowX2=19:inflowY2=19:cellbox=0,0,40,20:\
+outflowX1=39:outflowY1=0:outflowX2=39:outflowY2=19
+#@1000 updates left col = 7.42; high = 24.18; 2nd to last col = 0.94; last col = 0.12
+#@2000 updates left col = 19.32; high = 34.04; c36=4.54; c37=3.09; c38 = 1.65; c39 = 0.22
+#@3000 updates left col = 29.42; high = 41.46; c36=5.86; c37=3.99; c38 = 2.13; c39 = 0.28
+#@4000 updates left col = 37.47; high = 47.31; c36=6.87; c37=4.69; c38 = 2.51; c39 = 0.33
+#@8000 updates left col = 56.53; high = 60.95; c36=9.24; c37=6.30; c38 = 3.37; c39 = 0.44
+ 
+#lower half
+RESOURCE nor2:geometry=grid:xdiffuse=0:outflow=1:inflow=10:xdiffuse=1:\
+inflowX1=19:inflowY1=20:inflowX2=19:inflowY2=39:cellbox=0,20,40,20:\
+outflowX1=39:outflowY1=20:outflowX2=39:outflowY2=39
+
+REACTION  NOR1  nor process:resource=nor1:value=2.0:type=pow:min=0.9:max=1.1 requisite:max_count=1
+REACTION  NOR2  nor process:resource=nor2:value=2.0:type=pow:min=0.9:max=1.1 requisite:max_count=1
+
+#----------------------------------------------------------------------------------
+# this dish is 40x40;    Horizontal diffusion
+# inflow at center; out flow entire right side.
+# the goal is a gradient that reaches chemostat. This does not yet exist. 
+
+#upper half
+RESOURCE xor1:geometry=grid:xdiffuse=0:outflow=0.01:inflow=10:xdiffuse=1:\
+inflowX1=19:inflowY1=0:inflowX2=19:inflowY2=19:cellbox=0,0,40,20:\
+outflowX1=20:outflowY1=0:outflowX2=39:outflowY2=19
+ 
+#lower half
+RESOURCE xor2:geometry=grid:xdiffuse=0:outflow=0.005:inflow=10:xdiffuse=1:\
+inflowX1=19:inflowY1=20:inflowX2=19:inflowY2=39:cellbox=0,20,40,20:\
+outflowX1=20:outflowY1=20:outflowX2=39:outflowY2=39
+#@1000 updates left col =  5.75; high=15.58; 2nd to last col = 0.63; last col = 0.41
+#@2000 updates left col = 11.89; high=?; c36=0.93; c37=0.85; c38 = 0.79; c39 = 0.77
+#@3000 updates left col = 15.46; high=19.21; c36=1.02; c37=0.93; c38 = 0.87; c39 = 0.84
+#@4000 updates left col = 17.51; high=19.96; c36=1.07; c37=0.98; c38 = 0.91; c39 = 0.88
+#@8000 updates left col = 19.98; high=20.85; c36=1.13; c37=1.03; c38 = 0.97; c39 = 0.94
+
+REACTION  xor1  xor process:resource=xor1:value=4.0:type=pow:min=0.9:max=1.1 requisite:max_count=1
+REACTION  xor2  xor process:resource=xor2:value=4.0:type=pow:min=0.9:max=1.1 requisite:max_count=1
+
+#----------------------------------------------------------------------------------
+# from 4ths_40x40_gravity_all-outflow
+# this dish is 40x40 y-gravity only with no diffusion. 
+# the goal is a gradient that reaches chemostat. This has not been done yet in Avida-ED
+# inflow at top; out flow everywhere except inflow row
+
+RESOURCE equ1:geometry=grid:xdiffuse=0:ydiffuse=0:ygravity=-1:inflow=200:outflow=0.30:\
+inflowX1=0:inflowY1=19:inflowX2=19:inflowY2=19:cellbox=0,0,20,20:\
+outflowX1=0:outflowY1=0:outflowX2=19:outflowY2=18
+#@1000 updates; high = 22.16; r0=0.02; r1=0.01; r2=0.01; r3=0.02; r4=0.03; r5=0.05
+#@2000 updates; high = 22.16; r0=0.02; r1=0.01; r2=0.01; r3=0.02; r4=0.03; r5=0.05
+#@3000 updates; high = 22.16; r18=11.51 r0=0.02; r1=0.01; r2=0.01; r3=0.02; r4=0.03; r5=0.05
+#@4000 updates; high = 22.16; r18=11.51 r0=0.02; r1=0.01; r2=0.01; r3=0.02; r4=0.03; r5=0.05
+#@4000 updates; high = 22.16; r18=11.51 r0=0.02; r1=0.01; r2=0.01; r3=0.02; r4=0.03; r5=0.05
+#@8000 updates; high = 22.16; r18=11.51 r0=0.02; r1=0.01; r2=0.01; r3=0.02; r4=0.03; r5=0.05
+
+RESOURCE equ2:geometry=grid:xdiffuse=0:ydiffuse=0:ygravity=-1:inflow=200:outflow=0.350:\
+inflowX1=20:inflowY1=19:inflowX2=39:inflowY2=19:cellbox=20,0,20,20:\
+outflowX1=20:outflowY1=0:outflowX2=39:outflowY2=18
+
+RESOURCE equ3:geometry=grid:xdiffuse=0:ydiffuse=0:ygravity=1:inflow=200:outflow=0.4:\
+inflowX1=0:inflowY1=20:inflowX2=19:inflowY2=20:cellbox=0,20,20,20:\
+outflowX1=0:outflowY1=21:outflowX2=19:outflowY2=39
+
+RESOURCE equ4:geometry=grid:xdiffuse=0:ydiffuse=0:ygravity=1:inflow=200:outflow=0.45:\
+inflowX1=20:inflowY1=20:inflowX2=39:inflowY2=20:cellbox=20,20,20,20:\
+outflowX1=20:outflowY1=21:outflowX2=39:outflowY2=39
+#@1000 updates; high = 22.16; r39=0.00; r38=0.00; r37=0.00; r36=0.00; r35=0.00; r34=0.01
+#@2000 updates; high = 22.16; r39=0.00; r38=0.00; r37=0.00; r36=0.00; r35=0.00; r34=0.01
+#@3000 updates; high = 22.16; r21=9.81; r39=0.00; r38=0.00; r37=0.00; r36=0.00; r35=0.00; r34=0.01
+#@4000 updates; high = 22.16; r21=9.81; r39=0.00; r38=0.00; r37=0.00; r36=0.00; r35=0.00; r34=0.01
+#@8000 updates; high = 22.16; r21=9.81; r39=0.00; r38=0.00; r37=0.00; r36=0.00; r35=0.00; r34=0.01
+
+REACTION  EQU1  equ process:resource=equ1:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION  EQU2  equ process:resource=equ2:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION  EQU3  equ process:resource=equ3:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+REACTION  EQU4  equ process:resource=equ4:value=1.0:type=pow:min=0.9:max=1 requisite:max_count=1
+
+
+# Diffusion must be set to zero in both directions to get only gravity because they default to 1
+#
+#----------------------------------------------------------------------------------
+#
+
+# The displayed resources are the sum of all the resources in the dish. A cell could contain 
+# more than one and# resource. None do in these examples because I used cellbox.
+#
+# ========================================================================================
+    </pre> 
+    </div>
+  </body>
+</html>
