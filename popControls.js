@@ -361,20 +361,13 @@
         //change ui parameters for the correct state when the avida population has started running
         av.ptd.popRunningStateUi();  //av.grd.runState now == 'started'
 
+        //initialize arrays to store data by_clade (or can be called by_ancestor)
+        av.pch.initDadSeries();
+        //console.log('numver of ancestors =',av.pch.numDads, '; av.pch.dadFit=',av.pch.dadFit);
+
         av.msg.requestGridData();
         av.msg.requestPopStats();
         if (0 < av.grd.selectedNdx) av.msg.doWebOrgDataByCell('av.ptd.runPopFn');
-
-        //initialize arrays to store data by_clade (or can be called by_ancestor)
-        av.pch.numDads = (av.pch.dadMax < av.parents.name.length) ? av.pch.dadMax : av.parents.name.length;
-        for (var ii = 0; ii < av.pch.numDads; ii++) {
-          av.pch.dadFit[av.parents.name[ii]] = [];
-          av.pch.dadCst[av.parents.name[ii]] = [];
-          av.pch.dadEar[av.parents.name[ii]] = [];
-          av.pch.dadNum[av.parents.name[ii]] = [];
-          av.pch.dadVia[av.parents.name[ii]] = [];
-        }
-        //console.log('numver of ancestors =',av.pch.numDads, '; av.pch.dadFit=',av.pch.dadFit);
       }; // end if section to deal with starting a new run
 
       if (av.dom.autoPauseCheck.checked) {
@@ -680,4 +673,3 @@
       })(cssText);
       };
   //----------------------------------------------------------------------------------------------------------------------
-

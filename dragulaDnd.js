@@ -1589,20 +1589,34 @@ jQuery(document).ready(function($) {
     aMenu.addChild(new dijit.MenuItem({
       label: 'delete',
       onClick: function () {
-        av.post.addUser('Button: delete:' + document.getElementById(fzItemID).textContent);
-        var sure = confirm('Do you want to delete ' + document.getElementById(fzItemID).textContent + '?');
+        var fzItem = document.getElementById(fzItemID);
+        var itemText = fzItem ? fzItem.textContent : fzItemID;
+        av.post.addUser('Button: delete:' + itemText);
+        var sure = confirm('Do you want to delete ' + itemText + '?');
         if (sure) {
           dir = av.fzr.dir[fzItemID];
           av.fzr.file[dir+'/entryname.txt'];
-          if ('fzOrgan' == container) {
+          if (dir && '#fzOrgan' == container) {
             av.fwt.removeFzrItem(dir, 'g');
-          } else if ('fzConfig' == container){
+          } else if (dir && '#fzConfig' == container){
             av.fwt.removeFzrItem(dir, 'c');
-          } else if ('fzWorld' == container){
+          } else if (dir && '#fzWorld' == container){
             av.fwt.removeFzrItem(dir, 'w');
           }
-          document.querySelector(container).removeChild(document.getElementById(fzItemID));
-          delete av.dnd.containerMap[container][fzItemID];
+          var containerNode = document.querySelector(container);
+          var itemNode = null;
+          if (containerNode) {
+            for (var ii = 0; ii < containerNode.children.length; ii++) {
+              if (containerNode.children[ii].id === fzItemID) {
+                itemNode = containerNode.children[ii];
+                break;
+              }
+            }
+          }
+          if (itemNode && itemNode.parentNode === containerNode) {
+            containerNode.removeChild(itemNode);
+          }
+          if (av.dnd.containerMap[container]) delete av.dnd.containerMap[container][fzItemID];
           av.fzr.saveUpdateState('no');
         }
       }
@@ -1642,7 +1656,7 @@ jQuery(document).ready(function($) {
       // from which you're trying to remove it
       if (document.querySelectorAll("#" + el.id)[i].parentNode === target) {
         node_to_be_removed = document.querySelectorAll("#" + el.id)[i];
-        document.querySelector(container).removeChild(node_to_be_removed);
+        target.removeChild(node_to_be_removed);
         break;
       } 
     } 
@@ -1809,4 +1823,3 @@ jQuery(document).ready(function($) {
 
 });
 //---------------------------------------------------------------------------------------------- av.dnd.landFzWorld --
-

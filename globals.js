@@ -1208,6 +1208,29 @@ av.pch.clearPopChrt = function () {
 
 av.pch.clearPopChrt();
 
+av.pch.ensureDadSeries = function (name) {
+  if (undefined === name || null === name || '' === name) return false;
+  if (undefined === av.pch.dadFit) av.pch.dadFit = {};
+  if (undefined === av.pch.dadCst) av.pch.dadCst = {};
+  if (undefined === av.pch.dadEar) av.pch.dadEar = {};
+  if (undefined === av.pch.dadNum) av.pch.dadNum = {};
+  if (undefined === av.pch.dadVia) av.pch.dadVia = {};
+
+  if (undefined === av.pch.dadFit[name]) av.pch.dadFit[name] = [];
+  if (undefined === av.pch.dadCst[name]) av.pch.dadCst[name] = [];
+  if (undefined === av.pch.dadEar[name]) av.pch.dadEar[name] = [];
+  if (undefined === av.pch.dadNum[name]) av.pch.dadNum[name] = [];
+  if (undefined === av.pch.dadVia[name]) av.pch.dadVia[name] = [];
+  return true;
+};
+
+av.pch.initDadSeries = function () {
+  av.pch.numDads = (av.pch.dadMax < av.parents.name.length) ? av.pch.dadMax : av.parents.name.length;
+  for (var ii = 0; ii < av.pch.numDads; ii++) {
+    av.pch.ensureDadSeries(av.parents.name[ii]);
+  }
+};
+
 //------------------------------------------------------------------------------------------------- av.anl.clearChart --
 av.anl = {};  //Analysis page functions and data
 av.anl.color = [];   //holds the three colors for the three populations
@@ -1571,4 +1594,3 @@ for (var ii = 0; ii < lngth; ii++) {
 // popStatsBlock: min wd = 364 no border. 
 // selOrgType: min wd = 164  (might make a tad smaller) includes 1 px border
 // popStats4grid: min wd = 176   (get left over)
-

@@ -411,11 +411,13 @@
           + av.pch.logFit[update] + ',' + av.pch.logCst[update] + ',' + av.pch.logEar[update] + ',' + av.pch.logNum[update] + ',';
 
         for (var kk = 0; kk < av.pch.numDads; kk++) {
-          av.fwt.csvStrg += av.pch.dadFit[av.parents.name[kk]][update] + ',';
-          av.fwt.csvStrg += av.pch.dadCst[av.parents.name[kk]][update] + ',';
-          av.fwt.csvStrg += av.pch.dadEar[av.parents.name[kk]][update] + ',';
-          av.fwt.csvStrg += av.pch.dadNum[av.parents.name[kk]][update] + ',';
-          av.fwt.csvStrg += av.pch.dadVia[av.parents.name[kk]][update] + ',';
+          var dadName = av.parents.name[kk];
+          av.pch.ensureDadSeries(dadName);
+          av.fwt.csvStrg += av.pch.dadFit[dadName][update] + ',';
+          av.fwt.csvStrg += av.pch.dadCst[dadName][update] + ',';
+          av.fwt.csvStrg += av.pch.dadEar[dadName][update] + ',';
+          av.fwt.csvStrg += av.pch.dadNum[dadName][update] + ',';
+          av.fwt.csvStrg += av.pch.dadVia[dadName][update] + ',';
         }
       }
       //string completed
@@ -686,4 +688,3 @@
 
   // if (av.dbg.flg.root) { console.log('Root: end of fileDataWrite'); }
     /********************************************************************************************************************/
-

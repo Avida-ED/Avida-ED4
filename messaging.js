@@ -754,25 +754,27 @@ av.msg.updatePopStats = function (msg) {
 
     //console.log('av.parents.name.length = ',av.parents.name.length, '; av.pch.numDads=', av.pch.numDads);
     for (var ii = 0; ii<av.pch.numDads; ii++) {
+      var dadName = av.parents.name[ii];
+      if (!av.pch.ensureDadSeries(dadName)) continue;
       //console.log('ii='+ii,'; msg.by_clade[av.parents.name[ii]]=',msg.by_clade[av.parents.name[ii]], '; av.parents.name[ii]=', av.parents.name[ii]);
-      if (undefined != msg.by_clade[av.parents.name[ii]]) {
+      if (undefined != msg.by_clade && undefined != msg.by_clade[dadName]) {
         //console.log('ii=',ii,'; msg.update=', msg.update);
         //console.log('av.pch.dadFit=', av.pch.dadFit);
         //console.log('av.parents.name', av.parents.name);
         //console.log('msg.by_clade=', msg.by_clade);
         //console.log('ii='+ii ,'; msg.by_clade['+av.parents.name[ii]+'].fitness=', msg.by_clade[av.parents.name[ii]].fitness);        
-        av.pch.dadFit[av.parents.name[ii]][msg.update] = msg.by_clade[av.parents.name[ii]].fitness;
-        av.pch.dadCst[av.parents.name[ii]][msg.update] = msg.by_clade[av.parents.name[ii]].gestation;
-        av.pch.dadEar[av.parents.name[ii]][msg.update] = msg.by_clade[av.parents.name[ii]].metabolism;
-        av.pch.dadNum[av.parents.name[ii]][msg.update] = msg.by_clade[av.parents.name[ii]].organisms;
-        av.pch.dadVia[av.parents.name[ii]][msg.update] = msg.by_clade[av.parents.name[ii]].viables;
+        av.pch.dadFit[dadName][msg.update] = msg.by_clade[dadName].fitness;
+        av.pch.dadCst[dadName][msg.update] = msg.by_clade[dadName].gestation;
+        av.pch.dadEar[dadName][msg.update] = msg.by_clade[dadName].metabolism;
+        av.pch.dadNum[dadName][msg.update] = msg.by_clade[dadName].organisms;
+        av.pch.dadVia[dadName][msg.update] = msg.by_clade[dadName].viables;
       }
       else {
-        av.pch.dadFit[av.parents.name[ii]][msg.update] = null;
-        av.pch.dadCst[av.parents.name[ii]][msg.update] = null;
-        av.pch.dadEar[av.parents.name[ii]][msg.update] = null;
-        av.pch.dadNum[av.parents.name[ii]][msg.update] = null;
-        av.pch.dadVia[av.parents.name[ii]][msg.update] = null;
+        av.pch.dadFit[dadName][msg.update] = null;
+        av.pch.dadCst[dadName][msg.update] = null;
+        av.pch.dadEar[dadName][msg.update] = null;
+        av.pch.dadNum[dadName][msg.update] = null;
+        av.pch.dadVia[dadName][msg.update] = null;
       }
       //console.log('av.pch.dadfFit['+av.parents.name[ii]+']['+msg.update+']=', av.pch.dadFit[av.parents.name[ii]][msg.update]);
     }
@@ -1088,4 +1090,3 @@ function doDbReady(fio) {
   av.aww.uiWorker.postMessage(request);
 }
 */
-
