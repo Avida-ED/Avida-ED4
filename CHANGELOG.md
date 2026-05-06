@@ -1,0 +1,8 @@
+# Changelog
+
+## Unreleased
+
+- Fixed population statistics updates and CSV export when parent/clade series are missing from incoming worker data.
+- Fixed freezer item deletion paths so stale DOM nodes are not removed from the wrong parent.
+- Fixed the save-workspace prompt when opening another workspace with unsaved freezer changes.
+- Fixed CSV export from unexpected page states so it produces an empty CSV string instead of throwing on an undefined value.

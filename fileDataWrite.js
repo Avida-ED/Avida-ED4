@@ -359,6 +359,7 @@
   av.fwt.makeCSV = function(fileName, from) {
     'use strict';
     console.log(from, 'called av.fwt.makeCSV: fileName=', fileName);
+    av.fwt.csvStrg = '';
     if ('populationBlock' === av.ui.page) {
       //  '@default at update 141 Average Fitness,@default at update 141 Average Gestation Time,' +
       //  '@default at update 141 Average Energy Acq. Rate,@default at update 141 Count of Organisms in the World';
@@ -450,7 +451,7 @@
         }
       }
     };
-    console.log(av.fwt.csvStrg.substr(0, 80));
+    console.log(av.fwt.csvStrg.substring(0, 80));
   };
   /*------------------------------------------------------------------------------------------- End of av.fwt.makeCSV --*/
 
