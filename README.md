@@ -51,7 +51,8 @@ For an interactive browser run:
 npm run test:headed
 ```
 
-The suite in `tests/` currently covers worker import/data flow, resource grid
+The suite in `tests/` currently covers app-shell rendering without the test
+harness, opt-in test-harness loading, worker import/data flow, resource grid
 messages, missing parent time-series data in population stats, freezer deletion
 with stale DOM nodes, workspace-open save prompts, and CSV export with empty
 analysis selections.

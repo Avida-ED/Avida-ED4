@@ -6,6 +6,7 @@
 - Added browser regression coverage for freezer deletion with stale DOM nodes outside the target container.
 - Added browser regression coverage for workspace-open prompts when freezer save state is uncertain.
 - Added browser regression coverage for CSV export from empty analysis selections.
+- Added app-shell browser coverage for blank-window regressions without the test harness.
 - Added browser regression coverage for missing parent time-series data in population stats updates.
 - Documented the local development and browser test workflow.
 - Fixed population statistics updates and CSV export when parent/clade series are missing from incoming worker data.
