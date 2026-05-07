@@ -782,7 +782,7 @@ console.log('Root: before postPost');
     "use strict";
     av.post.addUser("Button: mnFlOpenDefaultWS");
     av.fio.useDefault = true;
-    if ("no" === av.fzr.saveState) {
+    if ("no" === av.fzr.saveState || "maybe" === av.fzr.saveState) {
       document.getElementById('sWSfModalID').style.display = "block";
     } else {
       av.fio.readZipWS(av.fio.defaultFname, false); //loadConfigFlag = false = do not load config file
@@ -813,7 +813,7 @@ console.log('Root: before postPost');
     "use strict";
     av.post.addUser("Button: mnFlOpenWS");
     av.fio.useDefault = false;
-    if ('no' === av.fzr.saveState) {
+    if ('no' === av.fzr.saveState || 'maybe' === av.fzr.saveState) {
       document.getElementById('sWSfModalID').style.display = 'block';
     }
     //else document.getElementById('inputFile').click();

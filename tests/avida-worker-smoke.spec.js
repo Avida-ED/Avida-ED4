@@ -250,3 +250,67 @@ test('freezer delete tolerates stale DOM nodes outside the target container', as
   expect(result.stillInMap).toBe(false);
   expect(result.errors).toEqual([]);
 });
+
+test('open workspace prompts when freezer save state is maybe', async ({ page }) => {
+  await page.goto('/?avidaTest=1');
+  await page.evaluate(() => window.avidaTest.waitForReady());
+
+  const result = await page.evaluate(() => {
+    window.avidaTest.clearMessages();
+    var modal = document.getElementById('sWSfModalID');
+    var putWS = document.getElementById('putWS');
+    var openWS = document.getElementById('mnFlOpenWS');
+    var openDefaultWS = document.getElementById('mnFlOpenDefaultWS');
+    var oldDisplay = modal.style.display;
+    var oldClick = putWS.click;
+    var oldReadZipWS = av.fio.readZipWS;
+    var oldSaveState = av.fzr.saveState;
+    var clicked = 0;
+    var readCalls = [];
+
+    putWS.click = function () {
+      clicked += 1;
+    };
+    av.fio.readZipWS = function (fname, loadConfigFlag) {
+      readCalls.push({ fname: fname, loadConfigFlag: loadConfigFlag });
+    };
+
+    function run(button, state) {
+      modal.style.display = 'none';
+      clicked = 0;
+      readCalls.length = 0;
+      av.fzr.saveState = state;
+      button.onclick();
+      return {
+        display: modal.style.display,
+        clicked: clicked,
+        readCalls: readCalls.slice()
+      };
+    }
+
+    try {
+      return {
+        userMaybe: run(openWS, 'maybe'),
+        userNo: run(openWS, 'no'),
+        userYes: run(openWS, 'yes'),
+        defaultMaybe: run(openDefaultWS, 'maybe'),
+        defaultYes: run(openDefaultWS, 'yes'),
+        errors: window.avidaTest.state.errors
+      };
+    } finally {
+      putWS.click = oldClick;
+      av.fio.readZipWS = oldReadZipWS;
+      av.fzr.saveState = oldSaveState;
+      modal.style.display = oldDisplay;
+    }
+  });
+
+  expect(result.userMaybe).toMatchObject({ display: 'block', clicked: 0 });
+  expect(result.userNo).toMatchObject({ display: 'block', clicked: 0 });
+  expect(result.userYes).toMatchObject({ display: 'none', clicked: 1 });
+  expect(result.defaultMaybe).toMatchObject({ display: 'block', clicked: 0 });
+  expect(result.defaultYes.display).toBe('none');
+  expect(result.defaultYes.readCalls).toHaveLength(1);
+  expect(result.defaultYes.readCalls[0].loadConfigFlag).toBe(false);
+  expect(result.errors).toEqual([]);
+});
