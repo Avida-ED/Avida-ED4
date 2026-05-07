@@ -17,3 +17,6 @@ default.avidaWs_production/
 
 nbproject/
 /HTML5Application/nbproject/private/
+node_modules/
+test-results/
+playwright-report/
