@@ -122,12 +122,13 @@ av.msg.readMsg = function (ee) {
       case 'notification':
         $('#splash').remove(); //hides splash screen.
         if (av.debug.msg) console.log('avida:notify: ',msg.message);
-        av.dom.splash.style.display="none";
+        if (av.dom.splash) av.dom.splash.style.display="none";
         if (av.debug.msg) userMsgLabel.textContent = '| Avidia notification: ' + msg.message; //with splash screen no longer need ready message
         // Worked on a better splash screen gif. Used licecap, an application on the Mac to record the gif.
         // Then used http://gifmaker.me/reverser/ to make a gif in reverse time order. Then Wesley used gifsicle
         // to combine the forward and reverse gif.
-        document.getElementById("appReloadModelID").style.display="none";
+        var appReloadModel = document.getElementById("appReloadModelID");
+        if (appReloadModel) appReloadModel.style.display="none";
         av.ui.loadOK = true;
         if (av.debug.msg) console.log('before calling av.dom.sizes');
         //av.grd.popChartInit('Message: notification');
@@ -934,6 +935,7 @@ av.ptd.updateLogicFn = function (mUpdate){
 av.grd.updateSelectedOrganismType = function (msg,) {
   'use strict';
   var prefix = '';
+  var ancestorData = av.grd.msg && av.grd.msg.ancestor ? av.grd.msg.ancestor.data : null;
   if (av.debug.msg) console.log('selected_msg', msg);
   if (msg.isEstimate) prefix = 'est. ';
   else prefix = '';
@@ -954,10 +956,10 @@ av.grd.updateSelectedOrganismType = function (msg,) {
   if (null === msg.ancestor) {
     //console.log('av.grd.msg', av.grd.msg);
     if (av.debug.msg) console.log('msg.ancestor === null_______________________________________________________');
-    if ('undefined' != typeof av.grd.msg.ancestor) {
-      if (null === av.grd.msg.ancestor.data[av.grd.selectedNdx])
+    if (ancestorData) {
+      if (null === ancestorData[av.grd.selectedNdx])
         ancestorLabel.textContent = ' ';
-      else ancestorLabel.textContent = av.parents.name[av.grd.msg.ancestor.data[av.grd.selectedNdx]];
+      else ancestorLabel.textContent = av.parents.name[ancestorData[av.grd.selectedNdx]];
     }
     else ancestorLabel.textContent = ' ';
   }
@@ -1018,6 +1020,8 @@ av.msg.fillColorBlock = function (msg, from) {
   if (0 <= av.grd.selectedNdx) {
     var bkcolor = '#000';
     var colorMode = document.getElementById('colorMode').value;
+    var ancestorData = av.grd.msg && av.grd.msg.ancestor ? av.grd.msg.ancestor.data : null;
+    var gestationData = av.grd.msg && av.grd.msg.gestation ? av.grd.msg.gestation.data : null;
     if (av.debug.msg) { console.log('Msg: av.grd.fill[av.grd.selectedNdx]=',av.grd.fill[av.grd.selectedNdx]); }
     console.log('Msg: av.grd.fill[av.grd.selectedNdx]=',av.grd.fill[av.grd.selectedNdx]);
     if ('Ancestor Organism' == document.getElementById('colorMode').value) {
@@ -1030,7 +1034,7 @@ av.msg.fillColorBlock = function (msg, from) {
     else {
       //console.log('Gradient mode');
       if (null != av.grd.fill[av.grd.selectedNdx]) {
-        if (0 >= av.grd.msg.gestation.data[av.grd.selectedNdx]) {  
+        if (gestationData && 0 >= gestationData[av.grd.selectedNdx]) {  
           bkcolor = '#888';
         //console.log('Gradient mode,  null != fill, - = ancestor.data: bkColor=', bkcolor);
         }
@@ -1047,9 +1051,9 @@ av.msg.fillColorBlock = function (msg, from) {
           console.log('av.grd.msg.ancestor =', av.grd.msg.ancestor);
         };
         try {
-          if (av.grd.msg.ancestor.data != undefined) {
+          if (ancestorData != undefined) {
             console.log("av.grd.msg.ancestor.data is defined");
-            if ('-' != av.grd.msg.ancestor.data[av.grd.selectedNdx]) { 
+            if ('-' != ancestorData[av.grd.selectedNdx]) { 
               bkcolor = '#888';
             console.log('Gradient mode,  null = fill, - = ancestor.data: bkColor=', bkcolor);
             }
@@ -1059,10 +1063,10 @@ av.msg.fillColorBlock = function (msg, from) {
     } 
 
     if (true) {
-      if (av.grd.msg.ancestor.data != undefined) {
+      if (ancestorData != undefined) {
         console.log(from, 'called fillColorBlock: colorMode=', colorMode
                     , '; av.grd.fill['+av.grd.selectedNdx+']=',  av.grd.fill[av.grd.selectedNdx] 
-                    , '; av.grd.msg.ancestor.data['+av.grd.selectedNdx+']=',  av.grd.msg.ancestor.data[av.grd.selectedNdx]); 
+                    , '; av.grd.msg.ancestor.data['+av.grd.selectedNdx+']=',  ancestorData[av.grd.selectedNdx]); 
       }
     }
 

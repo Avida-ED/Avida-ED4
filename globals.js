@@ -897,6 +897,7 @@ for (var ii = 0; ii < 9; ii++) { av.grd.fnChosen[av.ptd.logicButtons[ii]] = fals
 // initialize data for chart on population page
 av.grd.need2DrawGrid = true;
 av.grd.newlyNone = true;
+av.grd.drawGridSetupFn = function () {};
 
 av.grd.clearGrd = function () {
   av.grd.cmap = av.color.Gnuplot2cmap;  //default colormap

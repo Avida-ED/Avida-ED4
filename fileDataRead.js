@@ -7,6 +7,10 @@
   av.fio.addFzItem = function(target, name, type, fileNum, from) {
     // example 'container' input format: '.className' or '#id'
     'use strict';
+    if (!target) {
+      console.log(from, 'called av.fio.addFzItem without a target');
+      return 'dndSection is undefined';
+    }
     var container = target.id !== undefined ? "#" + target.id : "." + target.className;
     if (container !== undefined) {
       // if the container is not yet in the av.dnd.containerMap, add an entry
