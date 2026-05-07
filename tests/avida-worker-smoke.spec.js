@@ -314,3 +314,43 @@ test('open workspace prompts when freezer save state is maybe', async ({ page })
   expect(result.defaultYes.readCalls[0].loadConfigFlag).toBe(false);
   expect(result.errors).toEqual([]);
 });
+
+test('CSV export tolerates empty analysis selections', async ({ page }) => {
+  await page.goto('/?avidaTest=1');
+  await page.evaluate(() => window.avidaTest.waitForReady());
+
+  const result = await page.evaluate(() => {
+    window.avidaTest.clearMessages();
+    var oldPage = av.ui.page;
+    var oldPop = av.fzr.pop;
+    var labels = [0, 1, 2].map(function (index) {
+      return document.getElementById('popDish' + index).textContent;
+    });
+
+    try {
+      av.ui.page = 'analysisBlock';
+      av.fzr.pop = [
+        { fit: [], ges: [], met: [], num: [], via: [] },
+        { fit: [], ges: [], met: [], num: [], via: [] },
+        { fit: [], ges: [], met: [], num: [], via: [] }
+      ];
+      [0, 1, 2].forEach(function (index) {
+        document.getElementById('popDish' + index).textContent = '';
+      });
+      av.fwt.makeCSV('empty-analysis.csv', 'playwright');
+      return {
+        csv: av.fwt.csvStrg,
+        errors: window.avidaTest.state.errors
+      };
+    } finally {
+      av.ui.page = oldPage;
+      av.fzr.pop = oldPop;
+      [0, 1, 2].forEach(function (index) {
+        document.getElementById('popDish' + index).textContent = labels[index];
+      });
+    }
+  });
+
+  expect(result.csv).toBe('Update');
+  expect(result.errors).toEqual([]);
+});
