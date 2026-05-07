@@ -178,3 +178,75 @@ test('population stats tolerate missing parent time-series arrays', async ({ pag
   expect(result.dadCst).toBeNull();
   expect(result.errors).toEqual([]);
 });
+
+test('freezer delete tolerates stale DOM nodes outside the target container', async ({ page }) => {
+  await page.goto('/?avidaTest=1');
+  await page.evaluate(() => window.avidaTest.waitForReady());
+
+  const result = await page.evaluate(() => {
+    window.avidaTest.clearMessages();
+    var itemId = 'staleFzOrganItem';
+    var dir = 'g987';
+    var container = document.getElementById('fzOrgan');
+    var staleItem = document.createElement('div');
+    var menuItems = [];
+    var oldMenu = dijit.Menu;
+    var oldMenuItem = dijit.MenuItem;
+    var oldConfirm = window.confirm;
+    var oldRemoveFzrItem = av.fwt.removeFzrItem;
+    var oldSaveUpdateState = av.fzr.saveUpdateState;
+    var removed = [];
+    var saved = [];
+
+    staleItem.id = itemId;
+    staleItem.textContent = '@F1- Daisy';
+    document.body.appendChild(staleItem);
+
+    av.fzr.dir[itemId] = dir;
+    av.fzr.file[dir + '/entryname.txt'] = '@F1- Daisy';
+    av.dnd.containerMap['#fzOrgan'] = av.dnd.containerMap['#fzOrgan'] || {};
+    av.dnd.containerMap['#fzOrgan'][itemId] = { name: '@F1- Daisy' };
+
+    window.confirm = function () { return true; };
+    av.fwt.removeFzrItem = function (removeDir, type) {
+      removed.push({ dir: removeDir, type: type });
+    };
+    av.fzr.saveUpdateState = function (state) {
+      saved.push(state);
+    };
+    dijit.Menu = function () {
+      this.addChild = function (item) {
+        menuItems.push(item);
+      };
+    };
+    dijit.MenuItem = function (options) {
+      return options;
+    };
+
+    try {
+      av.dnd.contextMenu(container, itemId, 'playwright');
+      menuItems.filter(function (item) { return item.label === 'delete'; })[0].onClick();
+    } finally {
+      dijit.Menu = oldMenu;
+      dijit.MenuItem = oldMenuItem;
+      window.confirm = oldConfirm;
+      av.fwt.removeFzrItem = oldRemoveFzrItem;
+      av.fzr.saveUpdateState = oldSaveUpdateState;
+      if (staleItem.parentNode) staleItem.parentNode.removeChild(staleItem);
+      delete av.fzr.dir[itemId];
+      delete av.fzr.file[dir + '/entryname.txt'];
+    }
+
+    return {
+      removed: removed,
+      saved: saved,
+      stillInMap: Boolean(av.dnd.containerMap['#fzOrgan'][itemId]),
+      errors: window.avidaTest.state.errors
+    };
+  });
+
+  expect(result.removed).toEqual([{ dir: 'g987', type: 'g' }]);
+  expect(result.saved).toEqual(['no']);
+  expect(result.stillInMap).toBe(false);
+  expect(result.errors).toEqual([]);
+});
