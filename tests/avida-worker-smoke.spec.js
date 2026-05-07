@@ -127,3 +127,54 @@ test('worker imports an ED4 config and returns grid and population data', async 
   const errors = await page.evaluate(() => window.avidaTest.state.errors);
   expect(errors).toEqual([]);
 });
+
+test('population stats tolerate missing parent time-series arrays', async ({ page }) => {
+  await page.goto('/?avidaTest=1');
+  await page.evaluate(() => window.avidaTest.waitForReady());
+
+  const result = await page.evaluate(() => {
+    window.avidaTest.clearMessages();
+    av.parents.name = ['@ancestor'];
+    av.pch.numDads = 1;
+    delete av.pch.dadFit['@ancestor'];
+    delete av.pch.dadCst['@ancestor'];
+    delete av.pch.dadEar['@ancestor'];
+    delete av.pch.dadNum['@ancestor'];
+    delete av.pch.dadVia['@ancestor'];
+
+    av.msg.updatePopStats({
+      update: 3210,
+      ave_fitness: 0.25,
+      ave_gestation_time: 189,
+      ave_metabolic_rate: 47,
+      ave_age: 1,
+      organisms: 900,
+      viables: 899,
+      ave_repro_fitness: 0.24,
+      ave_repro_gestation_time: 188,
+      ave_repro_metabolic_rate: 46,
+      with_offspring: 898,
+      by_clade: {},
+      globalResourceAmount: {},
+      not: 0,
+      nand: 0,
+      and: 0,
+      orn: 0,
+      or: 0,
+      andn: 0,
+      nor: 0,
+      xor: 0,
+      equ: 0
+    });
+
+    return {
+      dadFit: av.pch.dadFit['@ancestor'][3210],
+      dadCst: av.pch.dadCst['@ancestor'][3210],
+      errors: window.avidaTest.state.errors
+    };
+  });
+
+  expect(result.dadFit).toBeNull();
+  expect(result.dadCst).toBeNull();
+  expect(result.errors).toEqual([]);
+});
