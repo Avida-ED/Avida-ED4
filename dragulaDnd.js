@@ -505,6 +505,7 @@ jQuery(document).ready(function($) {
   //---------------------------------------------------------------------------------------------- av.dnd.landFzOrgan --
   //when an organism is added to the freezer
   av.dnd.landFzOrgan = function(el, target, source) {
+    var sourceId = el.id;
     el.id = 'dom_g' + av.fzr.gNum;
     mostRecentlyAddedDomid = el.id;
     var gen;
@@ -525,7 +526,7 @@ jQuery(document).ready(function($) {
         // el.textContent = avName;
         if (source === av.dnd.ancestorBox) { //do not remove if population has started running
           //update structure to hold freezer data for Organisms.
-          var Ndx = av.parents.domid.indexOf(el.id); //Find index into parent structure
+          var Ndx = av.parents.domid.indexOf(sourceId); //Find index into parent structure
           gen = av.parents.genome[Ndx];
         }
         else if (source === av.dnd.activeOrgan) { gen = av.fzr.actOrgan.genome; }
@@ -536,7 +537,7 @@ jQuery(document).ready(function($) {
         if (av.debug.dnd) { console.log('fzr', av.fzr); }
         if (av.debug.dnd) { console.log('fzOrgan', av.dnd.fzOrgan); }
         //create a right av.mouse-click context menu for the item just created.
-        if (av.debug.dnd) { console.log('before context menu: target',target, '; domId', domid ); }
+        if (av.debug.dnd) { console.log('before context menu: target',target, '; domId', el.id ); }
         av.fzr.gNum++;
         av.dnd.contextMenu(target, el.id, 'av.dnd.landFzOrgan', av.dnd.landFzOrgan);
         av.fzr.saveUpdateState('no');
@@ -579,6 +580,7 @@ jQuery(document).ready(function($) {
         av.dnd.insert(target, el, 'w');
         av.fzr.dir[el.id] = 'w'+ av.fzr.wNum;
         av.fzr.domid['w'+ av.fzr.wNum] = el.id;
+        av.fzr.file[av.fzr.dir[el.id] + '/entryname.txt'] = nameWorld;
         //create a right av.mouse-click context menu for the item just created.
         av.dnd.contextMenu(target, el.id, 'av.dnd.landFzWorldFn', av.dnd.landFzOrgan);
         av.fwt.makeFzrWorld(av.fzr.wNum, 'av.dnd.landFzWorldFn');
@@ -1522,6 +1524,31 @@ jQuery(document).ready(function($) {
   //----------------------------------------------------------------------------------------- end av.dnd.landTrashCan --
 
   //============================================================================================= Adding context menu ==
+  // Export just the files belonging to one freezer directory.
+  av.dnd.exportFzrItem = function (fzItemID) {
+    'use strict';
+    var item = document.getElementById(fzItemID);
+    var dir = av.fzr.dir[fzItemID];
+    if (!item || !dir) return;
+    if (av.fzr.hasPendingWorldExport(dir)) {
+      av.fzr.warnPendingWorldExport();
+      return;
+    }
+    var itemName = item.textContent.trim();
+    var zName = prompt(itemName + ' will be saved as ' + itemName + '.avidaED_fi.zip', itemName + '.avidaED_fi.zip');
+    if (!zName) return;
+    if ('.zip' !== zName.substring(zName.length - 4).toLowerCase()) zName += '.zip';
+    var zip = new av.fio.JSZip();
+    zip.file('entrytype.txt', dir.substring(0, 1));
+    var prefix = dir + '/';
+    for (var fname in av.fzr.file) {
+      if (fname.indexOf(prefix) === 0) {
+        zip.file(fname.substring(prefix.length), av.fzr.file[fname]);
+      }
+    }
+    saveAs(zip.generate({type: 'blob'}), zName);
+  };
+
   // need to re-write this as dojo is going away. 
   //---------------------------------------------------------------------------------------------- av.dnd.contextMenu --
   av.dnd.contextMenu = function(target, fzItemID, from) {
@@ -1558,34 +1585,13 @@ jQuery(document).ready(function($) {
         }
       }
     }));
-    if (!av.brs.isSafari) {
-      aMenu.addChild(new dijit.MenuItem({
-        label: 'export',
-        onClick: function () {
-          av.post.addUser('Button: export:' + document.getElementById(fzItemID).textContent);
-          var type;
-          var itemName = document.getElementById(fzItemID).textContent.trim();
-          var zName = prompt(itemName + ' will be saved as ' + itemName + '.avidaED_fi.zip', itemName + '.avidaED_fi.zip');
-          if (zName) {
-            if (0 === zName.length) zName = itemName + '.avidaED_fi.zip';  //.avidaED_fi.zip is 23 characters
-            if ('.zip' != zName.substring(zName.length - 4)) zName = zName + '.zip';
-            dir = av.fzr.dir[fzItemID];
-            type = dir.substring(0, 1);
-            var FIzip = new av.fio.JSZip();  //FreezerItemZip
-            FIzip.file('entrytype.txt', type);
-            if (av.debug.dnd) { console.log('DnD: type', type); }
-            for (var fname in av.fzr.file) {
-              if (dir == fname.substring(0, dir.length)) {
-                if (av.debug.dnd) { console.log('DnD: export filename', fname.substring(dir.length + 1)); }
-                FIzip.file(fname.substring(dir.length + 1), av.fzr.file[fname]);
-              }
-            }
-            var content = FIzip.generate({type: 'blob'});
-            saveAs(content, zName);
-          }
-        }
-      }));
-    }
+    aMenu.addChild(new dijit.MenuItem({
+      label: 'export',
+      onClick: function () {
+        av.post.addUser('Button: export:' + document.getElementById(fzItemID).textContent);
+        av.dnd.exportFzrItem(fzItemID);
+      }
+    }));
     aMenu.addChild(new dijit.MenuItem({
       label: 'delete',
       onClick: function () {

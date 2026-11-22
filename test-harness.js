@@ -102,12 +102,17 @@
 
   function waitForReady(timeoutMs) {
     return waitForWorker(timeoutMs).then(function () {
-      return waitForMessage(function (message) {
-        return message &&
-          message.type === 'userFeedback' &&
-          message.level === 'notification' &&
-          typeof message.message === 'string' &&
-          message.message.indexOf('ready') === 0;
+      // The worker may have sent its ready notification before the test
+      // installed the message hook. The application records that notification
+      // in loadOK, so accept either observation.
+      return waitFor(function () {
+        return av.ui.loadOK || state.messages.some(function (message) {
+          return message &&
+            message.type === 'userFeedback' &&
+            message.level === 'notification' &&
+            typeof message.message === 'string' &&
+            message.message.indexOf('ready') === 0;
+        });
       }, timeoutMs);
     });
   }

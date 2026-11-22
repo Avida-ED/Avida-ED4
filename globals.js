@@ -648,6 +648,22 @@ av.nut = {};  // within Nutrients (av.nut) the first element in all arrays refer
               // When more subdishes are implemented, an array or dictionary will be defined for each of the tsk.regionLayout values. 
 
 av.fzr = {};
+// Track worker exports until the population files are available to save.
+av.fzr.pendingWorldExports = {};
+av.fzr.worldExportSerial = 0;
+av.fzr.hasPendingWorldExport = function (dir) {
+  return Object.keys(av.fzr.pendingWorldExports).some(function (requestId) {
+    return !dir || av.fzr.pendingWorldExports[requestId] === dir;
+  });
+};
+av.fzr.cancelPendingWorldExports = function (dir) {
+  Object.keys(av.fzr.pendingWorldExports).forEach(function (requestId) {
+    if (!dir || av.fzr.pendingWorldExports[requestId] === dir) delete av.fzr.pendingWorldExports[requestId];
+  });
+};
+av.fzr.warnPendingWorldExport = function () {
+  alert('A populated dish is still being prepared. Please wait a moment and try saving again. If this persists, remove the incomplete dish and freeze it again.');
+};
 
 //----------------------------------------------------------------------------------------- av.fzr.clearEnvironment --
 // used to create several structures used in defining parameters for the environment.cfg file
@@ -801,6 +817,7 @@ av.sgr.processHideFlags = function(boolArry, from) {
 // Clear the ___active config data__  and __av.nut___
 av.fzr.clearFzr_activeConfig_nutData_Fn = function () {
   'use strict';
+  av.fzr.cancelPendingWorldExports();
   av.fzr.dir = {};
   av.fzr.domid = {};
   av.fzr.file = {};
@@ -854,6 +871,7 @@ av.fzr.workspaceName = 'default';
 // Does NOT clear the active config data
 av.fzr.clearMainFzrFn = function () {
   'use strict';
+  av.fzr.cancelPendingWorldExports();
   if (av.debug.fzr) { console.log('Freezer: in ClearMainFzrFn'); }
 
   //Clear each section of the freezer and active organism and ancestorBox

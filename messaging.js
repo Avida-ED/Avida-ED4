@@ -557,12 +557,18 @@ av.msg.getOffset = function (dir, key) {
 
 av.msg.exportExpr = function (popName) {
   'use strict';
+  // The worker echoes this identifier. A unique ID prevents late replies from
+  // an old workspace from being applied to a newly created item with the same directory.
+  var requestId = popName + '_export_' + (++av.fzr.worldExportSerial);
+  av.fzr.pendingWorldExports[requestId] = popName;
   var request = {
     'type': 'addEvent',
     'name': 'exportExpr',
-    'popName': popName,
+    'popName': requestId,
     'triggerType': 'immediate'
   };
+  // Keep the request pending even if posting fails, so an incomplete item
+  // cannot silently be saved. Removing that item clears the pending request.
   av.aww.uiWorker.postMessage(request);
   av.debug.log += '\n--uiA: grdUpdate:' + av.msg.previousUpdate + '; \n' + av.utl.jsonStringify(request);
 };

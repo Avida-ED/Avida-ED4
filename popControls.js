@@ -440,7 +440,7 @@
       av.fzr.file['g' + av.fzr.gNum + '/entryname.txt'] = fzName;
       av.fzr.gNum++;
       console.log(av.fzr);
-      av.dnd.contextMenu(av.dnd.fzWorld, domid, 'av.ptd.FrOrganismFn');
+      av.dnd.contextMenu(av.dnd.fzOrgan, domid, 'av.ptd.FrOrganismFn');
       av.fzr.saveUpdateState('no');
     }
   };
@@ -475,8 +475,6 @@
   //Save a populated dish
   av.ptd.FrPopulationFn = function () {
     'use strict';
-    av.msg.exportExpr('w' + av.fzr.wNum);
-    av.msg.sendData();
     var popName = av.fzr.actConfig.name + '@' + av.grd.popStatsMsg.update.formatNum(0);  // need update here star
     var fzName = prompt('Please name the new population', popName);
     var container = av.dnd.fzWorld.id !== undefined ? "#" + av.dnd.fzWorld.id : "." + av.dnd.fzWorld.className;
@@ -491,6 +489,8 @@
         av.fzr.domid['w'+ av.fzr.wNum] = domid;
         av.fzr.file[av.fzr.dir[domid]+'/entryname.txt'] = fzName;
         av.fwt.makeFzrWorld(av.fzr.wNum, 'av.ptd.FrPopulationFn');
+        av.msg.exportExpr('w' + av.fzr.wNum);
+        av.msg.sendData();
         av.fzr.wNum++;
         //Create context menu for right-click on this item
         av.dnd.contextMenu(av.dnd.fzWorld, domid, 'av.ptd.FrPopulationFn');

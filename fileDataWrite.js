@@ -250,10 +250,14 @@
   /*---------------------------------------------------------------------------------------------- av.fwt.popExpWrite --*/
   av.fwt.popExpWrite = function (msg) {
     'use strict';
-    //console.log('exportExpr', msg);
-    //assume last world for now.
+    var dir = av.fzr.pendingWorldExports[msg.popName];
+    if (!dir) return; // The item was deleted or its workspace was closed.
+    var hasPopulation = false;
+    var hasClades = false;
     var lngth = msg.files.length;
     for (var ii = 0; ii < lngth; ii++) {
+      if (msg.files[ii].name === 'detail.spop' && msg.files[ii].data) hasPopulation = true;
+      if (msg.files[ii].name === 'clade.ssg' && msg.files[ii].data) hasClades = true;
       switch (msg.files[ii].name) {
         case 'clade.ssg':
         case 'detail.spop':
@@ -262,11 +266,13 @@
         case 'environment.cfg':
         case 'avida.cfg':
           //console.log('ii', ii, '; name', msg.files[ii].name);
-          av.fwt.makeFzrFile(msg.popName + '/' + msg.files[ii].name, msg.files[ii].data, 'av.fwt.popExpWrite');
+          av.fwt.makeFzrFile(dir + '/' + msg.files[ii].name, msg.files[ii].data, 'av.fwt.popExpWrite');
           break;
       };
     };
-    //console.log('fzr', av.fzr.file);
+    if (hasPopulation && hasClades) {
+      delete av.fzr.pendingWorldExports[msg.popName];
+    }
   };
 
   /*------------------------------------------------------------------------------------------ av.fwt.removeFzrConfig --*/
@@ -298,19 +304,14 @@
   /*------------------------------------------------------------------------------------------- av.fwt.removeFzrWorld --*/
   av.fwt.removeFzrWorld = function (dir) {
     'use strict';
-    av.fwt.deleteFzrFile(dir+'/ancestors.txt');
-    av.fwt.deleteFzrFile(dir+'/ancestors_manual.txt');
-    av.fwt.deleteFzrFile(dir+'/avida.cfg');
-    av.fwt.deleteFzrFile(dir+'/environment.cfg');
-    av.fwt.deleteFzrFile(dir+'/events.cfg');
-    av.fwt.deleteFzrFile(dir+'/entryname.txt');
-    av.fwt.deleteFzrFile(dir+'/instset.cfg');
-    av.fwt.deleteFzrFile(dir+'/update');
-    var domid = av.fzr.domid[dir][-1];
+    av.fzr.cancelPendingWorldExports(dir);
+    var prefix = dir + '/';
+    Object.keys(av.fzr.file).forEach(function (file) {
+      if (file.indexOf(prefix) === 0) av.fwt.deleteFzrFile(file);
+    });
+    var domid = av.fzr.domid[dir];
     delete av.fzr.domid[dir];
     delete av.fzr.dir[domid];
-    //av.fwt.deleteFzrFile(dir+'/');
-    //av.fwt.deleteFzrFile(dir+'/');
   };
 
   /*-------------------------------------------------------------------------------------------- av.fwt.removeFzrItem --*/

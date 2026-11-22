@@ -833,11 +833,8 @@ console.log('Root: before postPost');
 
   //------------------------------------------------------------------------------------------ Save current workspace --
   document.getElementById('mnFlSaveWorkspace').onclick = function () {
-    if (!av.brs.isSafari) {
-      //if (true) {
-      av.post.addUser('Button: mnFlSaveWorkspace');
-      av.fio.fzSaveCurrentWorkspaceFn();  //fileIO.js
-    }
+    av.post.addUser('Button: mnFlSaveWorkspace');
+    av.fio.fzSaveCurrentWorkspaceFn();  //fileIO.js
   };
 
   try {
@@ -848,18 +845,15 @@ console.log('Root: before postPost');
 
   //------------------------------------------------------------------------------------ save workspace with new name --
   document.getElementById('mnFlSaveAs').onclick = function () {
-    if (!av.brs.isSafari) {
-      //if (true) {
-      av.post.addUser('Button: mnFlSaveAs');
-      var suggest = 'avidaWS.avidaWs.zip';
-      if (av.fio.userFname) {
-        if (0 < av.fio.userFname.length) { suggest = av.fio.userFname; }
-      }
-      av.fio.userFname = prompt('Choose a new name for your Workspace now', suggest);
-      if (null !== av.fio.userFname) {
-        av.fio.fzSaveCurrentWorkspaceFn();
-      }  //fileIO.js
+    av.post.addUser('Button: mnFlSaveAs');
+    var suggest = 'avidaWS.avidaWs.zip';
+    if (av.fio.userFname) {
+      if (0 < av.fio.userFname.length) { suggest = av.fio.userFname; }
     }
+    av.fio.userFname = prompt('Choose a new name for your Workspace now', suggest);
+    if (null !== av.fio.userFname) {
+      av.fio.fzSaveCurrentWorkspaceFn();
+    }  //fileIO.js
   };
 
   //-------------------------------------------------------------------------------- Export csv data from current run --
@@ -1164,6 +1158,13 @@ av.ui.feedback = function(){
   document.getElementById("mnFzOffspring").onclick = function () {
     av.post.addUser("Button: mnFzOffspring");
     av.ptd.FrOrganismFn("offspring", 'mnFzOffspring');
+  };
+
+  document.getElementById('mnFzExport').onclick = function () {
+    if (av.fzr.selectedId) {
+      av.post.addUser('Button: mnFzExport');
+      av.dnd.exportFzrItem(av.fzr.selectedId);
+    }
   };
 
   //------------------------------------------------------------------------------------------- mnFzAddFzItem.onclick --

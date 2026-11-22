@@ -314,7 +314,7 @@
         }
         av.fwt.deleteFzrItem(fname);
       }
-      av.fzr.domid[dir].push(domid);
+      av.fzr.domid[dir] = domid;
       av.fzr.dir[domid] = dir;
       //if (av.debug.fio) console.log('av.fzr', av.fzr);
     }
@@ -395,6 +395,10 @@
   //--------------------------------------------------------------------------------- av.fio.fzSaveCurrentWorkspaceFn --
   av.fio.fzSaveCurrentWorkspaceFn = function () {
     'use strict';
+    if (av.fzr.hasPendingWorldExport()) {
+      av.fzr.warnPendingWorldExport();
+      return;
+    }
     if (av.debug.fio) { console.log('fio: defaultUserFname', av.fio.defaultUserFname); }
     console.log('defaultUserFname', av.fio.defaultUserFname);
     if (null === av.fio.userFname) {
