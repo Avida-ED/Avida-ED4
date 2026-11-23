@@ -2433,8 +2433,13 @@ checkbox:focus {
 /* ---------------------------------------------------------------------- markup for email Form that uses modalBig -- */
 
 /* could not get browser to recognize this element style  */
+#sendLogModalID .modalBig-content {
+  height: auto;
+  min-height: 90%;
+}
 #sendLogHead { 
   width: 100%;
+  flex-wrap: wrap;
 }
 
 #sendLogHdTitle { 
@@ -2452,7 +2457,7 @@ checkbox:focus {
   padding: 4px 8px;
 }
 #sendLogCloseButton { min-width: 75px; margin: 5px; }
-#sendLogEmail { min-width: 110px; margin: 5px; }
+#sendLogEmail, #sendLogCopy { min-width: 110px; margin: 5px; }
 
 #sendLog-body {
   display: flex;
@@ -2469,8 +2474,20 @@ checkbox:focus {
   width: 90%;
 }
 #sendLogP { font-size: 120%; }
-#sendLogTxtAreaHldr {
-  
+#sendLogCommentAreaHldr, #sendLogTxtAreaHldr {
+  width: 90%;
+}
+#sendLogCommentAreaHldr label, #sendLogTxtAreaHldr label {
+  display: block;
+}
+#CommentAreaScrollBox, #sendLogCopyFallback {
+  width: 98%;
+}
+#CommentAreaScrollBox, #sendLogScrollBox, #sendLogCopyFallback {
+  font-size: 1rem;
+}
+#sendLogCopyFallback {
+  min-height: 8em;
 }
 
 #sendLogScrollBox {

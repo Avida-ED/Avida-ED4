@@ -1558,7 +1558,8 @@
           </span>
           <h2 id="sendLogHdTitle">Avida-ED Feedback Email<br>Help us make Avida-ED better</h2>
           <span class='sendLogCloseHldr'>
-            <button id='sendLogEmail' onclick='av.ui.sendLogEmailFn()'>Send email</button>
+            <button id='sendLogCopy' type='button' onclick='av.ui.copyFeedbackFn()'>Copy feedback</button>
+            <button id='sendLogEmail' type='button' onclick='av.ui.sendLogEmailFn()'>Open email</button>
           </span>
         </div>
         
@@ -1569,16 +1570,24 @@
             </p>
             <br />
             <p id='sendLogPara2' class='sendLogP'>
-              If there was an error or odd behavior in this session, include the session log (below) in your email
+              Open email creates a draft in your configured email app; you must send it there.
+              If no email app opens, copy your feedback and email it to
+              <a id='sendLogRecipient' href='mailto:Avida-ED-development@googlegroups.com'>Avida-ED-development@googlegroups.com</a>.
+              For a long session log, copy the feedback and paste it into your email.
             </p>
             <br />
           </div>
           <div id='sendLogCommentAreaHldr'>
-            <textarea id='CommentAreaScrollBox' cols='80' rows='10'>Describe what what you were doing and what happened here:</textarea>
+            <label for='CommentAreaScrollBox'>Describe what you were doing and what happened:</label>
+            <textarea id='CommentAreaScrollBox' cols='80' rows='6' placeholder='Describe your feedback here'></textarea>
           </div>
           <div id='sendLogTxtAreaHldr'>
+            <label><input id='sendLogIncludeDiagnostics' type='checkbox'> Include the session log and debug details</label>
+            <label for='sendLogScrollBox'>Session log and debug details (review and edit before including):</label>
             <textarea id='sendLogScrollBox' cols='80' rows='10'></textarea>
           </div>
+          <p id='sendLogCopyStatus' role='status' aria-live='polite'></p>
+          <textarea id='sendLogCopyFallback' aria-label='Feedback to copy manually' hidden readonly></textarea>
         </div>
       </div>
     </div>

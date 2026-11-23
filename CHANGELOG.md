@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fixed feedback email drafts to include the user's message and optional edited diagnostics; added a copy fallback when no email app or clipboard access is available.
 - Kept workspace saving and freezer-item export available in Safari, with a non-blocking note that those operations have not yet been tested there.
 - Fixed exporting a selected freezer item from the Freezer menu and importing the exported item again.
 - Fixed parent organisms dragged to the freezer losing their genomes, and corrected the context menu for organisms saved from the population.

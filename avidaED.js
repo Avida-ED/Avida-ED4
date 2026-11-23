@@ -663,15 +663,19 @@ require([
   //--------------------------------------------------------------------------------------------- av.post.emailWindow --
   av.post.emailWindow = function (from) {
     console.log(from, 'called av.post.emailWindow');
-    av.dom.sendLogScrollBox.textContent = av.debug.sendLogScrollBox;
+    av.dom.sendLogScrollBox.value = av.debug.sendLogScrollBox;
     av.dom.sendLogPara1.textContent = av.debug.sendLogPara1;
-    $('#sendLogPara2').text(av.debug.sendLogPara2);
+    var recipient = document.getElementById('sendLogRecipient');
+    recipient.textContent = av.fio.mailAddress;
+    recipient.href = 'mailto:' + av.fio.mailAddress;
+    document.getElementById('sendLogCopyStatus').textContent = '';
+    document.getElementById('sendLogCopyFallback').hidden = true;
 
     //document.getElementById('postLogTextarea').textContent = av.debug.sendLogScrollBox;
     //document.getElementById('postLogPara').textContent = av.debug.sendLogPara;
 
     document.getElementById('sendLogModalID').style.display = 'block';  //sendLogDialog.show();  //textarea must be visable first
-    av.dom.sendLogScrollBox.focus();
+    document.getElementById('CommentAreaScrollBox').focus();
     //av.dom.sendLogScrollBox.select();  //https://css-tricks.com/snippets/javascript/auto-select-textarea-text/
   };
 
@@ -743,18 +747,58 @@ console.log('Root: before postPost');
     ); // End then
   }); // End on's function and on statement
 
-  //http://stackoverflow.com/questions/7080269/javascript-before-leaving-the-page
+  av.ui.feedbackBody = function () {
+    var comment = document.getElementById('CommentAreaScrollBox').value;
+    var diagnostics = document.getElementById('sendLogScrollBox').value;
+    if (document.getElementById('sendLogIncludeDiagnostics').checked && diagnostics) {
+      return comment ? comment + '\n\n' + diagnostics : diagnostics;
+    }
+    return comment;
+  };
+
   av.ui.sendLogEmailFn = function () {
-    console.log('in sendLogEmailFn');
     av.ui.sendEmailFlag = true;
     av.post.addUser('Button: sendEmail');
-    var link = 'mailto:' + av.fio.mailAddress +
-      //'?cc=CCaddress@example.com' +
-      '?subject=' + escape('Avida-ED session log') +
-      '&body=' + escape(av.debug.sendLogScrollBox);
-    window.location.href = link;
+    var link = document.createElement('a');
+    link.href = 'mailto:' + av.fio.mailAddress +
+      '?subject=' + encodeURIComponent('Avida-ED feedback') +
+      '&body=' + encodeURIComponent(av.ui.feedbackBody());
+    link.click();
     av.ui.sendEmailFlag = false;
   };
+
+  av.ui.copyFeedbackFn = function () {
+    var body = av.ui.feedbackBody();
+    var status = document.getElementById('sendLogCopyStatus');
+    var fallback = document.getElementById('sendLogCopyFallback');
+    function selectForManualCopy() {
+      fallback.value = body;
+      fallback.hidden = false;
+      fallback.focus();
+      fallback.select();
+      status.textContent = 'Select and copy the feedback below, then paste it into your email.';
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        navigator.clipboard.writeText(body).then(function () {
+          fallback.hidden = true;
+          status.textContent = 'Feedback copied. Paste it into your email.';
+        }, selectForManualCopy);
+      } catch (error) {
+        selectForManualCopy();
+      }
+    } else {
+      selectForManualCopy();
+    }
+  };
+
+  function clearFeedbackCopyStatus() {
+    document.getElementById('sendLogCopyStatus').textContent = '';
+    document.getElementById('sendLogCopyFallback').hidden = true;
+  }
+  document.getElementById('CommentAreaScrollBox').addEventListener('input', clearFeedbackCopyStatus);
+  document.getElementById('sendLogScrollBox').addEventListener('input', clearFeedbackCopyStatus);
+  document.getElementById('sendLogIncludeDiagnostics').addEventListener('change', clearFeedbackCopyStatus);
 
   av.debug.finalizeDtail = function () {
     //finalize dTail
@@ -944,11 +988,7 @@ av.ui.feedback = function(){
   av.dom.postError.style.color = 'grey';
   
   // sendLogParagraph lines
-  av.debug.sendLogPara1 = 'Please send your comment, suggestion or problem to Avida-ED-development@googlegroups.com';
-
-  av.debug.sendLogPara2 = 'If there was an error or odd behavior in this session, include the session log, which is in the text box below. '
-                       + 'The [Send email] button will open your default email program and include the session log in a new message. ';
-                       + 'Or, copy and past the Session Log (the contents of the textbox) and put this in your email.'
+  av.debug.sendLogPara1 = 'Please share your comment, suggestion or problem.';
 
   av.debug.sendLogScrollBox = 'Session Log' + '\n\n' + av.debug.log + '\n\nDebug Details:\n' + av.debug.dTail;
   av.debug.error = '';
